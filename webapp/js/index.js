@@ -181,6 +181,7 @@ window.Bell = {
 window.Navigation = {
   init: function(){
     $(window).on('hashchange', Navigation.hashTagChanged);
+    Navigation.hashTagChanged();
   },
   hashTagChanged: function(){
     //Parameter
@@ -200,11 +201,9 @@ window.Navigation = {
     
     //Navigation ladet content
     switch (hash) {
-      case "#startview":
-        $(".esc-page").load("page/startview.htm" + params);
-        break;
       default:
-        //TODO: Load 404
+        var site = hash.substring(1);
+        $(".esc-page").load("page/" + site + ".htm" + params);
         break;
     }
   }
