@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="css/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+  </head>
+  <body>
+    
+    <!-- TOPBAR -->
+    <div class="w3-top esc-topbar esc-container" data-offset-top="0">
+      <div class="esc-menu-button">
+        <a href="javascript:void(0)" onclick="Sidebar.open();">
+          <i class="fa fa-bars"></i>
+        </a>
+      </div>
+      <div><label class="esc-title">No Title yet</label></div>
+      <div class="w3-right-align w3-right esc-bell">
+        <a href="javascript:void(0)" onclick="Bell.toggle();">
+          <i class="fa fa-bell-o"></i>
+          <span class="esc-bell-badge">3</span>
+        </a>
+      </div>
+	  </div>
+
+    <!-- SIDEBAR -->
+    <nav class="w3-card-2 esc-sidebar">
+      <div class="esc-menu-profile-ct">
+        <div  class="esc-menu-back-button-ct">
+          <a href="javascript:void(0)" onclick="Sidebar.close();"><img src="img/back.png"></a>
+        </div>
+
+        <a href="javascript:void(0)">
+          <div class="esc-profile w3-row">
+            <div class="w3-col esc-profile-pic"><img src="data/profil-3.jpg" class="w3-circle" /></div>
+            <div class="w3-rest w3-container" style="position: absolute;bottom: 0.5cm;left: 2.2cm;">
+              <div class="w3-row esc-menu-name">Daniel</div>
+              <div class="w3-row esc-menu-profil-label">Profil</div>
+            </div>
+          </div>
+        </a>
+      </div>
+      
+      <div class="w3-row esc-sidebar-menu-item">
+        <a href="javascript:void(0)">
+          <div class="w3-right-align w3-right w3-col w3-container" style="width: 1cm;">
+            <span class="w3-badge">3</span>
+          </div>
+          <div class="w3-rest">
+            <img src="img/message.png">
+            <label>Messages</label>
+          </div>
+        </a>
+      </div>
+      <div class="w3-row esc-sidebar-menu-item">
+        <a href="javascript:void(0)">
+          <div class="w3-right-align w3-right w3-col w3-container" style="width: 1cm;">
+            <span class="w3-badge">1</span>
+          </div>
+          <div class="w3-rest">
+            <img src="img/search.png">
+            <label>Anfragen</label>
+          </div>
+        </a>
+      </div>
+      <div class="w3-row esc-sidebar-menu-item">
+        <a href="javascript:void(0)">
+          <div class="w3-rest">
+            <img src="img/money.png">
+            <label>Buchungen</label>
+          </div>
+        </a>
+      </div>
+      <div class="w3-row esc-sidebar-menu-item" style="border: 0px;">
+        <a href="javascript:void(0)">
+          <div class="w3-right-align w3-right w3-col w3-container" style="width: 1cm;">
+            
+          </div>
+          <div class="w3-rest">
+            <img src="img/star.png">
+            <label>Listen</label>
+          </div>
+        </a>
+      </div>
+
+      <div class="esc-sidebar-bottom esc-container">
+        <div style="width: 33%;" class="w3-left-align"><a href="javascript:void(0)"><img src="img/settings.png"></a></div>
+        <div style="width: 33%;" class="w3-center"><a href="javascript:void(0)"><img src="img/help.png"></a></div>
+        <div style="width: 33%;" class="w3-right-align"><a href="javascript:void(0)"><img src="img/logout.png"></a></div>
+      </div>
+    </nav>
+    <div class="esc-sidebar-hider" onclick="Sidebar.close();"></div>
+
+    <!-- Bell -->
+    <div class="esc-bell-ct">
+      <div class="esc-bell-empty w3-center">
+        <label>Keine Benachrichtigungen</label>
+      </div>
+      <div class="esc-bell-msg-ct" style="display: none;">
+        <div class="esc-jumbot w3-center"><label>Nachrichten</label></div>
+      </div>
+
+      <div class="esc-bell-req-ct" style="display: none;">
+        <div class="esc-jumbot w3-center"><label>Anfragen</label></div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      
+      Navigation.init();
+      Bell.init();
+      Topbar.init();
+
+      DebugData = {
+        fill: function(){
+          Bell.Messages.add({id: 1, firstName: "Angelina", avatar: "data/avatar-1.png", age: 31});
+          Bell.Messages.add({id: 2, firstName: "Branda", avatar: "data/avatar-2.png", age: 25});
+          Bell.Requests.add({id: 3, firstName: "No Name", avatar: "data/avatar-3.png", age: 66});
+        
+
+        }
+      };
+      DebugData.fill();
+    </script>
+
+
+    <div class="esc-page">
+
+    </div>
+
+  </body>
+</html>

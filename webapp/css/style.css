@@ -1,0 +1,261 @@
+/* COLORS
+Darkblue: #2C3E50;
+Red: #E74C3C;
+White: #ECF0F1;
+Blue1: #3498DB;
+Blue2: #2980B9;
+Grey: #d8d8d8;
+
+*/
+
+@font-face {
+    font-family: sansligth;
+    src: url(font/PoiretOne-Regular.ttf);
+}
+
+@font-face {
+    font-family: Roboto-Regular;
+    src: url(font/Roboto-Regular.ttf);
+}
+@font-face {
+    font-family: Roboto-Thin;
+    src: url(font/Roboto-Thin.ttf);
+}
+@font-face {
+    font-family: Roboto-Light;
+    src: url(font/Roboto-Light.ttf);
+}
+
+/* MAIN */
+a{
+	text-decoration: none;
+	padding: 0px !important;
+}
+
+.esc-container{
+	display: inline-flex;
+}
+
+.esc-button{
+	display: block;
+	left: 0px;
+    right: 0px;
+    background-color: #3498DB;
+    color: #ECF0F1;
+    padding: 10px 0px !important;
+    text-align: center;
+    margin: 5px 0px;
+}
+.esc-button:active{
+	background-color: #2980B9;
+}
+
+.esc-topbar{
+	font-size: 36px;
+	background-color: #E74C3C;
+	color: #ECF0F1;
+	z-index: 100;
+	padding-left: 0.5cm;
+	padding-right: 0.5cm;
+	height: 1.5cm;
+}
+
+.esc-menu-button{
+	margin-right: 3px;
+}
+
+.esc-bell{
+	position: absolute;
+	right: 0.5cm;
+}
+.esc-bell-badge{
+	font-size: 10px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    border-radius: 10px;
+    position: absolute;
+    top: 0.2cm;
+    right: -0.1cm;
+    background-color: #2C3E50;
+    display: none;
+}
+
+.esc-title{
+	font-family: Roboto-Thin;
+	font-size: 28px;
+}
+
+.esc-sidebar{
+	background-color: #E74C3C;
+	color: #ECF0F1;
+	width: 300px;
+	left: -300px;
+	height: 100%;
+	position: fixed;
+	z-index: 200;
+	font-family: Roboto-Regular;
+}
+
+.esc-sidebar-hider{
+	display: none;
+	position: fixed;
+	background-color: #000;
+	opacity: 0.0;
+	width: 100%;
+	height: 100%;
+	z-index: 199;
+}
+
+.esc-menu-profile-ct{
+	background-color: #393939;
+}
+
+.esc-menu-back-button-ct {
+	height: 1.5cm;
+	padding-left: 0.5cm;
+	padding-top: 0.25cm;
+}
+.esc-menu-back-button-ct img{
+	height: 1cm !important;
+	width: 1cm !important;
+}
+.esc-menu-back-button-ct a:hover {
+	background-color: #393939;
+}
+
+.esc-profile {
+	padding: 0.5cm;
+	position: relative;
+	border-bottom: 3px solid #ECF0F1;
+}
+.esc-profile-pic{
+	width: 2cm;
+}
+.esc-profile-pic img{
+	height: 2cm;
+	width: 2cm;
+}
+.esc-menu-name{
+	color: #ECF0F1;
+	font-size: 24px;
+	margin-bottom: -5px;
+}
+.esc-menu-profil-label{
+	font-family: Roboto-Light;
+	color: #fff;
+	font-size: 14px;
+	opacity: 0.39;
+}
+
+.esc-sidebar-menu-item:last-of-type{
+	border: 0px;
+}
+.esc-sidebar-menu-item{
+	margin-left: 0.5cm;
+    margin-right: 0.5cm;
+    border-bottom: 2px solid;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.esc-sidebar-menu-item img {
+	width: 1cm;
+	height: 1cm;
+}
+.esc-sidebar-menu-item label{
+	font-size: 18px;
+}
+
+.w3-badge{
+	background-color: #2C3E50;
+	color: #ECF0F1;
+}
+
+.esc-sidebar-bottom{
+	padding: 0.5cm;
+	bottom: 0px;
+	width: 100%;
+	position: absolute;
+}
+.esc-sidebar-bottom img{
+	width: 1cm;
+	height: 1cm;
+}
+
+.esc-bell-ct{
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	background-color: #ECF0F1;
+	z-index: 198;
+	overflow-y: overlay;
+}
+
+.esc-bell-empty{
+	font-family: Roboto-Regular;
+	font-size: 12px;
+	color: #000;
+	width: 100%;
+	margin-top: 0.5cm;
+}
+
+.esc-jumbot{
+	background-color: #d8d8d8;
+	font-family: Roboto-Regular;
+	font-size: 12px;
+	color: #000;
+	width: 100%;
+}
+
+.esc-bell-item:last-child{
+	border-bottom: 0px;
+}
+.esc-bell-item{
+	margin-left: 0.5cm;
+	margin-right: 0.5cm;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-bottom: 2px solid #d8d8d8;
+	width: calc(100% - 1cm);
+}
+
+.esc-bell-item-avatar img{
+	height: 2cm;
+	width: 2cm;
+	border-radius: 1cm;
+}
+.esc-bell-item-text{
+	width: 100%;
+	height: 2cm;
+	padding-left: 3px;
+	padding-right: 3px;
+}
+.esc-bell-item-text label{
+	font-size: 20px;
+	margin-top: 0.5cm;
+}
+.esc-bell-item-text p{
+	margin-top: 5px;
+	margin-bottom: 0px;
+	overflow: hidden;
+}
+.esc-bell-item-delete img{
+	height: 1cm;
+	width: 1cm;
+	margin-top: 0.5cm;
+}
+
+.esc-page{
+	position: absolute;
+	top: 1.5cm;
+	padding: 0.5cm;
+	z-index: 10;
+	width: 100%;
+	bottom: 0px;
+}
+
+
+
+
