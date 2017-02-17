@@ -56,6 +56,19 @@
 </div>
 
 
+<div class="w3-modal" onclick="MessageList.promptNo();">
+  <div class="w3-modal-content w3-animate-top">
+    <div class="w3-modal-content-header">
+      Sind Sie sicher, dass Sie den Chatverlauf mit <span class="esc-propmt-name">Name</span>
+      unwiederuflich löschen möchten?
+    </div>
+    <div>
+      <div class="esc-button" onclick="MessageList.promptNo();">Abbrechen</div>
+      <div class="esc-button esc-red" onclick="MessageList.promptYes();">Ja</div>
+    </div>
+  </div>
+</div>
+
 <style type="text/css">
 
   .esc-list-item > div{
@@ -111,6 +124,29 @@
   	height: 0.8cm;
   	width: 0.8cm;
   }
+
+  .w3-modal{
+    padding-top: 2cm;
+  }
+  .w3-modal-content{
+    padding: 5px;
+    border-radius: 5px;
+  }
+  .w3-modal-content-header {
+    margin-bottom: 15px;
+    margin-left: -5px;
+    margin-right: -5px;
+    margin-top: -5px;
+    font-family: Roboto-Regular;
+    color: #ECF0F1;
+    background: #2C3E50;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
 </style>
 
 <script type="text/javascript">
@@ -118,11 +154,20 @@
   Topbar.setText("Nachrichten");
 
   MessageList = {
+    selected: null,
     add: function(msg){
 
     },
     remove: function(msgId){
-      $(".esc-list-item[data-msg-id=" + msgId + "]").remove();
+      this.selected = msgId;
+      $(".w3-modal").css("display", "block");
+    },
+    promptYes: function(){
+      $(".esc-list-item[data-msg-id=" + this.selected + "]").remove();
+      $(".w3-modal").css("display", "none");
+    },
+    promptNo: function(){
+      $(".w3-modal").css("display", "none");
     }
   };
 
