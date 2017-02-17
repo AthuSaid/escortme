@@ -18,6 +18,10 @@ Grey: #d8d8d8;
     src: url(font/Roboto-Regular.ttf);
 }
 @font-face {
+    font-family: Roboto-Medium;
+    src: url(font/Roboto-Medium.ttf);
+}
+@font-face {
     font-family: Roboto-Thin;
     src: url(font/Roboto-Thin.ttf);
 }
@@ -27,6 +31,14 @@ Grey: #d8d8d8;
 }
 
 /* MAIN */
+html {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
 a{
 	text-decoration: none;
 	padding: 0px !important;
@@ -250,7 +262,6 @@ a{
 .esc-page{
 	position: absolute;
 	top: 1.5cm;
-	padding: 0.5cm;
 	z-index: 10;
 	width: 100%;
 	bottom: 0px;

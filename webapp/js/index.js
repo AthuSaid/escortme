@@ -203,7 +203,7 @@ window.Navigation = {
     switch (hash) {
       default:
         var site = hash.substring(1);
-        $(".esc-page").load("page/" + site + ".htm" + params);
+        $(".esc-page").load("page/" + site + ".php" + params);
         break;
     }
   }
