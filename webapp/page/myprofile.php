@@ -28,8 +28,17 @@
   </div>
 </div>
 
-<div class="esc-picture-add-button">
+<div class="esc-picture-add-button esc-green">
   +
+</div>
+
+
+<!-- Modal -->
+<div class="w3-modal esc-ctx-menu" onclick="ContextMenu.close();">
+  <div class="w3-modal-content w3-animate-top">
+    <div class="esc-button" onclick="ContextMenu.profile();">Als Profilbild festlegen</div>
+    <div class="esc-button esc-red" onclick="ContextMenu.delete();">Löschen</div>
+  </div>
 </div>
 
 <style type="text/css" style="display: none !important;">
@@ -78,16 +87,43 @@
     position: absolute;
     bottom: 0.5cm;
     right: 0.5cm;
-    background-color: #4caf50;
     text-align: center;
     line-height: 1.5cm;
     box-shadow: 4px 5px 10px 0px rgba(0, 0, 0, 0.2);
   }
-  .esc-picture-add-button:active{
-    background-color: #409244;
+
+  .esc-ctx-menu{
+    padding-top: 2cm;
+  }
+  .esc-ctx-menu > div{
+    padding: 5px;
+    border-radius: 5px;
   }
 </style>
 
 <script type="text/javascript">
 	Topbar.show();
+
+
+  $(".esc-picture img").bind("taphold", function(event){
+    ContextMenu.selected = event.target;
+    ContextMenu.open();
+  });
+
+  ContextMenu = {
+    selected: null,
+    open: function(){
+      $(".esc-ctx-menu").css("display",'block');
+    },
+    close: function(){
+      $(".esc-ctx-menu").css("display",'none');
+    },
+    profile: function(){
+      this.close();
+    },
+    delete: function(){
+      $(this.selected).remove();
+      this.close();
+    }
+  }
 </script>
