@@ -108,6 +108,9 @@ window.Bell = {
     plus: function(){
       this.count++;
       $(".esc-bell-badge").text(this.count);
+      if(this.count > 9){
+        $(".esc-bell-badge").html("9<sup>+</sup>");
+      }
       $(".esc-bell-badge").show();
     },
     minus: function(){
