@@ -47,14 +47,19 @@ window.Topbar = {
 
 
 window.Sidebar = {
+  visible: false,
   open: function(){
+    if(Sidebar.visible) return;
     $(".esc-sidebar").animate({left: "+=300"}, 200);
     $(".esc-sidebar-hider").show();
     $(".esc-sidebar-hider").animate({opacity: "+=0.2"}, 200);
+    Sidebar.visible = true;
   },
   close: function(){
+    if(!Sidebar.visible) return;
     $(".esc-sidebar").animate({left: "-=300"}, 200);          
     $(".esc-sidebar-hider").animate({opacity: "-=0.2"}, 200, function(){ $(".esc-sidebar-hider").hide(); });
+    Sidebar.visible = false;
   }
 };
 
@@ -206,5 +211,7 @@ window.Navigation = {
         $(".esc-page").load("page/" + site + ".php" + params);
         break;
     }
+
+    Sidebar.close();
   }
 };

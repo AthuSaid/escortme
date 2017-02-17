@@ -103,7 +103,7 @@
 
 <script type="text/javascript">
 	Topbar.show();
-
+  Topbar.setText("Mein Profil");
 
   $(".esc-picture img").bind("taphold", function(event){
     ContextMenu.selected = event.target;
