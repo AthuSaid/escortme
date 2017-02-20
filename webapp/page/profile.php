@@ -8,28 +8,30 @@
 </div>
 
 <div class="esc-profile-ct">
-  <div class="esc-profile-header">
-    <div class="esc-profile-header-avatar">
-      <img src="data/profil-3.jpg" />
-    </div>
-    <div class="esc-profile-header-info">
-      <div>
-        <label class="esc-profile-name">Lisa</label>
-        <label class="esc-profile-age">25 Jahre</label>
-        <label class="esc-profile-gender">Frau</label>
+  <div>
+    <div class="esc-profile-header">
+      <div class="esc-profile-header-avatar">
+        <img src="data/profil-3.jpg" />
       </div>
-      <div>
-        <label class="esc-profile-verified">Verifiziert</label>
+      <div class="esc-profile-header-info">
+        <div>
+          <label class="esc-profile-name">Lisa</label>
+          <label class="esc-profile-age">25 Jahre</label>
+          <label class="esc-profile-gender">Frau</label>
+        </div>
+        <div>
+          <label class="esc-profile-verified">Verifiziert</label>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="esc-curriculum">
-    Mein Name ist Lisa, ich bin 31 Jahre alt und versuche hier etwas Geld
-    zu verdienen neben meinem Studium. Was ich mache:<br /><br />
-    * Sex: 200 €<br />
-    * Blasen: 100 €</br />
-    * Escort-Service: 50 € / Stunde
+    <div class="esc-curriculum">
+      Mein Name ist Lisa, ich bin 31 Jahre alt und versuche hier etwas Geld
+      zu verdienen neben meinem Studium. Was ich mache:<br /><br />
+      * Sex: 200 €<br />
+      * Blasen: 100 €</br />
+      * Escort-Service: 50 € / Stunde
+    </div>
   </div>
 
   <div class="esc-button esc-green">
@@ -90,6 +92,10 @@
   }
 
   .esc-profile-ct{
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
     padding: 10px 0.5cm;
   }
 
