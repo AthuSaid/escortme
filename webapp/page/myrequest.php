@@ -164,10 +164,13 @@
   Topbar.setText("Anfrage Details");
 
   Timer = {
-    monitor: null,
     rest: 6945, //Resttime in seconds
     init: function(){
-      this.monitor = setInterval(function(){Timer.run();}, 1000);
+      window.Timer.handler =function(){
+        TimerTask.run();
+      };
+      var time = this.format();
+      $(".esc-request-duration").text("Läuft noch: " + time.h + ":" + time.m + ":" + time.s);
     },
     run: function(){
       this.rest--;
@@ -188,7 +191,7 @@
       return { h: hours, m: minutes, s: seconds };
     },
     clear: function(){
-      clearInterval(this.monitor);
+      Timer.unset();
       $(".esc-request-duration").text("Anfrage beendet");
     }
   };
@@ -202,10 +205,10 @@
     },
     promptYes: function(){
       $(".w3-modal").css("display", "none");
-      Timer.clear();
+      TimerTask.clear();
     }
   };
 
-  Timer.init();
+  TimerTask.init();
 
 </script>

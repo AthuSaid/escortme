@@ -1,80 +1,78 @@
-<div class="esc-active-ct">
-  <div>Aktiv</div>
-  <div>
-    <label class="switch">
-      <input type="checkbox">
-      <div class="slider round" onclick="Listening.toggle();"></div>
-    </label>
-  </div>
+<div class="esc-request-duration-ct" onclick="openMyRequest();">
+  <label class="esc-request-duration">Läuft noch: 1:36:51</label>
 </div>
 
 <div class="esc-jumbot">
-  <label>Anfragen</label>
+  <label>Angebote</label>
 </div>
 
-<div class="esc-list-ct">
-  <div class="esc-list-item" data-msg-id="1" onclick="Listening.openRequest(1);">
-    <div>
-      <div class="esc-list-item-content">
-        <div class="esc-list-item-avatar">
-          <img src="data/profil-3.jpg" />
+<div>
+  <div class="esc-list-ct">
+    <div class="esc-list-item" data-msg-id="1" onclick="Listening.openProfile(1);">
+      <div>
+        <div class="esc-list-item-content">
+          <div class="esc-list-item-avatar">
+            <img src="data/profil-3.jpg" />
+          </div>
+          <div class="esc-list-item-title">Marina, 25</div>
         </div>
-        <div>
-          <div class="esc-list-item-title">Daniel, 36</div>
-          <div class="esc-list-item-text">Heute, 20:00</div>
+        <div class="esc-list-item-delete">
+          <img src="img/delete-grey.png" onclick="Offers.remove(1);" />
         </div>
       </div>
     </div>
+
+    <div class="esc-list-item" data-msg-id="2" onclick="Offers.openProfile(2);">
+        <div>
+          <div class="esc-list-item-content">
+            <div class="esc-list-item-avatar">
+              <img src="data/profil-1.jpg" />
+            </div>
+            <div class="esc-list-item-title">Lena, 22</div>
+          </div>
+          <div class="esc-list-item-delete">
+            <img src="img/delete-grey.png" onclick="Offers.remove(2);" />
+          </div>
+        </div>
+    </div>
   </div>
+</div>
 
-  <div class="esc-list-item" data-msg-id="2" onclick="Listening.openRequest(2);">
-      <div>
-        <div class="esc-list-item-content">
-          <div class="esc-list-item-avatar">
-            <img src="data/profil-1.jpg" />
-          </div>
-          <div>
-            <div class="esc-list-item-title">Jörg, 39</div>
-            <div class="esc-list-item-text">Heute, 23:00</div>
-          </div>
-        </div>
-
-        <div class="esc-waitforchat">
-          Warten auf Chattanfrage
-        </div>
-      </div>
-  </div>
-
-  <div class="esc-list-item" data-msg-id="3" onclick="Listening.openRequest(3);">
-      <div>
-        <div class="esc-list-item-content">
-          <div class="esc-list-item-avatar">
-            <img src="data/profil-4.jpg" />
-          </div>
-          <div>
-            <div class="esc-list-item-title">Richard, 80</div>
-            <div class="esc-list-item-text">Heute, 18:30</div>
-          </div>
-        </div>
-      </div>
+<div class="w3-modal" onclick="Offers.promptNo();">
+  <div class="w3-modal-content w3-animate-top">
+    <div class="w3-modal-content-header">
+      Sind Sie sicher, dass Sie das Angebot von <span class="esc-propmt-name">Name</span>
+      unwiederuflich löschen möchten?
+    </div>
+    <div>
+      <div class="esc-button" onclick="Offers.promptNo();">Abbrechen</div>
+      <div class="esc-button esc-red" onclick="Offers.promptYes();">Ja</div>
+    </div>
   </div>
 </div>
 
 <style type="text/css">
 
-  .esc-active-ct{
+  .esc-req-container{
+    height: 100%;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0.5cm;
-    font-family: Roboto-Regular;
-    font-size: 20px;
-    line-height: 1;
+    flex-direction: column;
+  }
+  .esc-request-duration-ct:active{
+    background-color: #e68a00;
+    color: #ECF0F1;
+  }
+
+  .esc-request-duration-ct{
+    padding: 5px 0.5cm;
+    background-color: #ff9800;
+    font-family: Roboto-Medium;
+    font-size: 14px;
   }
 
   .esc-jumbot{
     text-align: center;
+    display: none;
   }
 
   .esc-list-item > div{
@@ -105,6 +103,7 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+    align-items: center;
     height: 1.5cm;
     overflow-y: hidden;
   }
@@ -123,89 +122,100 @@
     font-size: 12px;
     line-height: 1.2;
   }
+  .esc-list-item-delete{
+    margin-left: 5px;
+  }
+  .esc-list-item-delete img{
+    height: 0.8cm;
+    width: 0.8cm;
+  }
 
-  .esc-waitforchat{
-    background-color: #4caf50;
+  .w3-modal{
+    padding-top: 2cm;
+  }
+  .w3-modal-content{
+    padding: 5px;
+    border-radius: 5px;
+  }
+  .w3-modal-content-header {
+    margin-bottom: 15px;
+    margin-left: -5px;
+    margin-right: -5px;
+    margin-top: -5px;
+    font-family: Roboto-Regular;
     color: #ECF0F1;
-    max-width: 2cm;
-    font-size: 10px;
-    text-align: center;
-    padding: 2px 5px;
-    border-radius: 3px;
+    background: #2C3E50;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 
-  /* TOGGLE */
-  .switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-  }
-
-  /* Hide default HTML checkbox */
-  .switch input {display:none;}
-
-  /* The slider */
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
-  }
-
-  input:checked + .slider {
-    background-color: #2196F3;
-  }
-
-  input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
-  }
-
-  input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
-  }
-
-  /* Rounded sliders */
-  .slider.round {
-    border-radius: 34px;
-  }
-
-  .slider.round:before {
-    border-radius: 50%;
-  }
 </style>
 
 <script type="text/javascript">
   Topbar.show();
-  Topbar.setText("Lauschen");
+  Topbar.setText("Anfragen");
 
-  Listening = {
-    active: false,
-    toggle: function(){
-      this.active = !this.active;
+  TimerTask = {
+    rest: 6945, //Resttime in seconds
+    init: function(){
+      window.Timer.handler =function(){
+        TimerTask.run();
+      };
+      var time = this.format();
+      $(".esc-request-duration").text("Läuft noch: " + time.h + ":" + time.m + ":" + time.s);
     },
-    openRequest: function(usrId){
-      window.location.hash = "#request?id=" + usrId;
+    run: function(){
+      this.rest--;
+      if(this.rest < 0){
+        this.clear();
+        return;
+      }
+      var time = this.format();
+      $(".esc-request-duration").text("Läuft noch: " + time.h + ":" + time.m + ":" + time.s);
+    },
+    format(){
+      var hours = parseInt(this.rest / 3600);
+      var remaining = this.rest % 3600;
+      var minutes = parseInt(remaining / 60);
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      remaining = remaining % 60;
+      var seconds = remaining < 10 ? "0" + remaining : remaining;
+      return { h: hours, m: minutes, s: seconds };
+    },
+    clear: function(){
+      Timer.unset();
+      $(".esc-request-duration").text("Anfrage beendet");
     }
   };
+  TimerTask.init();
+
+  Offers = {
+    selected: null,
+    remove: function(usrId){
+      this.selected = usrId;
+      $(".w3-modal").css("display", "block");
+    },
+    promptYes: function(){
+      $(".esc-list-item[data-msg-id=" + this.selected + "]").remove();
+      $(".w3-modal").css("display", "none");
+      this.selected = null;
+    },
+    promptNo: function(){
+      $(".w3-modal").css("display", "none");
+      this.selected = null;
+    },
+    openProfile: function(usrId){
+      if(this.selected == null)
+        window.location.hash = "#profile?userid=" + usrId;
+    }
+  };
+
+  function openMyRequest(){
+    window.location.hash = "#myrequest";
+  }
 
 </script>

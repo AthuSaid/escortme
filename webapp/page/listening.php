@@ -1,3 +1,4 @@
+<div>
 <div class="esc-active-ct">
   <div>Aktiv</div>
   <div>
@@ -8,56 +9,121 @@
   </div>
 </div>
 
-<div class="esc-jumbot">
-  <label>Anfragen</label>
-</div>
+<div class="esc-filter-ct">
+  <div class="esc-active-description">
+    Wenn du aktiv bist, dann erhälst du Benachrichtigungen,
+    sobald jemand eine Anfrage stellt und du mit deinen
+    Kriterien darauf gematched wirst.
+  </div>
 
-<div class="esc-list-ct">
-  <div class="esc-list-item" data-msg-id="1" onclick="Listening.openRequest(1);">
+  <div>
+    <label>Beschreibe was du bietest:</label>
+    <textarea rows="3" class="w3-input"></textarea>
+  </div>
+
+  <div class="esc-min-preis">
+    <label>Min. Preis:</label>
+    <input type="number" class="w3-input" />
+  </div>
+
+  <div class="esc-interesst-ct">
+    <label>Interessiert an:</label>
     <div>
-      <div class="esc-list-item-content">
-        <div class="esc-list-item-avatar">
-          <img src="data/profil-3.jpg" />
+      <div>
+        <div>
+          <input type="checkbox" class="" />
+          <label>Männer</label>
         </div>
         <div>
-          <div class="esc-list-item-title">Daniel, 36</div>
-          <div class="esc-list-item-text">Heute, 20:00</div>
+          <input type="checkbox" class="" />
+          <label>Frauen</label>
+        </div>
+        <div>
+          <input type="checkbox" class="" />
+          <label>Transexuellen</label>
+        </div>
+      </div>
+      <div>
+        <div>
+          <input type="radio" name="esc-interesst-radio" class="" checked />
+          <label>Alle</label>
+        </div>
+        <div>
+          <input type="radio" name="esc-interesst-radio" class="" />
+          <label>Nur mit Profilbild</label>
+        </div>
+        <div>
+          <input type="radio" name="esc-interesst-radio" class="" />
+          <label>Nur verifizerite User</label>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="esc-list-item" data-msg-id="2" onclick="Listening.openRequest(2);">
+  <div>
+    <label>Keywords:</label>
+    <textarea class="w3-input"></textarea>
+  </div>
+
+</div>
+
+
+
+<div class="esc-requests-ct">
+
+  <div class="esc-jumbot">
+    <label>Anfragen</label>
+  </div>
+
+  <div class="esc-list-ct">
+    <div class="esc-list-item" data-msg-id="1" onclick="Listening.openRequest(1);">
       <div>
         <div class="esc-list-item-content">
           <div class="esc-list-item-avatar">
-            <img src="data/profil-1.jpg" />
+            <img src="data/profil-3.jpg" />
           </div>
           <div>
-            <div class="esc-list-item-title">Jörg, 39</div>
-            <div class="esc-list-item-text">Heute, 23:00</div>
-          </div>
-        </div>
-
-        <div class="esc-waitforchat">
-          Warten auf Chattanfrage
-        </div>
-      </div>
-  </div>
-
-  <div class="esc-list-item" data-msg-id="3" onclick="Listening.openRequest(3);">
-      <div>
-        <div class="esc-list-item-content">
-          <div class="esc-list-item-avatar">
-            <img src="data/profil-4.jpg" />
-          </div>
-          <div>
-            <div class="esc-list-item-title">Richard, 80</div>
-            <div class="esc-list-item-text">Heute, 18:30</div>
+            <div class="esc-list-item-title">Daniel, 36</div>
+            <div class="esc-list-item-text">Heute, 20:00</div>
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="esc-list-item" data-msg-id="2" onclick="Listening.openRequest(2);">
+        <div>
+          <div class="esc-list-item-content">
+            <div class="esc-list-item-avatar">
+              <img src="data/profil-1.jpg" />
+            </div>
+            <div>
+              <div class="esc-list-item-title">Jörg, 39</div>
+              <div class="esc-list-item-text">Heute, 23:00</div>
+            </div>
+          </div>
+
+          <div class="esc-waitforchat">
+            Warten auf Chattanfrage
+          </div>
+        </div>
+    </div>
+
+    <div class="esc-list-item" data-msg-id="3" onclick="Listening.openRequest(3);">
+        <div>
+          <div class="esc-list-item-content">
+            <div class="esc-list-item-avatar">
+              <img src="data/profil-4.jpg" />
+            </div>
+            <div>
+              <div class="esc-list-item-title">Richard, 80</div>
+              <div class="esc-list-item-text">Heute, 18:30</div>
+            </div>
+          </div>
+        </div>
+    </div>
   </div>
+
+</div>
 </div>
 
 <style type="text/css">
@@ -72,6 +138,65 @@
     font-size: 20px;
     line-height: 1;
   }
+
+  .esc-filter-ct{
+    padding: 0px 0.5cm;
+  }
+
+  .esc-filter-ct > div {
+    margin-bottom: 30px;
+  }
+
+  .esc-filter-ct > div:last-of-type{
+    margin-bottom: 10px;
+  }
+
+  .esc-filter-ct > div label {
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  .esc-active-description{
+    font-size: 12px;
+    font-family: Lora;
+    line-height: 1.2;
+    margin-top: -5px;
+  }
+  .esc-min-preis{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .esc-min-preis label{
+    width: 3cm;
+  }
+  .esc-interesst-ct > div{
+    display: flex;
+    flex-direction: row;
+    margin-left: 5px;
+  }
+  .esc-interesst-ct > div > div{
+    width: 100%;
+    font-size: 12px;
+    vertical-align: middle;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .esc-interesst-ct > div > div > div{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 5px;
+  }
+  .esc-interesst-ct > div > div > div input{
+    height: 20px;
+    width: 20px;
+    margin-right: 3px;
+  }
+
 
   .esc-jumbot{
     text-align: center;
@@ -200,12 +325,24 @@
 
   Listening = {
     active: false,
+    init: function(){
+      $(".esc-requests-ct").hide();
+    },
     toggle: function(){
       this.active = !this.active;
+      if(this.active){
+        $(".esc-requests-ct").show();
+        $(".esc-filter-ct").hide();
+      }
+      else{
+        $(".esc-requests-ct").hide();
+        $(".esc-filter-ct").show();
+      }
     },
     openRequest: function(usrId){
       window.location.hash = "#request?id=" + usrId;
     }
   };
+  Listening.init();
 
 </script>

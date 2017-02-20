@@ -29,6 +29,11 @@
     </select>
   </div>
 
+  <div class="esc-max-preis">
+    <label>Max. Preis: </label>
+    <input type="number" class="w3-input" />
+  </div>
+
   <div class="esc-text-ct">
     <label>Was ich suche:</label>
     <textarea class="w3-input"></textarea>
@@ -45,7 +50,7 @@
   </div>
 
   <div>
-    <div class="esc-button">Los</div>
+    <div class="esc-button" onclick="search();">Los</div>
   </div>
 
 </div>
@@ -87,6 +92,16 @@
     text-align: center;
     font-size: 16px;
   }
+  .esc-max-preis{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .esc-max-preis label{
+    width: 3cm;
+  }
+
 
   /* RANGE-SLIDER */
   input[type=range] {
@@ -190,5 +205,9 @@
       strStunden = " Stunde";
     $(".esc-running-time").text(val + strStunden);
   });
+
+  function search(){
+    window.location.hash = "#offers";
+  }
 
 </script>

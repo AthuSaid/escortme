@@ -233,3 +233,18 @@ window.Navigation = {
     Sidebar.close();
   }
 };
+
+window.Timer = {
+  tmr: null,
+  handler: null,
+  init: function(){
+    window.Timer.tmr = setInterval(function(){
+      if(window.Timer.handler != null){
+        window.Timer.handler();
+      }
+    }, 1000);
+  },
+  unset: function(){
+    window.Timer.handler = null;
+  }
+};

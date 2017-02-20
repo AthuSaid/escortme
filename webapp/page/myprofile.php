@@ -173,11 +173,21 @@
     }
   };
 
-  Timer = {
-    monitor: null,
+  TimerTask = {
     rest: 266410, //Resttime in seconds
     init: function(){
-      this.monitor = setInterval(function(){Timer.run();}, 1000);
+      window.Timer.handler =function(){
+        TimerTask.run();
+      };
+      var time = this.format();
+      var text = time.h + ":" + time.m + ":" + time.s;
+      if(time.d !== undefined){
+        var strUnity = " Tage, ";
+        if(time.d == 1)
+          strUnity = " Tag, ";
+        text = time.d + strUnity + text;
+      }
+      $(".esc-next-bon label").text(text);
     },
     run: function(){
       this.rest--;
@@ -210,11 +220,11 @@
       return result;
     },
     clear: function(){
-      clearInterval(this.monitor);
+      Timer.unset();
       $(".esc-next-bon").hide();;
     }
   };
-  Timer.init();
+  TimerTask.init();
 
   ContextMenu = {
     selected: null,
