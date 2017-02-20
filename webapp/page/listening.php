@@ -190,7 +190,7 @@
       this.active = !this.active;
     },
     openRequest: function(usrId){
-      window.location.hash = "#profile?id=" + usrId;
+      window.location.hash = "#request?id=" + usrId;
     }
   };
 
