@@ -6,6 +6,7 @@ Blue1: #3498DB;
 Blue2: #2980B9;
 Grey: #d8d8d8;
 Green: #4caf50;
+Black: #47525e;
 
 */
 
@@ -44,6 +45,8 @@ html {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+	color: #47525e;
+	font-family: Roboto-Regular;
 }
 a{
 	text-decoration: none;

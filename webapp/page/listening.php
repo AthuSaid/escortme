@@ -17,7 +17,7 @@
     <div>
       <div class="esc-list-item-content">
         <div class="esc-list-item-avatar">
-          <img src="data/avatar-1.png" />
+          <img src="data/profil-3.jpg" />
         </div>
         <div>
           <div class="esc-list-item-title">Daniel, 36</div>
@@ -31,7 +31,7 @@
       <div>
         <div class="esc-list-item-content">
           <div class="esc-list-item-avatar">
-            <img src="data/avatar-1.png" />
+            <img src="data/profil-1.jpg" />
           </div>
           <div>
             <div class="esc-list-item-title">Jörg, 39</div>
@@ -45,7 +45,7 @@
       <div>
         <div class="esc-list-item-content">
           <div class="esc-list-item-avatar">
-            <img src="data/avatar-1.png" />
+            <img src="data/profil-4.jpg" />
           </div>
           <div>
             <div class="esc-list-item-title">Richard, 80</div>
