@@ -128,14 +128,22 @@ window.Bell = {
   Messages: {
     count: 0,
     add: function(msg){
-      var item = '<div class="esc-bell-item esc-container" data-bell-id="' + msg.id + '">' +
-                  '<div class="esc-bell-item-avatar"><img src="' +
-                  msg.avatar + '"></div>' +
-                  '<div class="esc-bell-item-text">' +
-                  '<label>' + msg.firstName + ', ' + msg.age + '</label></div>' +
-                  '<div class="w3-right-align esc-bell-item-delete"' +
-                  'onclick="Bell.Messages.remove(' + msg.id + ')">' +
-                  '<img src="img/delete-grey.png"></div></div>';
+      var item = '<div class="esc-bell-item-ct" data-bell-id="' + msg.id + '">' +
+                    '<div class="esc-bell-item">' +
+                      '<div class="esc-bell-item-left">' +
+                        '<div class="esc-bell-item-avatar">' +
+                          '<img src="' + msg.avatar +'" />' +
+                        '</div>' +
+                        '<div class="esc-bell-item-content">' +
+                          '<div class="esc-bell-item-content-title">' + msg.firstName + ', ' + msg.age + '</div>' +
+                          '<div class="esc-bell-item-content-text">' + msg.content + '</div>' +
+                        '</div>' +
+                      '</div>' +
+                      '<div class="esc-bell-item-delete">' +
+                        '<img src="img/delete-grey.png" onclick="Bell.Messages.remove(' + msg.id + ');" />' +
+                      '</div>' +
+                    '</div>' +
+                  '</div>';
       this.count++;
       Bell.Badge.plus();
       $(".esc-bell-msg-ct").append(item);
@@ -145,7 +153,7 @@ window.Bell = {
     remove: function(itemId){
       this.count--;
       Bell.Badge.minus();
-      $(".esc-bell-item[data-bell-id=" + itemId + "]").remove();
+      $(".esc-bell-item-ct[data-bell-id=" + itemId + "]").remove();
       if(this.count == 0){
         $(".esc-bell-msg-ct").hide();
         if(Bell.Requests.count == 0){
@@ -157,14 +165,21 @@ window.Bell = {
   Requests: {
     count: 0,
     add: function(msg){
-      var item = '<div class="esc-bell-item esc-container" data-bell-id="' + msg.id + '">' +
-                  '<div class="esc-bell-item-avatar"><img src="' +
-                  msg.avatar + '"></div>' +
-                  '<div class="esc-bell-item-text">' +
-                  '<label>' + msg.firstName + ', ' + msg.age + '</label></div>' +
-                  '<div class="w3-right-align esc-bell-item-delete"' +
-                  'onclick="Bell.Requests.remove(' + msg.id + ')">' +
-                  '<img src="img/delete-grey.png"></div></div>';
+      var item = '<div class="esc-bell-item-ct" data-bell-id="' + msg.id + '">' +
+                    '<div class="esc-bell-item">' +
+                      '<div class="esc-bell-item-left">' +
+                        '<div class="esc-bell-item-avatar">' +
+                          '<img src="' + msg.avatar +'" />' +
+                        '</div>' +
+                        '<div class="esc-bell-item-req-content">' +
+                          '<div class="esc-bell-item-content-title">' + msg.firstName + ', ' + msg.age + '</div>' +
+                        '</div>' +
+                      '</div>' +
+                      '<div class="esc-bell-item-delete">' +
+                        '<img src="img/delete-grey.png" onclick="Bell.Requests.remove(' + msg.id + ');" />' +
+                      '</div>' +
+                    '</div>' +
+                  '</div>';
       this.count++;
       Bell.Badge.plus();
       $(".esc-bell-req-ct").append(item);

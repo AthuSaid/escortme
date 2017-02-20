@@ -1,58 +1,60 @@
-<div class="esc-list-item" data-msg-id="1">
-	<div>
-	  <div class="esc-list-item-content">
-	  	<div class="esc-list-item-avatar">
-	  	  <img src="data/avatar-1.png" />
-	  	</div>
-	  	<div>
-	  	  <div class="esc-list-item-title">Birgit, 36</div>
-	  	  <div class="esc-list-item-text">
-	  	  	Hallo du geiler Hengst, hast du lust dass ich dich reite und schön in mir abspritzt?
-	  	  </div>
-	  	</div>
-	  </div>
-	  <div class="esc-list-item-delete">
-	  	<img src="img/delete-grey.png" onclick="MessageList.remove(1);" />
-	  </div>
-	</div>
-</div>
+<div class="esc-list-ct">
+  <div class="esc-list-item" data-msg-id="1" onclick="MessageList.openChat(1);">
+  	<div>
+  	  <div class="esc-list-item-content">
+  	  	<div class="esc-list-item-avatar">
+  	  	  <img src="data/avatar-1.png" />
+  	  	</div>
+  	  	<div>
+  	  	  <div class="esc-list-item-title">Birgit, 36</div>
+  	  	  <div class="esc-list-item-text">
+  	  	  	Hallo du geiler Hengst, hast du lust dass ich dich reite und schön in mir abspritzt?
+  	  	  </div>
+  	  	</div>
+  	  </div>
+  	  <div class="esc-list-item-delete">
+  	  	<img src="img/delete-grey.png" onclick="MessageList.remove(1);" />
+  	  </div>
+  	</div>
+  </div>
 
-<div class="esc-list-item" data-msg-id="2">
-    <div>
-      <div class="esc-list-item-content">
-        <div class="esc-list-item-avatar">
-          <img src="data/avatar-1.png" />
-        </div>
-        <div>
-          <div class="esc-list-item-title">No Name, 18</div>
-          <div class="esc-list-item-text">
-            Hallo du geiler Hengst, hast du lust dass ich dich reite und schön in mir abspritzt?
+  <div class="esc-list-item" data-msg-id="2" onclick="MessageList.openChat(2);">
+      <div>
+        <div class="esc-list-item-content">
+          <div class="esc-list-item-avatar">
+            <img src="data/avatar-1.png" />
+          </div>
+          <div>
+            <div class="esc-list-item-title">No Name, 18</div>
+            <div class="esc-list-item-text">
+              Hallo du geiler Hengst, hast du lust dass ich dich reite und schön in mir abspritzt?
+            </div>
           </div>
         </div>
-      </div>
-      <div class="esc-list-item-delete">
-        <img src="img/delete-grey.png" onclick="MessageList.remove(2);" />
-      </div>
-    </div>
-</div>
-
-<div class="esc-list-item" data-msg-id="3">
-    <div>
-      <div class="esc-list-item-content">
-        <div class="esc-list-item-avatar">
-          <img src="data/avatar-1.png" />
+        <div class="esc-list-item-delete">
+          <img src="img/delete-grey.png" onclick="MessageList.remove(2);" />
         </div>
-        <div>
-          <div class="esc-list-item-title">Marina, 25</div>
-          <div class="esc-list-item-text">
-            Hallo du geiler Hengst, hast du lust dass ich dich reite und schön in mir abspritzt?
+      </div>
+  </div>
+
+  <div class="esc-list-item" data-msg-id="3" onclick="MessageList.openChat(3);">
+      <div>
+        <div class="esc-list-item-content">
+          <div class="esc-list-item-avatar">
+            <img src="data/avatar-1.png" />
+          </div>
+          <div>
+            <div class="esc-list-item-title">Marina, 25</div>
+            <div class="esc-list-item-text">
+              Hallo du geiler Hengst, hast du lust dass ich dich reite und schön in mir abspritzt?
+            </div>
           </div>
         </div>
+        <div class="esc-list-item-delete">
+          <img src="img/delete-grey.png" onclick="MessageList.remove(3);" />
+        </div>
       </div>
-      <div class="esc-list-item-delete">
-        <img src="img/delete-grey.png" onclick="MessageList.remove(3);" />
-      </div>
-    </div>
+  </div>
 </div>
 
 
@@ -168,6 +170,9 @@
     },
     promptNo: function(){
       $(".w3-modal").css("display", "none");
+    },
+    openChat: function(msgId){
+      window.location.hash = "#chat?msgid=" + msgId;
     }
   };
 

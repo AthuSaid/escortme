@@ -6,7 +6,7 @@
 
     <link rel="stylesheet" href="css/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/index.css">
 
     <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
@@ -31,76 +31,78 @@
 
     <!-- SIDEBAR -->
     <nav class="esc-sidebar">
-      <div class="esc-menu-profile-ct">
-        <div  class="esc-menu-back-button-ct">
-          <a href="javascript:void(0)" onclick="Sidebar.close();"><img src="img/back.png"></a>
-        </div>
-
-        <a href="#myprofile">
-          <div class="esc-profile">
-            <div class="esc-profile-pic"><img src="data/profil-3.jpg" class="w3-circle" /></div>
-            <div class="" style="margin-left: 5px;">
-              <div class="w3-row esc-menu-name">Daniel</div>
-              <div class="w3-row esc-menu-profil-label">Profil</div>
-            </div>
+      <div class="esc-sidebar-top">
+        <div class="esc-menu-profile-ct">
+          <div  class="esc-menu-back-button-ct">
+            <a href="javascript:void(0)" onclick="Sidebar.close();"><img src="img/back.png"></a>
           </div>
+
+          <a href="#myprofile">
+            <div class="esc-profile">
+              <div class="esc-profile-pic"><img src="data/profil-3.jpg" class="w3-circle" /></div>
+              <div class="" style="margin-left: 5px;">
+                <div class="w3-row esc-menu-name">Daniel</div>
+                <div class="w3-row esc-menu-profil-label">Profil</div>
+              </div>
+            </div>
+          </a>
+        </div>
+        
+        <a href="#messages" class="esc-sidebar-menu-item">
+            <div class="esc-sidebar-menu-item-content">
+              <div>
+                <img src="img/message.png">
+              </div>
+              <div class="esc-sidebar-menu-item-content-text">
+                <label>Nachrichten</label>
+              </div>
+            </div>
+            <div class="esc-sidebar-menu-item-badge">
+              3
+            </div>
+        </a>
+        <a href="#request" class="esc-sidebar-menu-item">
+            <div class="esc-sidebar-menu-item-content">
+              <div>
+                <img src="img/search.png">
+              </div>
+              <div class="esc-sidebar-menu-item-content-text">
+                <label>Anfragen</label>
+              </div>
+            </div>
+            <div class="esc-sidebar-menu-item-badge">
+              3
+            </div>
+        </a>
+        <a href="#bookings" class="esc-sidebar-menu-item">
+            <div class="esc-sidebar-menu-item-content">
+              <div>
+                <img src="img/money.png">
+              </div>
+              <div class="esc-sidebar-menu-item-content-text">
+                <label>Buchungen</label>
+              </div>
+            </div>
+        </a>
+        <a href="#listening" class="esc-sidebar-menu-item">
+            <div class="esc-sidebar-menu-item-content">
+              <div>
+                <img src="img/star.png">
+              </div>
+              <div class="esc-sidebar-menu-item-content-text">
+                <label>Lauschen</label>
+              </div>
+            </div>
+            <div class="esc-sidebar-menu-item-badge">
+              3
+            </div>
         </a>
       </div>
-      
-      <a href="#messages" class="esc-sidebar-menu-item">
-          <div class="esc-sidebar-menu-item-content">
-            <div>
-              <img src="img/message.png">
-            </div>
-            <div class="esc-sidebar-menu-item-content-text">
-              <label>Nachrichten</label>
-            </div>
-          </div>
-          <div class="esc-sidebar-menu-item-badge">
-            3
-          </div>
-      </a>
-      <a href="#messages" class="esc-sidebar-menu-item">
-          <div class="esc-sidebar-menu-item-content">
-            <div>
-              <img src="img/search.png">
-            </div>
-            <div class="esc-sidebar-menu-item-content-text">
-              <label>Anfragen</label>
-            </div>
-          </div>
-          <div class="esc-sidebar-menu-item-badge">
-            3
-          </div>
-      </a>
-      <a href="#messages" class="esc-sidebar-menu-item">
-          <div class="esc-sidebar-menu-item-content">
-            <div>
-              <img src="img/money.png">
-            </div>
-            <div class="esc-sidebar-menu-item-content-text">
-              <label>Buchungen</label>
-            </div>
-          </div>
-      </a>
-      <a href="#messages" class="esc-sidebar-menu-item">
-          <div class="esc-sidebar-menu-item-content">
-            <div>
-              <img src="img/star.png">
-            </div>
-            <div class="esc-sidebar-menu-item-content-text">
-              <label>Lauschen</label>
-            </div>
-          </div>
-          <div class="esc-sidebar-menu-item-badge">
-            3
-          </div>
-      </a>
 
       <div class="esc-sidebar-bottom esc-container">
-        <div style="width: 33%;" class="w3-left-align"><a href="#bookings"><img src="img/settings.png"></a></div>
-        <div style="width: 33%;" class="w3-center"><a href="#myprofile"><img src="img/help.png"></a></div>
-        <div style="width: 33%;" class="w3-right-align"><a href="#bookings"><img src="img/logout.png"></a></div>
+        <div class="w3-left-align"><a href="#bookings"><img src="img/settings.png"></a></div>
+        <div class="w3-center"><a href="#myprofile"><img src="img/help.png"></a></div>
+        <div class="w3-right-align"><a href="#bookings"><img src="img/logout.png"></a></div>
       </div>
     </nav>
     <div class="esc-sidebar-hider" onclick="Sidebar.close();"></div>
@@ -140,7 +142,7 @@
         }
       };
       DebugData.fill();
-      Sidebar.open();
+
     </script>
   </body>
 </html>
