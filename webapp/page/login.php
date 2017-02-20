@@ -5,14 +5,14 @@
 
   <div>
     <div class="esc-container esc-login-social-ct">
-    	<div class="w3-center"><img src="img/facebook-logo.png" /></div>
-    	<div class="w3-center"><img src="img/google-plus-logo.png" /></div>
+    	<div class="w3-center"><img src="img/facebook-logo.png" onclick="loginFB();" /></div>
+    	<div class="w3-center"><img src="img/google-plus-logo.png" onclick="loginGP();" /></div>
     </div>
     oder
     <form>
     	<input type="email" class="w3-input" class="esc-input-email" placeholder="Email" />
     	<input type="password" class="w3-input" class="esc-input-pw" placeholder="Passwort" />
-    	<div class="esc-button">Login</div>
+    	<div class="esc-button" onclick="login();">Login</div>
     </form>
   </div>
 </div>
@@ -70,15 +70,22 @@
 </style>
 <script type="text/javascript">
 	Topbar.hide();
-  function login(){
 
+
+  function login(){
+    nextPage();
 	}
 
 	function loginFB(){
-
+    nextPage();
 	}
 
 	function loginGP(){
-		
+		nextPage();
 	}
+
+  function nextPage(){
+    window.location.hash = "#home";
+  }
+
 </script>

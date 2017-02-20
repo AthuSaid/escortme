@@ -336,6 +336,9 @@ a{
 	z-index: 10;
 	width: 100%;
 	bottom: 0px;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
 }
 
 
