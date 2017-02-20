@@ -1,19 +1,20 @@
+<div class="esc-startview-ct">
+  <div class="esc-escortme-h1 w3-center">
+    <h1>escortMe</h1>
+  </div>
 
-<div class="esc-escortme-h1 w3-center">
-  <h1>escortMe</h1>
+  <div>
+    <a href="#howto" class="esc-button">
+      Wie funktioniert es?
+    </a><br />
+    <a href="#login" class="esc-button">
+      Login
+    </a>
+    <a href="#register2" class="esc-button">
+      Anmelden
+    </a>
+  </div>
 </div>
-
-
-<a href="#howto" class="esc-button" style="margin-top: 3cm;">
-  Wie funktioniert es?
-</a>
-<a href="#login" class="esc-button" style="margin-top: 1cm;">
-  Login
-</a>
-<a href="#register2" class="esc-button">
-  Anmelden
-</a>
-
 
 <div class="esc-skyline-bg">
   <img src="img/skyline-bg.jpg" />
@@ -35,6 +36,14 @@
   .esc-escortme-h1{
   	width: 100%;
   	color: #E74C3C;
+  }
+
+  .esc-startview-ct{
+    padding: 0.5cm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
   }
 </style>
 <script type="text/javascript">

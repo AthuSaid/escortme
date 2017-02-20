@@ -1,18 +1,22 @@
-<div class="esc-escortme-h1 w3-center">
-  <h1>Registrieren</h1>
-</div>
+<div class="esc-register-ct">
+  <div class="esc-escortme-h1 w3-center">
+    <h1>Registrieren</h1>
+  </div>
 
-<div class="esc-container esc-login-social-ct">
-	<div class="w3-center"><img src="img/facebook-logo.png" onclick="registerFB();" /></div>
-	<div class="w3-center"><img src="img/google-plus-logo.png" onclick="registerGP();" /></div>
+  <div>
+    <div class="esc-container esc-login-social-ct">
+    	<div class="w3-center"><img src="img/facebook-logo.png" onclick="registerFB();" /></div>
+    	<div class="w3-center"><img src="img/google-plus-logo.png" onclick="registerGP();" /></div>
+    </div>
+    oder
+    <form>
+    	<input type="email" class="w3-input" class="esc-input-email" placeholder="Email" />
+    	<input type="password" class="w3-input" class="esc-input-pw" placeholder="Passwort" />
+    	<div class="esc-button" onclick="register();">Weiter →</div>
+      <div class="esc-register-counter w3-center">1/3</div>
+    </form>
+  </div>
 </div>
-
-<form>
-	<input type="email" class="w3-input" class="esc-input-email" placeholder="Email" />
-	<input type="password" class="w3-input" class="esc-input-pw" placeholder="Passwort" />
-	<div class="esc-button" onclick="register();">Weiter →</div>
-  <div class="esc-register-counter w3-center">1/3</div>
-</form>
 
 <div class="esc-skyline-bg">
   <img src="img/skyline-bg.jpg" />
@@ -57,17 +61,34 @@
     font-size: 10px;
     color: #ECF0F1;
   }
+
+  .esc-register-ct{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.5cm;
+    text-align: center;
+    color: #fff;
+  }
 </style>
 <script type="text/javascript">
-	function register(){
+	Topbar.hide();
 
+  function register(){
+    nextPage();
 	}
 
 	function registerFB(){
-
+    nextPage();
 	}
 
 	function registerGP(){
-		
+		nextPage();
 	}
+
+  function nextPage(){
+    window.location.hash = "#register2";
+  }
+
 </script>

@@ -1,17 +1,22 @@
-<div class="esc-escortme-h1 w3-center">
-  <h1>Login</h1>
+<div class="esc-login-ct">
+  <div class="esc-escortme-h1 w3-center">
+    <h1>Login</h1>
+  </div>
+
+  <div>
+    <div class="esc-container esc-login-social-ct">
+    	<div class="w3-center"><img src="img/facebook-logo.png" /></div>
+    	<div class="w3-center"><img src="img/google-plus-logo.png" /></div>
+    </div>
+    oder
+    <form>
+    	<input type="email" class="w3-input" class="esc-input-email" placeholder="Email" />
+    	<input type="password" class="w3-input" class="esc-input-pw" placeholder="Passwort" />
+    	<div class="esc-button">Login</div>
+    </form>
+  </div>
 </div>
 
-<div class="esc-container esc-login-social-ct">
-	<div class="w3-center"><img src="img/facebook-logo.png" /></div>
-	<div class="w3-center"><img src="img/google-plus-logo.png" /></div>
-</div>
-
-<form>
-	<input type="email" class="w3-input" class="esc-input-email" placeholder="Email" />
-	<input type="password" class="w3-input" class="esc-input-pw" placeholder="Passwort" />
-	<div class="esc-button">Login</div>
-</form>
 
 <div class="esc-skyline-bg">
   <img src="img/skyline-bg.jpg" />
@@ -51,9 +56,21 @@
   form{
   	margin-top: 30px;
   }
+
+  .esc-login-ct{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.5cm;
+    text-align: center;
+    color: #fff;
+  }
+
 </style>
 <script type="text/javascript">
-	function login(){
+	Topbar.hide();
+  function login(){
 
 	}
 

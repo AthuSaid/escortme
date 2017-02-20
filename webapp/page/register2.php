@@ -1,23 +1,28 @@
-<div class="esc-escortme-h1 w3-center">
-  <h1>Registrieren</h1>
-</div>
+<div class="esc-register-ct">
+  <div class="esc-escortme-h1 w3-center">
+    <h1>Registrieren</h1>
+  </div>
 
-<form>
-	<input type="text" class="w3-input" class="esc-input-name" placeholder="Name" />
-	<select class="w3-select esc-input-sex">
-    <option value="" disabled selected>Geschlecht</option>
-    <option value="m">Männlich</option>
-    <option value="w">Weiblich</option>
-    <option value="t">Transexuel</option>
-  </select>
-  <input type="date" class="w3-input" class="esc-input-dob" placeholder="Geburtstag" />
-	<div class="esc-button">Weiter →</div>
-  <div class="esc-register-counter w3-center">2/3</div>
-</form>
+  <div>
+    <form>
+    	<input type="text" class="w3-input" class="esc-input-name" placeholder="Name" />
+    	<select class="w3-select esc-input-sex">
+        <option value="" disabled selected>Geschlecht</option>
+        <option value="m">Männlich</option>
+        <option value="w">Weiblich</option>
+        <option value="t">Transexuel</option>
+      </select>
+      <input type="date" class="w3-input" class="esc-input-dob" placeholder="Geburtstag" />
+    	<div class="esc-button" onclick="nextPage();">Weiter →</div>
+      <div class="esc-register-counter w3-center">2/3</div>
+    </form>
+    </div>
+</div>
 
 <div class="esc-skyline-bg">
   <img src="img/skyline-bg.jpg" />
 </div>
+
 <style type="text/css" style="display: none !important;">
   .esc-skyline-bg {
 	z-index: -1;
@@ -58,17 +63,22 @@
     font-size: 10px;
     color: #ECF0F1;
   }
+
+  .esc-register-ct{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.5cm;
+    text-align: center;
+    color: #fff;
+  }
 </style>
 <script type="text/javascript">
-	function login(){
+	Topbar.hide();
 
-	}
+  function nextPage(){
+    window.location.hash = "#home";
+  }
 
-	function loginFB(){
-
-	}
-
-	function loginGP(){
-		
-	}
 </script>
