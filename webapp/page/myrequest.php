@@ -33,12 +33,24 @@
 
     </div>
 
-    <div class="esc-button esc-red">
+    <div class="esc-button esc-red" onclick="CtxMenu.show();">
       Anfrage abbrechen
     </div>
 
   </div>
 
+</div>
+
+<div class="w3-modal" onclick="CtxMenu.promptNo();">
+  <div class="w3-modal-content w3-animate-top">
+    <div class="w3-modal-content-header">
+      Sind Sie sicher, dass Sie die Anfrage abbrechen möchten?
+    </div>
+    <div>
+      <div class="esc-button" onclick="CtxMenu.promptNo();">Abbrechen</div>
+      <div class="esc-button esc-red" onclick="CtxMenu.promptYes();">Ja</div>
+    </div>
+  </div>
 </div>
 
 <style type="text/css" style="display: none !important;">
@@ -121,6 +133,30 @@
     font-family: Roboto-Light;
   }
 
+
+  .w3-modal{
+    padding-top: 2cm;
+  }
+  .w3-modal-content{
+    padding: 5px;
+    border-radius: 5px;
+  }
+  .w3-modal-content-header {
+    margin-bottom: 15px;
+    margin-left: -5px;
+    margin-right: -5px;
+    margin-top: -5px;
+    font-family: Roboto-Regular;
+    color: #ECF0F1;
+    background: #2C3E50;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
 </style>
 
 <script type="text/javascript">
@@ -129,7 +165,7 @@
 
   Timer = {
     monitor: null,
-    rest: 10, //Resttime in seconds
+    rest: 6945, //Resttime in seconds
     init: function(){
       this.monitor = setInterval(function(){Timer.run();}, 1000);
     },
@@ -137,7 +173,6 @@
       this.rest--;
       if(this.rest < 0){
         this.clear();
-        $(".esc-request-duration").text("Anfrage beendet");
         return;
       }
       var time = this.format();
@@ -154,8 +189,23 @@
     },
     clear: function(){
       clearInterval(this.monitor);
+      $(".esc-request-duration").text("Anfrage beendet");
     }
-  }
+  };
+
+  CtxMenu = {
+    show: function(){
+      $(".w3-modal").css("display", "block");
+    },
+    promptNo: function(){
+      $(".w3-modal").css("display", "none");
+    },
+    promptYes: function(){
+      $(".w3-modal").css("display", "none");
+      Timer.clear();
+    }
+  };
+
   Timer.init();
 
 </script>
