@@ -1,21 +1,21 @@
 <div class="esc-list-ct">
   <div class="esc-list-item" data-msg-id="1" onclick="MessageList.openChat(1);">
-  	<div>
-  	  <div class="esc-list-item-content">
-  	  	<div class="esc-list-item-avatar">
-  	  	  <img src="data/avatar-1.png" />
-  	  	</div>
-  	  	<div>
-  	  	  <div class="esc-list-item-title">Birgit, 36</div>
-  	  	  <div class="esc-list-item-text">
-  	  	  	Hallo du geiler Hengst, hast du lust dass ich dich reite und schön in mir abspritzt?
-  	  	  </div>
-  	  	</div>
-  	  </div>
-  	  <div class="esc-list-item-delete">
-  	  	<img src="img/delete-grey.png" onclick="MessageList.remove(1);" />
-  	  </div>
-  	</div>
+    <div>
+      <div class="esc-list-item-content">
+        <div class="esc-list-item-avatar">
+          <img src="data/avatar-1.png" />
+        </div>
+        <div>
+          <div class="esc-list-item-title">Birgit, 36</div>
+          <div class="esc-list-item-text">
+            Hallo du geiler Hengst, hast du lust dass ich dich reite und schön in mir abspritzt?
+          </div>
+        </div>
+      </div>
+      <div class="esc-list-item-delete">
+        <img src="img/delete-grey.png" onclick="MessageList.remove(1);" />
+      </div>
+    </div>
   </div>
 
   <div class="esc-list-item" data-msg-id="2" onclick="MessageList.openChat(2);">
@@ -90,7 +90,7 @@
     border-bottom: 0px;
   }
   .esc-list-item:active{
-  	background-color: #3498DB;
+    background-color: #3498DB;
   }
   .esc-list-item:active > div{
     border-bottom: 0px;
@@ -98,19 +98,19 @@
     color: #ECF0F1;
   }
   .esc-list-item-content{
-  	display: flex;
+    display: flex;
     flex-direction: row;
     justify-content: flex-start;
     height: 1.5cm;
     overflow-y: hidden;
   }
   .esc-list-item-avatar{
-  	margin-right: 5px;
+    margin-right: 5px;
   }
   .esc-list-item-avatar img{
-  	height: 1.5cm;
-  	width: 1.5cm;
-  	border-radius: 1cm;
+    height: 1.5cm;
+    width: 1.5cm;
+    border-radius: 1cm;
   }
   .esc-list-item-title{
     font-size: 18px;
@@ -120,11 +120,11 @@
     line-height: 1.2;
   }
   .esc-list-item-delete{
-  	margin-left: 5px;
+    margin-left: 5px;
   }
   .esc-list-item-delete img{
-  	height: 0.8cm;
-  	width: 0.8cm;
+    height: 0.8cm;
+    width: 0.8cm;
   }
 
   .w3-modal{
@@ -167,12 +167,15 @@
     promptYes: function(){
       $(".esc-list-item[data-msg-id=" + this.selected + "]").remove();
       $(".w3-modal").css("display", "none");
+      this.selected = null;
     },
     promptNo: function(){
       $(".w3-modal").css("display", "none");
+      this.selected = null;
     },
     openChat: function(msgId){
-      window.location.hash = "#chat?msgid=" + msgId;
+      if(this.selected == null)
+        window.location.hash = "#chat?msgid=" + msgId;
     }
   };
 
