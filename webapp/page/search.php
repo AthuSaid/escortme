@@ -204,6 +204,16 @@
     if(val == 1)
       strStunden = " Stunde";
     $(".esc-running-time").text(val + strStunden);
+
+    var percent = parseInt(((val-1) * 100) / 3);
+    /* Background-color:
+
+background: -moz-linear-gradient(left,  #3498DB 49%, #3498DB 49%, #E74C3C 50%);
+background: -webkit-linear-gradient(left,  #3498DB 49%,#3498DB 49%,#E74C3C 50%); 
+background: linear-gradient(to right,  #3498DB 49%,#3498DB 49%,#E74C3C 50%); 
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3498DB', endColorstr='#E74C3C',GradientType=1 );
+
+     */
   });
 
   function search(){

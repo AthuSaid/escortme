@@ -1,0 +1,10 @@
+DROP TABLE IF EXISTS esc_chat_msg;
+DROP TABLE IF EXISTS esc_chat;
+DROP TABLE IF EXISTS esc_offer;
+DROP TABLE IF EXISTS esc_request_keyword;
+DROP TABLE IF EXISTS esc_request;
+DROP TABLE IF EXISTS esc_user_verification;
+DROP TABLE IF EXISTS esc_profil_picture;
+DROP TABLE IF EXISTS esc_picture;
+DROP TABLE IF EXISTS esc_user_pw;
+DROP TABLE IF EXISTS esc_user;
