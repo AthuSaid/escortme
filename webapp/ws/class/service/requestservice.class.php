@@ -92,6 +92,14 @@ class RequestService {
         return $request;
     }
 
+    public function abort($reqId, $userId){
+        $this->db->update("esc_request", [
+            "aborted" => 1
+          ], [
+            "id" => $reqId,
+            "user_id" => $userId
+          ]);
+    }
 }
 
 

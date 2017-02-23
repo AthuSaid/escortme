@@ -1,3 +1,24 @@
+<?php
+
+require '../ws/class/loader.php';
+classloader("../");
+
+$user = SessionManager::user();
+$logger = LogFactory::logger('page.myrequest');
+$db = DatabaseConnection::get();
+
+$userService = new UserService($logger, $db);
+$serviceService = new ServiceService($logger, $db);
+
+$profil_id = $_REQUEST['userid'];
+
+$profile = $userService->getProfile($profil_id);
+$profile['verifiedText'] = $profile['verified'] ? "Verifiziert" : "";
+$svc = $serviceService->getLatestService($profil_id);
+
+
+?>
+
 <div class="esc-container esc-tab-ct">
   <div class="esc-tab esc-tab-profile esc-tab-selected" onclick="Tabs.profile();">
     Profil
@@ -11,34 +32,32 @@
   <div>
     <div class="esc-profile-header">
       <div class="esc-profile-header-avatar">
-        <img src="data/profil-3.jpg" />
+        <img src="ws/picture.php?type=thumbnail&picture_id=<?php echo $profile['picture'] ?>" />
       </div>
       <div class="esc-profile-header-info">
         <div>
-          <label class="esc-profile-name">Lisa</label>
-          <label class="esc-profile-age">25 Jahre</label>
-          <label class="esc-profile-gender">Frau</label>
+          <label class="esc-profile-name"><?php echo $profile['firstName'] ?></label>
+          <label class="esc-profile-age"><?php echo $profile['age'] ?> Jahre</label>
+          <label class="esc-profile-gender"><?php echo $profile['gender'] ?></label>
         </div>
         <div>
-          <label class="esc-profile-verified">Verifiziert</label>
+          <label class="esc-profile-verified"><?php echo $profile['verifiedText'] ?></label>
         </div>
       </div>
     </div>
 
     <div class="esc-curriculum">
-      Mein Name ist Lisa, ich bin 31 Jahre alt und versuche hier etwas Geld
-      zu verdienen neben meinem Studium. Was ich mache:<br /><br />
-      * Sex: 200 €<br />
-      * Blasen: 100 €</br />
-      * Escort-Service: 50 € / Stunde
+      <?php echo $svc['curriculum']; ?>
     </div>
   </div>
 
-  <div class="esc-button esc-green">
-    Chat starten
-  </div>
-  <div class="esc-button esc-red">
-    Ablehnen
+  <div>
+    <div class="esc-button esc-green">
+      Chat starten
+    </div>
+    <div class="esc-button esc-red">
+      Ablehnen
+    </div>
   </div>
 
 </div>
@@ -183,7 +202,7 @@
 
 <script type="text/javascript">
 	Topbar.show();
-  Topbar.setText("Lisa");
+  Topbar.setText("<?php echo $profile['firstName']; ?>");
 
   $(".esc-picture-ct").hide();
 

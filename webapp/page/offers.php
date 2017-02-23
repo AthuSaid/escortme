@@ -10,6 +10,7 @@ $db = DatabaseConnection::get();
 $rs = new RequestService($logger, $db);
 
 $req = $rs->getActiveRequest($user['id']);
+
 $goToSearch = "";
 if($req == null){
   $goToSearch = "goToSearch();";
@@ -179,7 +180,7 @@ if($req == null){
   Topbar.setText("Anfragen");
 
   TimerTask = {
-    rest: 6945, //Resttime in seconds
+    rest: <?php echo $req['restTime']; ?>, //Resttime in seconds
     init: function(){
       window.Timer.handler =function(){
         TimerTask.run();

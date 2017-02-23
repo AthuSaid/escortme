@@ -224,8 +224,17 @@ $req = $requestService->getActiveRequest($user['id']);
     promptYes: function(){
       $(".w3-modal").css("display", "none");
       TimerTask.clear();
+      $.post("ws/request-abort.php", {
+        req_id: "<?php echo $req['id']; ?>"
+      }, function(respData){
+        goToSearch();
+      });
     }
   };
+
+  function goToSearch(){
+    window.location.hash = "#search";
+  }
 
   TimerTask.init();
 
