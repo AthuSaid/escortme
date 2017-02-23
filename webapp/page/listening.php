@@ -90,51 +90,7 @@ if($user['listening']){
   </div>
 
   <div class="esc-list-ct">
-    <div class="esc-list-item" data-msg-id="1" onclick="Listening.openRequest(1);">
-      <div>
-        <div class="esc-list-item-content">
-          <div class="esc-list-item-avatar">
-            <img src="data/profil-3.jpg" />
-          </div>
-          <div>
-            <div class="esc-list-item-title">Daniel, 36</div>
-            <div class="esc-list-item-text">Heute, 20:00</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="esc-list-item" data-msg-id="2" onclick="Listening.openRequest(2);">
-        <div>
-          <div class="esc-list-item-content">
-            <div class="esc-list-item-avatar">
-              <img src="data/profil-1.jpg" />
-            </div>
-            <div>
-              <div class="esc-list-item-title">Jörg, 39</div>
-              <div class="esc-list-item-text">Heute, 23:00</div>
-            </div>
-          </div>
-
-          <div class="esc-waitforchat">
-            Warten auf Chattanfrage
-          </div>
-        </div>
-    </div>
-
-    <div class="esc-list-item" data-msg-id="3" onclick="Listening.openRequest(3);">
-        <div>
-          <div class="esc-list-item-content">
-            <div class="esc-list-item-avatar">
-              <img src="data/profil-4.jpg" />
-            </div>
-            <div>
-              <div class="esc-list-item-title">Richard, 80</div>
-              <div class="esc-list-item-text">Heute, 18:30</div>
-            </div>
-          </div>
-        </div>
-    </div>
+    
   </div>
 
 </div>
@@ -339,8 +295,10 @@ if($user['listening']){
 
   Listening = {
     init: function(){
-      if(this.active())
+      if(this.active()){
         $(".esc-filter-ct").hide();
+        Requests.load();
+      }
       else
         $(".esc-requests-ct").hide();
     },
@@ -371,18 +329,47 @@ if($user['listening']){
         genderM: genderm,
         genderF: genderf,
         genderT: gendert
-      });
+      }, Requests.load);
     },
     disable: function(){
       $(".esc-requests-ct").hide();
       $(".esc-filter-ct").show();
 
-      Ajax.post("ws/listening.php", {listening: 0});
+      Ajax.background("ws/listening.php", {listening: 0});
+    }    
+  };
+
+  Requests = {
+    load: function(){
+      Ajax.get("ws/listening-requests.php", undefined, function(response){
+        console.log(response);
+        response.forEach(Requests.add);
+      });
     },
-    openRequest: function(usrId){
-      window.location.hash = "#request?id=" + usrId;
+    add: function(req){
+      var node = "<div class='esc-list-item' data-req-id='" + req.id + "' onclick=\"Requests.open('" + req.id + "')\"> \
+                    <div>\
+                      <div class='esc-list-item-content'>\
+                        <div class='esc-list-item-avatar'>\
+                          <img src='ws/picture.php?type=thumbnail&picture_id=" + req.user.picture + "' />\
+                        </div>\
+                        <div>\
+                          <div class='esc-list-item-title'>" + req.user.firstName +", " + req.user.age + "</div>\
+                          <div class='esc-list-item-text'>" + req.targetTime.date + ", " + req.targetTime.time + "</div>\
+                        </div>\
+                      </div>\
+                    </div>\
+                  </div>";
+      $(".esc-list-ct").append(node);
+    },
+    remove: function(reqId){
+
+    },
+    open: function(reqId){
+      window.location.hash = "#request?id=" + reqId;
     }
   };
   Listening.init();
+
 
 </script>

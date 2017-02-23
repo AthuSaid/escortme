@@ -57,6 +57,22 @@ class RequestService {
         return $request;
     }
 
+    /**
+     * Reads all active Requests which are not of the given User,
+     * or the given User is blocked by the owner
+     * 
+     * @param  [uuid] $userId [user which wants the requests]
+     * @return [array]         [requests]
+     */
+    public function getAllActive($userId){
+        $result = $this->db->select("esc_request", "*", [
+            "aborted" => 0,
+            "#expires[>]" => "NOW()",
+            "user_id[!]" => $userId
+          ]);
+        return $result;
+    }
+
     public function fromHttp($http, $userId){
         $request = array();
         $request['user_id'] = $userId;
