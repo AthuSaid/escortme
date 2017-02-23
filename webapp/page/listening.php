@@ -1,10 +1,24 @@
+<?php
+
+require '../ws/class/loader.php';
+classloader("../");
+
+$user = SessionManager::user();
+
+$checked = "";
+if($user['listening']){
+  $checked = "checked";
+}
+
+?>
+
 <div>
 <div class="esc-active-ct">
   <div>Aktiv</div>
   <div>
     <label class="switch">
-      <input type="checkbox">
-      <div class="slider round" onclick="Listening.toggle();"></div>
+      <input type="checkbox" class="esc-input-active" onchange="Listening.toggle();" <?php echo $checked; ?>>
+      <div class="slider round"></div>
     </label>
   </div>
 </div>
@@ -18,12 +32,12 @@
 
   <div>
     <label>Beschreibe was du bietest:</label>
-    <textarea rows="3" class="w3-input"></textarea>
+    <textarea rows="3" class="w3-input esc-input-curriculum"></textarea>
   </div>
 
   <div class="esc-min-preis">
     <label>Min. Preis:</label>
-    <input type="number" class="w3-input" />
+    <input type="number" class="w3-input esc-input-minprice" />
   </div>
 
   <div class="esc-interesst-ct">
@@ -31,29 +45,29 @@
     <div>
       <div>
         <div>
-          <input type="checkbox" class="" />
+          <input type="checkbox" class="esc-input-genderm" />
           <label>Männer</label>
         </div>
         <div>
-          <input type="checkbox" class="" />
+          <input type="checkbox" class="esc-input-genderf" />
           <label>Frauen</label>
         </div>
         <div>
-          <input type="checkbox" class="" />
+          <input type="checkbox" class="esc-input-gendert" />
           <label>Transexuellen</label>
         </div>
       </div>
       <div>
         <div>
-          <input type="radio" name="esc-interesst-radio" class="" checked />
+          <input type="radio" name="esc-input-level" value="A" class="esc-input-level-a" checked />
           <label>Alle</label>
         </div>
         <div>
-          <input type="radio" name="esc-interesst-radio" class="" />
+          <input type="radio" name="esc-input-level" value="P" class="esc-input-level-p" />
           <label>Nur mit Profilbild</label>
         </div>
         <div>
-          <input type="radio" name="esc-interesst-radio" class="" />
+          <input type="radio" name="esc-input-level" value="V" class="esc-input-level-v" />
           <label>Nur verifizerite User</label>
         </div>
       </div>
@@ -62,7 +76,7 @@
 
   <div>
     <label>Keywords:</label>
-    <textarea class="w3-input"></textarea>
+    <textarea class="w3-input esc-input-keywords"></textarea>
   </div>
 
 </div>
@@ -324,20 +338,46 @@
   Topbar.setText("Lauschen");
 
   Listening = {
-    active: false,
     init: function(){
-      $(".esc-requests-ct").hide();
+      if(this.active())
+        $(".esc-filter-ct").hide();
+      else
+        $(".esc-requests-ct").hide();
+    },
+    active: function(){
+      return $(".esc-input-active:checked").length > 0;
     },
     toggle: function(){
-      this.active = !this.active;
-      if(this.active){
-        $(".esc-requests-ct").show();
-        $(".esc-filter-ct").hide();
-      }
-      else{
-        $(".esc-requests-ct").hide();
-        $(".esc-filter-ct").show();
-      }
+      if(this.active())
+        this.enable();
+      else
+        this.disable();
+    },
+    enable: function(){
+      $(".esc-requests-ct").show();
+      $(".esc-filter-ct").hide();
+
+      var curriculum = $(".esc-input-curriculum").val();
+      var price = $(".esc-input-minprice").val();
+      var level = $("input[name=esc-input-level]:checked").val();
+      var genderm = $(".esc-input-genderm").is(":checked");
+      var genderf = $(".esc-input-genderf").is(":checked");
+      var gendert = $(".esc-input-gendert").is(":checked");
+      $.post("ws/listening.php", {
+        listening: 1,
+        curriculum: curriculum,
+        minPrice: price,
+        level: level,
+        genderM: genderm,
+        genderF: genderf,
+        genderT: gendert
+      });
+    },
+    disable: function(){
+      $(".esc-requests-ct").hide();
+      $(".esc-filter-ct").show();
+
+      $.post("ws/listening.php", {listening: 0});
     },
     openRequest: function(usrId){
       window.location.hash = "#request?id=" + usrId;

@@ -73,7 +73,9 @@
 
 
   function login(){
-    nextPage();
+    $.post("ws/login-daniel.php", function(data){
+      nextPage();
+    });
 	}
 
 	function loginFB(){

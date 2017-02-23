@@ -1,6 +1,7 @@
 {
     "require": {
         "monolog/monolog": "1.0.*",
-        "catfan/Medoo": "^1.2"
+        "catfan/Medoo": "^1.2",
+        "ramsey/uuid": "^3.5"
     }
 }

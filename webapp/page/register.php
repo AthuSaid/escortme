@@ -76,7 +76,17 @@
 	Topbar.hide();
 
   function register(){
-    nextPage();
+    var mail = $(".esc-input-email").val();
+    var pass = $(".esc-input-pw").val();
+
+    if(pass.lengh < 8){
+      //TODO: Error
+      return;
+    }
+
+    var param = "email=" + mail + "&pw=" + pass;
+
+    nextPage(param);
 	}
 
 	function registerFB(){
@@ -87,8 +97,8 @@
 		nextPage();
 	}
 
-  function nextPage(){
-    window.location.hash = "#register2";
+  function nextPage(param){
+    window.location.hash = "#register2?" + param;
   }
 
 </script>

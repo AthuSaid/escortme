@@ -1,8 +1,16 @@
+DROP TABLE IF EXISTS esc_activitylog;
+DROP TABLE IF EXISTS esc_bell_offer;
+DROP TABLE IF EXISTS esc_bell_request;
+DROP TABLE IF EXISTS esc_bell_msg;
+DROP TABLE IF EXISTS esc_bell;
 DROP TABLE IF EXISTS esc_chat_msg;
 DROP TABLE IF EXISTS esc_chat;
 DROP TABLE IF EXISTS esc_offer;
 DROP TABLE IF EXISTS esc_request_keyword;
 DROP TABLE IF EXISTS esc_request;
+DROP TABLE IF EXISTS esc_service_keyword;
+DROP TABLE IF EXISTS esc_service;
+DROP TABLE IF EXISTS esc_user_credit;
 DROP TABLE IF EXISTS esc_user_verification;
 DROP TABLE IF EXISTS esc_profil_picture;
 DROP TABLE IF EXISTS esc_picture;

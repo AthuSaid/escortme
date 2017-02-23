@@ -1,3 +1,14 @@
+<?php
+
+$email = "";
+if(isset($_REQUEST['email']))
+  $email = $_REQUEST['email'];
+$pw = "";
+if(isset($_REQUEST['pw']))
+  $pw = $_REQUEST['pw'];
+
+?>
+
 <div class="esc-register-ct">
   <div class="esc-escortme-h1 w3-center">
     <h1>Registrieren</h1>
@@ -76,6 +87,9 @@
 </style>
 <script type="text/javascript">
 	Topbar.hide();
+
+  var email = "<?php echo $email; ?>";
+  var pw = "<?php echo $pw; ?>";
 
   function nextPage(){
     window.location.hash = "#home";

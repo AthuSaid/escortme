@@ -1,3 +1,22 @@
+<?php
+
+require '../ws/class/loader.php';
+classloader("../");
+
+$user = SessionManager::user();
+$logger = LogFactory::logger('page.search');
+$db = DatabaseConnection::get();
+
+$rs = new RequestService($logger, $db);
+
+$req = $rs->getActiveRequest($user['id']);
+$goToSearch = "";
+if($req == null){
+  $goToSearch = "goToSearch();";
+}
+
+?>
+
 <div class="esc-request-duration-ct" onclick="openMyRequest();">
   <label class="esc-request-duration">Läuft noch: 1:36:51</label>
 </div>
@@ -217,5 +236,10 @@
   function openMyRequest(){
     window.location.hash = "#myrequest";
   }
+
+  function goToSearch(){
+    window.location.hadh = "#search";
+  }
+  <?php echo $goToSearch; ?>
 
 </script>

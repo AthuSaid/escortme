@@ -1,3 +1,22 @@
+<?php
+
+require '../ws/class/loader.php';
+classloader("../");
+
+$user = SessionManager::user();
+$logger = LogFactory::logger('page.myrequest');
+$db = DatabaseConnection::get();
+
+$userService = new UserService($logger, $db);
+$requestService = new RequestService($logger, $db);
+
+
+$user = $userService->getProfile($user['id']);
+$user['verifiedText'] = $user['verified'] ? "Verifiziert" : "";
+$req = $requestService->getActiveRequest($user['id']);
+
+?>
+
 <div class="esc-req-container">
   <div class="esc-request-duration-ct">
     <label class="esc-request-duration">Läuft noch: 1:36:51</label>
@@ -7,28 +26,27 @@
     <div>
       <div class="esc-profile-header">
         <div class="esc-profile-header-avatar">
-          <img src="data/profil-3.jpg" />
+          <img src="ws/picture.php?type=thumbnail&picture_id=<?php echo $user['picture'] ?>" />
         </div>
         <div class="esc-profile-header-info">
           <div>
-            <label class="esc-profile-name">Daniel</label>
-            <label class="esc-profile-age">31 Jahre</label>
-            <label class="esc-profile-gender">Mann</label>
+            <label class="esc-profile-name"><?php echo $user['firstName']; ?></label>
+            <label class="esc-profile-age"><?php echo $user['age']; ?> Jahre</label>
+            <label class="esc-profile-gender"><?php echo $user['gender']; ?></label>
           </div>
           <div>
-            <label class="esc-profile-verified">Verifiziert</label>
+            <label class="esc-profile-verified"><?php echo $user['verifiedText']; ?></label>
           </div>
         </div>
       </div>
 
       <div class="esc-request-details">
-        <label class="esc-request-day">Heute</label>
-        <label class="esc-request-time">23:00</label>
+        <label class="esc-request-day"><?php echo $req['targetTime']['date']->format("d.m.Y"); ?></label>
+        <label class="esc-request-time"><?php echo $req['targetTime']['time']; ?></label>
       </div>
 
       <div class="esc-request-text">
-        Ich möchte nur Sex ohne irgendwelche Besonderheiten.
-        Eine halbe Studne wäre gut!
+        <?php echo $req['description']; ?>
       </div>
 
     </div>
@@ -163,8 +181,8 @@
 	Topbar.show();
   Topbar.setText("Anfrage Details");
 
-  Timer = {
-    rest: 6945, //Resttime in seconds
+  TimerTask = {
+    rest: <?php echo $req['restTime']; ?>, //Resttime in seconds
     init: function(){
       window.Timer.handler =function(){
         TimerTask.run();

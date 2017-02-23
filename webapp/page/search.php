@@ -1,13 +1,46 @@
+<?php
+
+require '../ws/class/loader.php';
+classloader("../");
+
+$user = SessionManager::user();
+$logger = LogFactory::logger('page.search');
+$db = DatabaseConnection::get();
+
+$rs = new RequestService($logger, $db);
+
+//There is already a request -> Go to offers
+$goToOffers = "";
+$request = $rs->getActiveRequest($user['id']);
+if($request != null){
+  $goToOffers = "goToOffers();";
+}
+
+
+//Fill the formular with the latest data
+$datum = "";
+$time = "";
+$agefrom = "";
+$ageto = "";
+$description = "";
+$lr = $rs->getLatestRequest($user['id']);
+if($lr != null){
+  //TODO: IMPLEMENT
+}
+
+
+?>
+
 <div class="esc-search-ct">
 
   <div>
     <label>Datum + Uhrzeit:</label>
     <div class="esc-date-time-ct">
       <div>
-        <input type="date" class="w3-input" />
+        <input type="date" class="w3-input esc-input-date" />
       </div>
       <div>
-        <input type="time" class="w3-input" />
+        <input type="time" class="w3-input esc-input-time" />
       </div>
     </div>
   </div>
@@ -15,38 +48,38 @@
   <div>
     <label>Altersbereich:</label>
     <div class="esc-age-range-ct">
-      <input type="number" class="w3-input" />
+      <input type="number" min="18" value="20" class="w3-input esc-input-agefrom" />
       <label> bis </label> 
-      <input type="number" class="w3-input" />
+      <input type="number" max="80" value="40" class="w3-input esc-input-ageto" />
     </div>
   </div>
 
   <div>
-    <select class="w3-select esc-input-sex">
-      <option value="a">Alle</option>
-      <option value="p">Nur mit Profilbild</option>
-      <option value="v">Nur verifizierte User</option>
+    <select class="w3-select esc-input-level">
+      <option value="A">Alle</option>
+      <option value="P">Nur mit Profilbild</option>
+      <option value="V">Nur verifizierte User</option>
     </select>
   </div>
 
   <div class="esc-max-preis">
     <label>Max. Preis: </label>
-    <input type="number" class="w3-input" />
+    <input type="number" class="w3-input esc-input-maxprice" />
   </div>
 
   <div class="esc-text-ct">
     <label>Was ich suche:</label>
-    <textarea class="w3-input"></textarea>
+    <textarea class="w3-input  esc-input-description"></textarea>
   </div>
 
   <div>
     <label>Keywords</label>
-    <input type="text" class="w3-input" />
+    <input type="text" class="w3-input  esc-input-keywords" />
   </div>
 
   <div>
     <label>Maximale Laufzeit: </label><label class="esc-running-time">2 Stunden</label>
-    <input type="range" min="1" max="4" value="2" step="0.5" class="esc-running-time-range" />
+    <input type="range" min="1" max="4" value="2" step="0.5" class="esc-running-time-range  esc-input-duration" />
   </div>
 
   <div>
@@ -216,8 +249,53 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3498DB', end
      */
   });
 
+  $(".esc-input-agefrom, .esc-input-ageto").change(function(){
+    var max = $(".esc-input-ageto").val();
+    var min = $(".esc-input-agefrom").val();
+    $(".esc-input-agefrom").prop('max', max);
+    $(".esc-input-ageto").prop('min', min);
+  });
+
   function search(){
+    var datum = $(".esc-input-date").val();
+    var time = $(".esc-input-time").val();
+    var agefrom = $(".esc-input-agefrom").val();
+    var ageto = $(".esc-input-ageto").val();
+    var level = $(".esc-input-level").val();
+    var maxprice = $(".esc-input-maxprice").val();
+    var description = $(".esc-input-description").val();
+    var duration = $(".esc-input-duration").val();
+
+    var params = {
+      targetTime: datum + " " + time + ":00",
+      ageFrom: agefrom,
+      ageTo: ageto,
+      level: level,
+      maxPrice: maxprice,
+      description: description,
+      duration: duration
+    };
+
+    if(!validate(params))
+      return;
+
+    $.post("ws/request-create.php", params, function(resp){
+      goToOffers();
+    });
+  }
+
+  function validate(request){
+    if(request.ageFrom > request.ageTo){
+      alert("Alter ist inkorrekt!");
+      return false;
+    }
+
+    return true;
+  }
+
+  function goToOffers(){
     window.location.hash = "#offers";
   }
+  <?php echo $goToOffers; ?>
 
 </script>

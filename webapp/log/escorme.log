@@ -1,0 +1,31 @@
+[2017-02-22 20:49:08] ws.listening.INFO: User is not anymore active listening [] []
+[2017-02-22 20:49:11] ws.listening.INFO: User is now active listening [] []
+[2017-02-22 20:49:15] ws.listening.INFO: User is not anymore active listening [] []
+[2017-02-22 20:49:19] ws.listening.INFO: User is now active listening [] []
+[2017-02-22 20:49:22] ws.listening.INFO: User is not anymore active listening [] []
+[2017-02-22 20:49:36] ws.listening.INFO: User is now active listening [] []
+[2017-02-22 20:49:36] ws.listening.INFO: New Service created:  {"user_id":"b0cc2642-f904-11e6-b0df-d3f657d113e9","curriculum":"Ich balse gerne Schwu00e4nze","minPrice":0,"level":"A","genderM":0,"genderF":0,"genderT":0,"id":"00a177b1-a841-4b7f-b733-428166846e73"} []
+[2017-02-22 20:49:54] ws.listening.INFO: User is not anymore active listening [] []
+[2017-02-22 20:49:56] ws.listening.INFO: User is now active listening [] []
+[2017-02-22 20:51:30] ws.listening.INFO: User is not anymore active listening [] []
+[2017-02-22 20:51:34] ws.listening.INFO: User is now active listening [] []
+[2017-02-22 20:52:04] ws.listening.INFO: User is not anymore active listening [] []
+[2017-02-22 20:52:11] ws.listening.INFO: User is now active listening [] []
+[2017-02-22 21:22:16] ws.listening.INFO: User is not anymore active listening [] []
+[2017-02-22 21:22:22] ws.listening.INFO: User is now active listening [] []
+[2017-02-22 21:23:21] ws.listening.INFO: User is not anymore active listening [] []
+[2017-02-22 21:23:25] ws.listening.INFO: User is now active listening [] []
+[2017-02-22 21:23:25] ws.listening.ERROR: Fehler beim Service: exception 'Exception' with message 'No gender selected' in C:\xampp\htdocs\escortme\webapp\ws\class\service\serviceservice.class.php:47
+Stack trace:
+#0 C:\xampp\htdocs\escortme\webapp\ws\class\service\serviceservice.class.php(66): ServiceService->validate(Array)
+#1 C:\xampp\htdocs\escortme\webapp\ws\class\service\listeningservice.class.php(26): ServiceService->create(Array)
+#2 C:\xampp\htdocs\escortme\webapp\ws\listening.php(22): ListeningService->enable(Array)
+#3 {main} {"listening":"1","curriculum":"","minPrice":"","level":"A","genderM":"false","genderF":"false","genderT":"false"} []
+[2017-02-22 22:47:12] ws.listening.INFO: User is not anymore active listening [] []
+[2017-02-22 23:47:23] ws.listening.INFO: User is now active listening [] []
+[2017-02-22 23:47:23] ws.listening.ERROR: Fehler beim Service: exception 'Exception' with message 'No gender selected' in C:\xampp\htdocs\escortme\webapp\ws\class\service\serviceservice.class.php:48
+Stack trace:
+#0 C:\xampp\htdocs\escortme\webapp\ws\class\service\serviceservice.class.php(67): ServiceService->validate(Array)
+#1 C:\xampp\htdocs\escortme\webapp\ws\class\service\listeningservice.class.php(26): ServiceService->create(Array)
+#2 C:\xampp\htdocs\escortme\webapp\ws\listening.php(22): ListeningService->enable(Array)
+#3 {main} {"listening":"1","curriculum":"","minPrice":"","level":"A","genderM":"false","genderF":"false","genderT":"false"} []
