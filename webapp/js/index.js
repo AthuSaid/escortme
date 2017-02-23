@@ -250,6 +250,16 @@ window.Timer = {
   }
 };
 
+window.Snackbar = {
+  show: function(msg){
+    $(".esc-snackbar").text(msg);
+    $(".esc-snackbar").addClass("esc-snackbar-show");
+    setTimeout(function(){
+      $(".esc-snackbar").removeClass("esc-snackbar-show");
+    }, 3000);
+  }
+};
+
 window.Ajax = {
   background: function(url, data, success){
     $.post(url, data, success);

@@ -36,7 +36,7 @@ class UserService {
             $usr = $result[0];
             $usr['verified'] = $usr['verified'] ? 1 : 0;
             if(!$usr['picture']) $usr['picture'] = 0;
-            $usr['gender'] = $this->convertGender($usr['gender']);
+            $usr['genderText'] = $this->convertGender($usr['gender']);
             $usr['age'] = $this->calcAge($usr['dob']);
         }
         return $usr;
@@ -69,6 +69,17 @@ class UserService {
                 return " ";
                 break;
         }
+    }
+
+    public function update($usr){
+        $data = array(
+            "firstName" => $usr['firstName'],
+            "gender" => $usr['gender'],
+            "dob" => $usr['dob']
+        );
+        $this->db->update("esc_user", $data, [
+            "id" => $usr['id']
+          ]);
     }
 
 }

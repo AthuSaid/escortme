@@ -11,6 +11,11 @@ $pictureService = new PictureService($logger, $db);
 
 $pics = $pictureService->getGallery($user['id']);
 
+$genderM = $user['gender'] == "M" ? "selected" : "";
+$genderF = $user['gender'] == "F" ? "selected" : "";
+$genderT = $user['gender'] == "T" ? "selected" : "";
+
+
 ?>
 
 <div class="esc-container esc-tab-ct">
@@ -24,14 +29,17 @@ $pics = $pictureService->getGallery($user['id']);
 
 <div class="esc-profile-ct">
   <div>
-    <input type="text" class="w3-input" class="esc-input-name" placeholder="Name" value="<?php echo $user['firstName']; ?>" />
-    <select class="w3-select esc-input-sex">
-      <option value="m">Männlich</option>
-      <option value="w">Weiblich</option>
-      <option value="t">Transexuel</option>
+    <input type="text" class="w3-input esc-input-name" placeholder="Name" value="<?php echo $user['firstName']; ?>" />
+
+    <select class="w3-select esc-input-gender">
+      <option value="M" <?php echo $genderM; ?> >Männlich</option>
+      <option value="F" <?php echo $genderF; ?> >Weiblich</option>
+      <option value="T" <?php echo $genderT; ?> >Transexuel</option>
     </select>
-    <input type="date" class="w3-input" class="esc-input-dob" placeholder="Geburtstag" />
-    <div class="esc-button" onclick="">Speichern</div>
+
+    <input type="date" class="w3-input esc-input-dob" placeholder="Geburtstag" value="<?php echo $user['dob']; ?>" />
+
+    <div class="esc-button" onclick="updateUser();">Speichern</div>
 
     <?php if(!$user['verified']){ ?>
       <div class="esc-verify-ct">
@@ -249,5 +257,25 @@ $pics = $pictureService->getGallery($user['id']);
       $(this.selected).remove();
       this.close();
     }
+  };
+
+  function updateUser(){
+    var name = $(".esc-input-name").val();
+    var gender = $(".esc-input-gender").val();
+    var dob = $(".esc-input-dob").val();
+
+    var data = {
+      firstName: name,
+      gender: gender,
+      dob: dob
+    };
+
+    console.log("Data: ", data);
+
+    Ajax.post("ws/profil-update.php", data, function(){
+      Snackbar.show("Änderungen gespeichert");
+    });
+
   }
+
 </script>
