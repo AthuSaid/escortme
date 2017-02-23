@@ -9,12 +9,14 @@ $db = DatabaseConnection::get();
 
 $userService = new UserService($logger, $db);
 $serviceService = new ServiceService($logger, $db);
+$pictureService = new PictureService($logger, $db);
 
 $profil_id = $_REQUEST['userid'];
 
 $profile = $userService->getProfile($profil_id);
 $profile['verifiedText'] = $profile['verified'] ? "Verifiziert" : "";
 $svc = $serviceService->getLatestService($profil_id);
+$pics = $pictureService->getGallery($profil_id);
 
 
 ?>
@@ -63,25 +65,17 @@ $svc = $serviceService->getLatestService($profil_id);
 </div>
 
 <div class="esc-picture-ct">
-  <div class="esc-picture">
-    <img src="data/profil-1.jpg" />
+
+  <?php
+    foreach($pics as $picture_id){
+  ?>
+  <div class="esc-picture" data-pic-id="<?php echo $picture_id; ?>">
+    <img src="ws/picture.php?type=thumbnail&picture_id=<?php echo $picture_id; ?>" />
   </div>
-  <div class="esc-picture">
-    <img src="data/profil-2.jpg" />
-  </div>
-  <div class="esc-picture esc-picture-selected">
-    <img src="data/profil-3.jpg" />
-  </div>
-  <div class="esc-picture">
-    <img src="data/profil-4.jpg" />
-  </div>
-  <div class="esc-picture">
-    <img src="data/profil-5.jpg" />
-  </div>
-  <div class="esc-picture">
-    <img src="data/profil-6.jpg" />
-  </div>
+  <?php } ?>
+
 </div>
+
 
 
 <!-- Modal -->

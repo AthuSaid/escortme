@@ -1,29 +1,49 @@
+<?php
+
+require '../ws/class/loader.php';
+classloader("../");
+
+$user = SessionManager::user();
+$logger = LogFactory::logger('page.myrequest');
+$db = DatabaseConnection::get();
+
+$userService = new UserService($logger, $db);
+$requestService = new RequestService($logger, $db);
+
+$reqId = $_REQUEST['id'];
+
+$req = $requestService->getRequest($reqId);
+$profile = $userService->getProfile($req['user_id']);
+$profile['verifiedText'] = $profile['verified'] ? "Verifiziert" : "";
+
+
+?>
+
 <div class="esc-profile-ct">
   <div>
     <div class="esc-profile-header">
       <div class="esc-profile-header-avatar">
-        <img src="data/profil-3.jpg" />
+        <img src="ws/picture.php?type=thumbnail&picture_id=<?php echo $profile['picture'] ?>" />
       </div>
       <div class="esc-profile-header-info">
         <div>
-          <label class="esc-profile-name">Daniel</label>
-          <label class="esc-profile-age">31 Jahre</label>
-          <label class="esc-profile-gender">Mann</label>
+          <label class="esc-profile-name"><?php echo $profile['firstName']; ?></label>
+          <label class="esc-profile-age"><?php echo $profile['age']; ?> Jahre</label>
+          <label class="esc-profile-gender"><?php echo $profile['gender']; ?></label>
         </div>
         <div>
-          <label class="esc-profile-verified">Verifiziert</label>
+          <label class="esc-profile-verified"><?php echo $profile['verifiedText']; ?></label>
         </div>
       </div>
     </div>
 
     <div class="esc-request-details">
-      <label class="esc-request-day">Heute</label>
-      <label class="esc-request-time">23:00</label>
+      <label class="esc-request-day"><?php echo $req['targetTime']['date']->format("d.m.Y"); ?></label>
+      <label class="esc-request-time"><?php echo $req['targetTime']['time']; ?></label>
     </div>
 
     <div class="esc-request-text">
-      Ich möchte nur Sex ohne irgendwelche Besonderheiten.
-      Eine halbe Studne wäre gut!
+      <?php echo $req['description']; ?>
     </div>
 
   </div>
@@ -105,7 +125,7 @@
 
 <script type="text/javascript">
 	Topbar.show();
-  Topbar.setText("Daniel");
+  Topbar.setText("<?php echo $profile['firstName']; ?>");
 
 
 </script>

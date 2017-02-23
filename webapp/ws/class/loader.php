@@ -18,6 +18,7 @@ function classloader($pathToRoot){
   require $pathToRoot.'ws/class/service/requestservice.class.php';
   require $pathToRoot.'ws/class/service/matchingservice.class.php';
   require $pathToRoot.'ws/class/service/userservice.class.php';
+  require $pathToRoot.'ws/class/service/pictureservice.class.php';
 }
 
 ?>

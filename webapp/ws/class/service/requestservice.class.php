@@ -44,6 +44,19 @@ class RequestService {
         return $request;
     }
 
+    public function getRequest($reqId){
+        $result = $this->db->select("esc_request", "*", [
+            "id" => $reqId
+          ]);
+        $request = null;
+        if(count($result) > 0){
+            $request = $result[0];
+            $request['restTime'] = $this->calcRestTime($request['expires']);
+            $request['targetTime'] = $this->splitTargetTime($request['targetTime']);
+        }
+        return $request;
+    }
+
     public function fromHttp($http, $userId){
         $request = array();
         $request['user_id'] = $userId;
