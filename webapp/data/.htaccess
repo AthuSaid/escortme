@@ -1,0 +1,3 @@
+<Files ~ "\.(jpg|jpeg|png|gif)$">
+    deny from all
+</Files>
