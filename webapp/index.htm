@@ -41,7 +41,7 @@
             <div class="esc-profile">
               <div class="esc-profile-pic"><img src="ws/picture.php" class="w3-circle" /></div>
               <div class="" style="margin-left: 5px;">
-                <div class="w3-row esc-menu-name">Daniel</div>
+                <div class="w3-row esc-menu-name">[User]</div>
                 <div class="w3-row esc-menu-profil-label">Profil</div>
               </div>
             </div>
@@ -143,6 +143,12 @@
         }
       };
       DebugData.fill();
+
+      //TODO: Fill Sidebar info (Picture, Name)
+      $.post("ws/sidebar-data.php", function(data){
+        $(".esc-profile .esc-profile-pic img").prop("src", "ws/picture.php?type=thumbnail&picture_id=" + data.picture);
+        $(".esc-menu-name").text(data.firstName);
+      }, "json");
 
     </script>
   </body>

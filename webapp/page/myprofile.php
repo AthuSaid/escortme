@@ -1,3 +1,18 @@
+<?php
+
+require '../ws/class/loader.php';
+classloader("../");
+
+$user = SessionManager::user();
+$logger = LogFactory::logger('page.myprofile');
+$db = DatabaseConnection::get();
+
+$pictureService = new PictureService($logger, $db);
+
+$pics = $pictureService->getGallery($user['id']);
+
+?>
+
 <div class="esc-container esc-tab-ct">
   <div class="esc-tab esc-tab-profile esc-tab-selected" onclick="Tabs.profile();">
     Profil
@@ -9,22 +24,24 @@
 
 <div class="esc-profile-ct">
   <div>
-    <input type="text" class="w3-input" class="esc-input-name" placeholder="Name" value="Daniel" />
+    <input type="text" class="w3-input" class="esc-input-name" placeholder="Name" value="<?php echo $user['firstName']; ?>" />
     <select class="w3-select esc-input-sex">
-      <option value="m" selected>Männlich</option>
+      <option value="m">Männlich</option>
       <option value="w">Weiblich</option>
       <option value="t">Transexuel</option>
     </select>
     <input type="date" class="w3-input" class="esc-input-dob" placeholder="Geburtstag" />
     <div class="esc-button" onclick="">Speichern</div>
 
-    <div class="esc-verify-ct">
-      <div class="esc-button esc-green" onclick="">Profil verifizieren</div>
-      <label>
-        Wenn Sie Ihr Profil verifizieren erhöhen Sie Ihre Chancen,
-        dass andere mit Ihnen Kontakt aufnehmen möchten!
-      </label>
-    </div>
+    <?php if(!$user['verified']){ ?>
+      <div class="esc-verify-ct">
+        <div class="esc-button esc-green" onclick="">Profil verifizieren</div>
+        <label>
+          Wenn Sie Ihr Profil verifizieren erhöhen Sie Ihre Chancen,
+          dass andere mit Ihnen Kontakt aufnehmen möchten!
+        </label>
+      </div>
+    <?php } ?>
   </div>
   <div class="esc-next-bon">
     Nächster Bon: <label>3 Tage, 2:41:09</label>
@@ -33,24 +50,15 @@
 
 <div class="esc-galerie-ct">
   <div class="esc-picture-ct">
-    <div class="esc-picture">
-      <img src="data/profil-1.jpg" />
+    
+    <?php
+      foreach($pics as $picture_id){
+    ?>
+    <div class="esc-picture" data-pic-id="<?php echo $picture_id; ?>">
+      <img src="ws/picture.php?type=thumbnail&picture_id=<?php echo $picture_id; ?>" />
     </div>
-    <div class="esc-picture">
-      <img src="data/profil-2.jpg" />
-    </div>
-    <div class="esc-picture esc-picture-selected">
-      <img src="data/profil-3.jpg" />
-    </div>
-    <div class="esc-picture">
-      <img src="data/profil-4.jpg" />
-    </div>
-    <div class="esc-picture">
-      <img src="data/profil-5.jpg" />
-    </div>
-    <div class="esc-picture">
-      <img src="data/profil-6.jpg" />
-    </div>
+    <?php } ?>
+
   </div>
 
   <div class="esc-picture-add-button esc-green">+</div>

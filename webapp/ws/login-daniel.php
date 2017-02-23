@@ -25,7 +25,9 @@ Log::info(Uuid::next());
 
 */
 
-$myid = "b0cc2642-f904-11e6-b0df-d3f657d113e9";
+$myid = "b0cc2642-f904-11e6-b0df-d3f657d113e9"; //Daniel
+//$myid = "11fa6218-f905-11e6-b0df-d3f657d113e9"; //Lisa
+
 SessionManager::login($myid);
 //SessionManager::logout();
 

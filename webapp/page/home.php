@@ -4,7 +4,7 @@ require '../ws/class/loader.php';
 classloader("../");
 
 $user = SessionManager::user();
-$logger = LogFactory::logger('page.myrequest');
+$logger = LogFactory::logger('page.home');
 $db = DatabaseConnection::get();
 
 ?>
