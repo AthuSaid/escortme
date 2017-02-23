@@ -31,11 +31,4 @@ $myid = "b0cc2642-f904-11e6-b0df-d3f657d113e9"; //Daniel
 SessionManager::login($myid);
 //SessionManager::logout();
 
-$user = SessionManager::user();
-
-if($user == null)
-	echo "No one logged in....";
-
-print_r($user);
-
 ?>

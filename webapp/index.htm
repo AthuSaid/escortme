@@ -121,6 +121,11 @@
       </div>
     </div>
 
+
+    <div class="esc-ajax-loader"></div>
+    <div class="esc-ajax-curtain"></div>
+    
+
     <div class="esc-page">
 
     </div>
@@ -144,8 +149,8 @@
       };
       DebugData.fill();
 
-      //TODO: Fill Sidebar info (Picture, Name)
-      $.post("ws/sidebar-data.php", function(data){
+      //Fill Sidebar info (Picture, Name)
+      Ajax.background("ws/sidebar-data.php", {}, function(data){
         $(".esc-profile .esc-profile-pic img").prop("src", "ws/picture.php?type=thumbnail&picture_id=" + data.picture);
         $(".esc-menu-name").text(data.firstName);
       }, "json");

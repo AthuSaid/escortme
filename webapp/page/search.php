@@ -279,7 +279,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3498DB', end
     if(!validate(params))
       return;
 
-    $.post("ws/request-create.php", params, function(resp){
+    Ajax.post("ws/request-create.php", params, function(resp){
       goToOffers();
     });
   }

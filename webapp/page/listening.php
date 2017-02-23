@@ -363,7 +363,7 @@ if($user['listening']){
       var genderm = $(".esc-input-genderm").is(":checked");
       var genderf = $(".esc-input-genderf").is(":checked");
       var gendert = $(".esc-input-gendert").is(":checked");
-      $.post("ws/listening.php", {
+      Ajax.post("ws/listening.php", {
         listening: 1,
         curriculum: curriculum,
         minPrice: price,
@@ -377,7 +377,7 @@ if($user['listening']){
       $(".esc-requests-ct").hide();
       $(".esc-filter-ct").show();
 
-      $.post("ws/listening.php", {listening: 0});
+      Ajax.post("ws/listening.php", {listening: 0});
     },
     openRequest: function(usrId){
       window.location.hash = "#request?id=" + usrId;

@@ -226,7 +226,8 @@ window.Navigation = {
     switch (hash) {
       default:
         var site = hash.substring(1);
-        $(".esc-page").load("page/" + site + ".php" + params);
+        Ajax.load(".esc-page", "page/" + site + ".php" + params);
+        //$(".esc-page").load("page/" + site + ".php" + params);
         break;
     }
 
@@ -246,5 +247,41 @@ window.Timer = {
   },
   unset: function(){
     window.Timer.handler = null;
+  }
+};
+
+window.Ajax = {
+  background: function(url, data, success){
+    $.post(url, data, success);
+  },
+  post: function(url, data, success){
+    Ajax.showCurtain();
+    $.post(url, data).done(function(response){
+      Ajax.hideCurtain();
+      if(success !== undefined)
+        success(response);
+    });
+  },
+  get: function(url, data, success){
+    Ajax.showCurtain();
+    $.post(url, data, function(response){
+      Ajax.hideCurtain();
+      if(success !== undefined)
+        success(response);
+    }, "json");
+  },
+  load: function(container, url){
+    Ajax.showCurtain();
+    $(container).load(url, function(response){
+      Ajax.hideCurtain();
+    });
+  },
+  showCurtain: function(){
+    $(".esc-ajax-curtain").show();
+    $(".esc-ajax-loader").show();
+  },
+  hideCurtain: function(){
+    $(".esc-ajax-curtain").hide();
+    $(".esc-ajax-loader").hide();
   }
 };

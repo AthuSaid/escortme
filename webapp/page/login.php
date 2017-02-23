@@ -73,7 +73,7 @@
 
 
   function login(){
-    $.post("ws/login-daniel.php", function(data){
+    Ajax.post("ws/login-daniel.php", "", function(data){
       nextPage();
     });
 	}

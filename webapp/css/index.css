@@ -89,7 +89,7 @@ a{
 	font-size: 36px;
 	background-color: #E74C3C;
 	color: #ECF0F1;
-	z-index: 100;
+	z-index: 199;
 	padding-left: 0.5cm;
 	padding-right: 0.5cm;
 	height: 1.5cm;
@@ -329,6 +329,45 @@ a{
   	height: 0.8cm;
   	width: 0.8cm;
   }
+
+.esc-ajax-curtain{
+	display: none;
+	z-index: 2000;
+	background-color: #d8d8d8;
+  opacity: 0.2;
+	position: fixed;
+	top: 1.5cm;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+
+}
+
+.esc-ajax-loader {
+  z-index: 999999;
+  opacity: 1;
+  position: absolute;
+  right: 0.5cm;
+  bottom: 0.5cm;
+  display: none;
+  border: 0.3cm solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 0.3cm solid #3498db;
+  width: 1.5cm;
+  height: 1.5cm;
+  -webkit-animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 
 .esc-page{
 	position: absolute;
