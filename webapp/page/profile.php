@@ -40,7 +40,7 @@ $pics = $pictureService->getGallery($profil_id);
         <div>
           <label class="esc-profile-name"><?php echo $profile['firstName'] ?></label>
           <label class="esc-profile-age"><?php echo $profile['age'] ?> Jahre</label>
-          <label class="esc-profile-gender"><?php echo $profile['gender'] ?></label>
+          <label class="esc-profile-gender"><?php echo $profile['genderText'] ?></label>
         </div>
         <div>
           <label class="esc-profile-verified"><?php echo $profile['verifiedText'] ?></label>
@@ -57,7 +57,7 @@ $pics = $pictureService->getGallery($profil_id);
     <div class="esc-button esc-green">
       Chat starten
     </div>
-    <div class="esc-button esc-red">
+    <div class="esc-button esc-red" onclick="Offer.remove();">
       Ablehnen
     </div>
   </div>
@@ -78,11 +78,16 @@ $pics = $pictureService->getGallery($profil_id);
 
 
 
-<!-- Modal -->
-<div class="w3-modal esc-ctx-menu" onclick="ContextMenu.close();">
+<div class="w3-modal" onclick="Offer.promptNo();">
   <div class="w3-modal-content w3-animate-top">
-    <div class="esc-button" onclick="ContextMenu.profile();">Als Profilbild festlegen</div>
-    <div class="esc-button esc-red" onclick="ContextMenu.delete();">Löschen</div>
+    <div class="w3-modal-content-header">
+      Sind Sie sicher, dass Sie das Angebot von <?php echo $profile['firstName']; ?>
+      unwiederuflich löschen möchten?
+    </div>
+    <div>
+      <div class="esc-button" onclick="Offer.promptNo();">Abbrechen</div>
+      <div class="esc-button esc-red" onclick="Offer.promptYes();">Ja</div>
+    </div>
   </div>
 </div>
 
@@ -192,6 +197,29 @@ $pics = $pictureService->getGallery($profil_id);
     padding: 5px;
     border-radius: 5px;
   }
+
+  .w3-modal{
+    padding-top: 2cm;
+  }
+  .w3-modal-content{
+    padding: 5px;
+    border-radius: 5px;
+  }
+  .w3-modal-content-header {
+    margin-bottom: 15px;
+    margin-left: -5px;
+    margin-right: -5px;
+    margin-top: -5px;
+    font-family: Roboto-Regular;
+    color: #ECF0F1;
+    background: #2C3E50;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
 </style>
 
 <script type="text/javascript">
@@ -199,23 +227,6 @@ $pics = $pictureService->getGallery($profil_id);
   Topbar.setText("<?php echo $profile['firstName']; ?>");
 
   $(".esc-picture-ct").hide();
-
-  ContextMenu = {
-    selected: null,
-    open: function(){
-      $(".esc-ctx-menu").css("display",'block');
-    },
-    close: function(){
-      $(".esc-ctx-menu").css("display",'none');
-    },
-    profile: function(){
-      this.close();
-    },
-    delete: function(){
-      $(this.selected).remove();
-      this.close();
-    }
-  };
 
   Tabs = {
     galerie: function(){
@@ -231,6 +242,27 @@ $pics = $pictureService->getGallery($profil_id);
       $(".esc-tab-galerie").removeClass("esc-tab-selected");
       $(".esc-tab-profile").addClass("esc-tab-selected");
     }
-  }
+  };
+
+  Offer = {
+    id: '<?php echo $profile['id']; ?>',
+    remove: function(usrId){
+      $(".w3-modal").css("display", "block");
+    },
+    promptYes: function(){
+      $(".w3-modal").css("display", "none");
+
+      var usrId = this.id;
+      var data = {
+        user_id: usrId
+      };
+      Ajax.post("ws/offer-reject.php", data, function(response){
+        window.location.hash = "#offers";
+      });
+    },
+    promptNo: function(){
+      $(".w3-modal").css("display", "none");
+    }
+  };
 
 </script>

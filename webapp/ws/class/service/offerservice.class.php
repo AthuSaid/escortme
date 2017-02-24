@@ -40,4 +40,45 @@ class OfferService {
 
         return count($result) > 0 ? 1 : 0;
     }
+
+    /**
+     * Returns a List of the Profiles of the user
+     * which made an offer to the given request
+     * @param  [uuid] $reqId [Request]
+     * @return [array]        [List of Profiles]
+     */
+    public function getOffers($reqId){
+        $result = $this->db->select("esc_offer", "user_id", [
+            "req_id" => $reqId,
+            "accepted" => 0,
+            "rejected" => 0
+          ]);
+
+        $userService = new UserService($this->logger, $this->db);
+        $offers = array();
+        foreach ($result as $usrId) {
+            $profile = $userService->getProfile($usrId);
+            $offers[] = $profile;
+        }
+
+        return $offers;
+    }
+
+    public function accept($reqId, $userId){
+        $this->db->update("esc_offer", [
+            "accepted" => 1
+          ], [
+            "req_id" => $reqId,
+            "user_id" => $userId
+          ]);
+    }
+
+    public function reject($reqId, $userId){
+        $this->db->update("esc_offer", [
+            "rejected" => 1
+          ], [
+            "req_id" => $reqId,
+            "user_id" => $userId
+          ]);
+    }
 }

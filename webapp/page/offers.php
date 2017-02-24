@@ -8,8 +8,10 @@ $logger = LogFactory::logger('page.search');
 $db = DatabaseConnection::get();
 
 $rs = new RequestService($logger, $db);
+$offerService = new OfferService($logger, $db);
 
 $req = $rs->getActiveRequest($user['id']);
+$offers = $offerService->getOffers($req['id']);
 
 $goToSearch = "";
 if($req == null){
@@ -28,33 +30,23 @@ if($req == null){
 
 <div>
   <div class="esc-list-ct">
-    <div class="esc-list-item" data-msg-id="1" onclick="Listening.openProfile(1);">
-      <div>
-        <div class="esc-list-item-content">
-          <div class="esc-list-item-avatar">
-            <img src="data/profil-3.jpg" />
-          </div>
-          <div class="esc-list-item-title">Marina, 25</div>
-        </div>
-        <div class="esc-list-item-delete">
-          <img src="img/delete-grey.png" onclick="Offers.remove(1);" />
-        </div>
-      </div>
-    </div>
 
-    <div class="esc-list-item" data-msg-id="2" onclick="Offers.openProfile(2);">
+    <?php foreach ($offers as $ofr) { ?>
+      <div class="esc-list-item" data-usr-id="<?php echo $ofr['id']; ?>" onclick="Offers.openProfile('<?php echo $ofr['id']; ?>');">
         <div>
           <div class="esc-list-item-content">
             <div class="esc-list-item-avatar">
-              <img src="data/profil-1.jpg" />
+              <img src="ws/picture.php?type=thumbnail&picture_id=<?php echo $ofr['picture']; ?>" />
             </div>
-            <div class="esc-list-item-title">Lena, 22</div>
+            <div class="esc-list-item-title"><?php echo $ofr['firstName']; ?>, <?php echo $ofr['age']; ?></div>
           </div>
           <div class="esc-list-item-delete">
-            <img src="img/delete-grey.png" onclick="Offers.remove(2);" />
+            <img src="img/delete-grey.png" onclick="Offers.remove('<?php echo $ofr['id']; ?>');" />
           </div>
         </div>
-    </div>
+      </div>
+    <?php } ?>
+
   </div>
 </div>
 
@@ -215,14 +207,25 @@ if($req == null){
 
   Offers = {
     selected: null,
+    add: function(offer){
+
+    },
     remove: function(usrId){
       this.selected = usrId;
+      var name = $(".esc-list-item[data-usr-id=" + usrId + "] .esc-list-item-title").text();
+      $(".esc-propmt-name").text(name);
       $(".w3-modal").css("display", "block");
     },
     promptYes: function(){
-      $(".esc-list-item[data-msg-id=" + this.selected + "]").remove();
+      var profilId = this.selected;
+      $(".esc-list-item[data-usr-id=" + this.selected + "]").remove();
       $(".w3-modal").css("display", "none");
       this.selected = null;
+
+      var data = {
+        user_id: profilId
+      };
+      Ajax.background("ws/offer-reject.php", data);
     },
     promptNo: function(){
       $(".w3-modal").css("display", "none");

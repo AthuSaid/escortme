@@ -30,7 +30,7 @@ $profile['verifiedText'] = $profile['verified'] ? "Verifiziert" : "";
         <div>
           <label class="esc-profile-name"><?php echo $profile['firstName']; ?></label>
           <label class="esc-profile-age"><?php echo $profile['age']; ?> Jahre</label>
-          <label class="esc-profile-gender"><?php echo $profile['gender']; ?></label>
+          <label class="esc-profile-gender"><?php echo $profile['genderText']; ?></label>
         </div>
         <div>
           <label class="esc-profile-verified"><?php echo $profile['verifiedText']; ?></label>
