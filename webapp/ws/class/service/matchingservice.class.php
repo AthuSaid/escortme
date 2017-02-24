@@ -13,12 +13,14 @@ class MatchingService {
 		$this->db = $db;
 	}
 
+    /**
+     * Will be called, after a request was created to see
+     * which services of an active user will match on it
+     * @param  [object] $request [the new created request]
+     * @return [type]          [description]
+     */
 	public function matchServices($request){
-		return $this->db->select("esc_service", [
-			"[><]esc_user" => ["user_id"=>"id"]
-		],[
-			""
-		]);
+		//TODO: IMPLEMENT
 	}
 
 	public function matchRequests($service){
@@ -46,13 +48,20 @@ class MatchingService {
             //Age
             if($req['ageFrom'] <= $owner['age'] &&
                 $req['ageTo'] >= $owner['age']){
-                //TODO: IMPLEMENT TARGET AGE IN REQUEST
                 
-                //LevelSelf
-                if($req['level'] == "A" ||
-                    ($req['level'] == "P" && $owner['picture']) ||
-                    ($req['level'] == "V" && $owner['verified'])){
-                    $selfOk[] = $req;
+                //Gender
+                if($req['genderM'] && $owner['gender'] == "M" ||
+                    $req['genderF'] && $owner['gender'] == "F" ||
+                    $req['genderT'] && $owner['gender'] == "T"){
+                
+                    //LevelSelf
+                    if($req['level'] == "A" ||
+                        ($req['level'] == "P" && $owner['picture']) ||
+                        ($req['level'] == "V" && $owner['verified'])){
+
+                        //Passed the self-checks
+                        $selfOk[] = $req;
+                    }
                 }
 
             }
@@ -65,10 +74,13 @@ class MatchingService {
             if($service['genderM'] && $req['user']['gender'] == "M" ||
                 $service['genderF'] && $req['user']['gender'] == "F" ||
                 $service['genderT'] && $req['user']['gender'] == "T"){
+                
                 //Level
                 if($service['level'] == "A" ||
                     ($service['level'] == "P" && $req['user']['picture']) ||
                     ($service['level'] == "V" && $req['user']['verified'])){
+
+                    //Passed the target-checks
                     $result[] = $req;
                 }
             }

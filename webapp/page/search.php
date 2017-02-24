@@ -27,6 +27,9 @@ $maxprice = 0.0;
 $levelA = " selected";
 $levelP = "";
 $levelV = "";
+$genderM = $user['gender'] == "F" ? " checked" : "";
+$genderF = $user['gender'] == "M" ? " checked" : "";
+$genderT = $user['gender'] == "T" ? " checked" : "";
 
 $lr = $rs->getLatestRequest($user['id']); //print_r($lr);
 if($lr != null){
@@ -40,6 +43,9 @@ if($lr != null){
   $levelA = $lr['level'] == "A" ? " selected" : "";
   $levelP = $lr['level'] == "P" ? " selected" : "";
   $levelV = $lr['level'] == "V" ? " selected" : "";
+  $genderM = $lr['genderM'] ? " checked" : "";
+  $genderF = $lr['genderF'] ? " checked" : "";
+  $genderT = $lr['genderT'] ? " checked" : "";
 }
 
 
@@ -74,6 +80,24 @@ if($lr != null){
       <option value="P" <?php echo $levelP; ?>>Nur mit Profilbild</option>
       <option value="V" <?php echo $levelV; ?>>Nur verifizierte User</option>
     </select>
+  </div>
+
+  <div>
+    <label>Interessiert an:</label>
+    <div class="esc-gender-ct">
+      <div>
+        <input type="checkbox" class="esc-input-genderm" <?php echo $genderM; ?> />
+        <label>Männer</label>
+      </div>
+      <div>
+        <input type="checkbox" class="esc-input-genderf" <?php echo $genderF; ?> />
+        <label>Frauen</label>
+      </div>
+      <div>
+        <input type="checkbox" class="esc-input-gendert" <?php echo $genderT; ?> />
+        <label>Transexuellen</label>
+      </div>
+    </div>
   </div>
 
   <div class="esc-max-preis">
@@ -147,6 +171,30 @@ if($lr != null){
   }
   .esc-max-preis label{
     width: 3cm;
+  }
+
+  .esc-gender-ct{
+    margin-top: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .esc-gender-ct > div{
+    margin-top: 5px;
+    min-width: 140px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .esc-gender-ct > div:last-of-type{
+    min-width: 0px;
+  }
+  .esc-gender-ct input {
+    height: 20px;
+    width: 20px;
+    margin-right: 3px;
   }
 
 
@@ -279,6 +327,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3498DB', end
     var maxprice = $(".esc-input-maxprice").val();
     var description = $(".esc-input-description").val();
     var duration = $(".esc-input-duration").val();
+    var genderm = $(".esc-input-genderm").is(":checked");
+    var genderf = $(".esc-input-genderf").is(":checked");
+    var gendert = $(".esc-input-gendert").is(":checked");
 
     var params = {
       targetTime: datum + " " + time + ":00",
@@ -287,7 +338,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3498DB', end
       level: level,
       maxPrice: maxprice,
       description: description,
-      duration: duration
+      duration: duration,
+      genderM: genderm,
+      genderF: genderf,
+      genderT: gendert
     };
 
     if(!validate(params))

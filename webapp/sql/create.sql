@@ -88,6 +88,9 @@ CREATE TABLE IF NOT EXISTS esc_request (
   ageFrom INTEGER CHECK(ageFrom >= 18),
   ageTo INTEGER,
   level ENUM ('A', 'P', 'V'), /* Alle, Profilbild, Verifiziert */
+  genderM BOOLEAN DEFAULT FALSE,
+  genderF BOOLEAN DEFAULT FALSE,
+  genderT BOOLEAN DEFAULT FALSE,
   maxPrice DECIMAL(7,2),
   expires TIMESTAMP NOT NULL,
   description VARCHAR(512),

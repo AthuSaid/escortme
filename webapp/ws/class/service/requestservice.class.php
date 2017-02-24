@@ -83,6 +83,9 @@ class RequestService {
         $request['level'] = $http['level'];
         $request['expires'] = $this->clacExpireTime($http['duration']);
         $request['description'] = $http['description'];
+        $request['genderM'] = $http['genderM'] == "true" ? 1 : 0;
+        $request['genderF'] = $http['genderF'] == "true" ? 1 : 0;
+        $request['genderT'] = $http['genderT'] == "true" ? 1 : 0;
         return $request;
     }
 
