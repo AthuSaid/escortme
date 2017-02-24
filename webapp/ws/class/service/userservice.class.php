@@ -82,6 +82,34 @@ class UserService {
           ]);
     }
 
+    /**
+     * Only use for the login. If successfull the user id
+     * will be returned, else null
+     * @param  [type] $email [description]
+     * @param  [type] $pw    [description]
+     * @return [type]        [description]
+     */
+    public function getUser($email, $pw){
+        $id = $this->db->get("esc_user", "id", [ "email" => $email]);
+
+        if(!$id)
+            return null;
+
+        $result = $this->db->select("esc_user_pw", "value", [
+            "user_id" => $id,
+            "ORDER" => ["created" => "DESC"],
+            "LIMIT" => 1
+          ]);
+
+        if(count($result) > 0){
+            $value = $result[0];
+            if($value == $pw)
+                return $id;
+        }
+
+        return null;
+    }
+
 }
 
 ?>

@@ -270,6 +270,27 @@ window.Snackbar = {
   }
 };
 
+window.DataStore = {
+  email: function(val){
+    return DataStore.process("esc_user_email", val);
+  },
+  password: function(val){
+    return DataStore.process("esc_user_pw", val);
+  },
+  autoLogin: function(val){
+    return DataStore.process("esc_user_autologin", val);
+  },
+  process: function(id, val){
+    if(val === undefined){
+      var result = localStorage.getItem(id);
+      if(result !== undefined)
+        return result;
+      return null;
+    }
+    localStorage.setItem(id, val);
+  }
+};
+
 window.Ajax = {
   background: function(url, data, success){
     $.post(url, data, success);

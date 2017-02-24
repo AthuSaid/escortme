@@ -10,8 +10,8 @@
     </div>
     oder
     <form>
-    	<input type="email" class="w3-input" class="esc-input-email" placeholder="Email" />
-    	<input type="password" class="w3-input" class="esc-input-pw" placeholder="Passwort" />
+    	<input type="email" class="w3-input esc-input-email" placeholder="Email" />
+    	<input type="password" class="w3-input esc-input-pw" placeholder="Passwort" />
     	<div class="esc-button" onclick="login();">Login</div>
     </form>
   </div>
@@ -71,23 +71,48 @@
 <script type="text/javascript">
 	Topbar.hide();
 
+  function loadData(){
+    var email = DataStore.email();
+    var pw = DataStore.password();
+    $(".esc-input-email").val(email);
+    $(".esc-input-pw").val(pw);
+    if(DataStore.autoLogin() == 1)
+      login();
+  }
 
   function login(){
-    Ajax.post("ws/login-daniel.php", "", function(data){
-      nextPage();
+    var mail = $(".esc-input-email").val();
+    var pass = $(".esc-input-pw").val();
+
+    var data = {
+      email: mail,
+      pw: pass
+    };
+
+    Ajax.get("ws/login.php", data, function(response){
+      if(response.success == 1){
+        DataStore.email(mail);
+        DataStore.password(pass);
+        DataStore.autoLogin(1);
+        nextPage();
+      }
+      else
+        Snackbar.show("Falsche Daten");
     });
 	}
 
 	function loginFB(){
-    nextPage();
+    Snackbar.show("Not available ...");
 	}
 
 	function loginGP(){
-		nextPage();
+		Snackbar.show("Not available ...");
 	}
 
   function nextPage(){
     window.location.hash = "#home";
   }
+
+  loadData();
 
 </script>
