@@ -5,10 +5,19 @@
 */
 class SessionManager{
 	
+  public static function sendLoginScript(){
+    echo "<script type='text/javascript'>
+              window.location.hash = '#login';
+          </script>";
+    die();
+  }
+
 	public static function user(){
 
-    if(!isset($_SESSION['esc-user-id']))
+    if(!isset($_SESSION['esc-user-id'])){
+      SessionManager::sendLoginScript();
       return null;
+    }
 
     $db = DatabaseConnection::get();
     $id = $_SESSION['esc-user-id'];
