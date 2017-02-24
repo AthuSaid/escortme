@@ -54,7 +54,7 @@ $pics = $pictureService->getGallery($profil_id);
   </div>
 
   <div>
-    <div class="esc-button esc-green">
+    <div class="esc-button esc-green" onclick="Offer.accept();">
       Chat starten
     </div>
     <div class="esc-button esc-red" onclick="Offer.remove();">
@@ -262,6 +262,15 @@ $pics = $pictureService->getGallery($profil_id);
     },
     promptNo: function(){
       $(".w3-modal").css("display", "none");
+    },
+    accept: function(){
+      var usrId = this.id;
+      var data = {
+        user_id: usrId
+      };
+      Ajax.post("ws/offer-accept.php", data, function(response){
+        window.location.hash = "#chat?id=" + response.id;
+      });
     }
   };
 

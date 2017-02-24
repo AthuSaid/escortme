@@ -80,3 +80,4 @@ Stack trace:
 #3 {main} {"listening":"1","curriculum":"","minPrice":"","level":"A","genderM":"false","genderF":"false","genderT":"false"} []
 [2017-02-24 00:26:58] ws.listening.INFO: User is not anymore active listening [] []
 [2017-02-24 00:27:04] ws.listening.INFO: User is now active listening [] []
+[2017-02-24 02:43:13] ws.listening.INFO: User is not anymore active listening [] []

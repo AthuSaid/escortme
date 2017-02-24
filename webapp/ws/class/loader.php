@@ -21,6 +21,7 @@ function classloader($pathToRoot){
   require $pathToRoot.'ws/class/service/userservice.class.php';
   require $pathToRoot.'ws/class/service/pictureservice.class.php';
   require $pathToRoot.'ws/class/service/offerservice.class.php';
+  require $pathToRoot.'ws/class/service/chatservice.class.php';
 }
 
 ?>
