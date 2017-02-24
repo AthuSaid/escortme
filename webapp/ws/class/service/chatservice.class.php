@@ -50,6 +50,24 @@ class ChatService {
         return $chats;
     }
 
+    public function getChatPartner($chatId, $usrId){
+        $chat = $this->db->get("esc_chat", [
+            "user1_id",
+            "user2_id"
+          ], [
+            "id" => $chatId
+          ]);
+        if(!$chat)
+            return null;
+
+        $profilId = $chat['user1_id'];
+        if($profilId == $usrId)
+            $profilId = $chat['user2_id'];
+
+        $userSerice = new UserService($this->logger, $this->db);
+        return $userSerice->getProfile($profilId);
+    }
+
     public function getLastMessage($chat){
         $lastMsg = $this->db->get("esc_chat_msg", [
             "id",
@@ -69,12 +87,36 @@ class ChatService {
         return $lastMsg;
     }
 
-    public function getMessages($chatId){
+    public function getMessages($chatId, $usrId){
+        $msgs = $this->db->select("esc_chat_msg", [
+            "id",
+            "sender_id",
+            "content",
+            "created"
+          ], [
+            "chat_id" => $chatId,
+            "ORDER" => [ "created" => "ASC"]
+          ]);
 
+        $result = array();
+        foreach ($msgs as $msg) {
+            $msg['isSender'] = $msg['sender_id'] == $usrId ? 1 : 0;
+            $result[] = $msg;
+        }
+
+        return $result;
     }
 
-    public function insertMessage($chatId, $msg){
+    public function insertMessage($chatId, $senderId, $msg){
+        $msgId = Uuid::next();
+        $this->db->insert("esc_chat_msg", [
+            "id" => $msgId,
+            "chat_id" => $chatId,
+            "sender_id" => $senderId,
+            "content" => $msg
+          ]);
 
+        return $msgId;
     }
 
     public function delete($chatId){

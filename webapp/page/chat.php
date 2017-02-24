@@ -1,100 +1,44 @@
+<?php
+
+require '../ws/class/loader.php';
+classloader("../");
+
+$user = SessionManager::user();
+$logger = LogFactory::logger('page.messages');
+$db = DatabaseConnection::get();
+
+$chatService = new ChatService($logger, $db);
+
+$chatId = $_REQUEST['id'];
+
+$profile = $chatService->getChatPartner($chatId, $user['id']);
+$msgs = $chatService->getMessages($chatId, $user['id']);
+
+?>
+
 <div class="esc-msg-ct">
 
-  <div class="esc-msg-right">
+  <?php
+  foreach ($msgs as $msg) {
+    $msgClass = "esc-msg-left";
+    if($msg['isSender'])
+      $msgClass = "esc-msg-right";
+    $picture = $profile['picture'];
+    if($msg['isSender'])
+      $picture = $user['picture'];
+    $onClick = " onClick=\"openProfile('".$profile['id']."');\"";
+  ?>
+  <div class="<?php echo $msgClass; ?>">
     <div class="esc-msg">
-      <div class="esc-msg-avatar">
-        <img src="data/profil-3.jpg" />
+      <div class="esc-msg-avatar" <?php echo $onClick; ?>>
+        <img src="ws/picture.php?type=thumbnail&picture_id=<?php echo $picture; ?>" />
       </div>
       <div class="esc-msg-content">
-        Hallo Hübsche, bist du heute zu haben?
+        <?php echo $msg['content']; ?>
       </div>
     </div>
   </div>
-
-  <div class="esc-msg-left">
-    <div class="esc-msg">
-      <div class="esc-msg-avatar">
-        <img src="data/profil-4.jpg" />
-      </div>
-      <div class="esc-msg-content">
-        Hallo du ;)<br />
-        Was hättest du denn gerne?
-      </div>
-    </div>
-  </div>
-
-  <div class="esc-msg-right">
-    <div class="esc-msg">
-      <div class="esc-msg-avatar">
-        <img src="data/profil-3.jpg" />
-      </div>
-      <div class="esc-msg-content">
-        Ich hab ab 8 Uhr Zeit und bin leider ganz alleine heut :(
-        Ich bräucht mal wieder nen Blowjob!
-      </div>
-    </div>
-  </div>
-
-  <div class="esc-msg-left">
-    <div class="esc-msg">
-      <div class="esc-msg-avatar">
-        <img src="data/profil-4.jpg" />
-      </div>
-      <div class="esc-msg-content">
-        Ich kann ab 9 Uhr. Am liebsten wärs mir, wenn du zu mir kommst.
-        Bezahlung ist bei mir immer Bar! Ich hab Kondome da wenn du
-        ficken willst. Das kannst du dann ja noch spontan schauen ;)
-      </div>
-    </div>
-  </div>
-
-  <div class="esc-msg-right">
-    <div class="esc-msg">
-      <div class="esc-msg-avatar">
-        <img src="data/profil-3.jpg" />
-      </div>
-      <div class="esc-msg-content">
-        Hallo Hübsche, bist du heute zu haben?
-      </div>
-    </div>
-  </div>
-
-  <div class="esc-msg-left">
-    <div class="esc-msg">
-      <div class="esc-msg-avatar">
-        <img src="data/profil-4.jpg" />
-      </div>
-      <div class="esc-msg-content">
-        Hallo du ;)<br />
-        Was hättest du denn gerne?
-      </div>
-    </div>
-  </div>
-
-  <div class="esc-msg-right">
-    <div class="esc-msg">
-      <div class="esc-msg-avatar">
-        <img src="data/profil-3.jpg" />
-      </div>
-      <div class="esc-msg-content">
-        Ich hab ab 8 Uhr Zeit und bin leider ganz alleine heut :(
-        Ich bräucht mal wieder nen Blowjob!
-      </div>
-    </div>
-  </div>
-
-  <div class="esc-msg-left">
-    <div class="esc-msg">
-      <div class="esc-msg-avatar">
-        <img src="data/profil-4.jpg" />
-      </div>
-      <div class="esc-msg-content">
-        Ich kann ab 9 Uhr. Am liebsten wärs mir, wenn du zu mir kommst.
-        Bezahlung ist bei mir immer Bar! Ich hab Kondome da wenn du
-        ficken willst. Das kannst du dann ja noch spontan schauen ;)
-      </div>
-    </div>
-  </div>
+  <?php } ?>
 
 </div>
 
@@ -104,7 +48,7 @@
   </div>
   <div class="esc-input-send">
     <div class="esc-input-send-btn">
-      <img src="img/send.png" />
+      <img src="img/send.png" onclick="sendMsg();" />
     </div>
   </div>
 </div>
@@ -200,5 +144,39 @@
 
 <script type="text/javascript">
   Topbar.show();
-  Topbar.setText("Marina");
+  Topbar.setText("<?php echo $profile['firstName']; ?>");
+
+  var myPicture = "<?php echo $user['picture']; ?>";
+
+  function openProfile(profileId) {
+    window.location.hash = "#profile?userid=" + profileId;
+  }
+
+  function sendMsg(){
+    var chatId = Navigation.getUrlParams()["id"];
+    var content = $(".esc-input-msg textarea").val();
+    if(content.length == 0)
+      return;
+
+    //Send
+    var data = {
+      chat_id: chatId,
+      msg: content
+    };
+    Ajax.background("ws/chat-msg-create.php", data);
+
+    //Insert Msg into msg-ct
+    $(".esc-input-msg textarea").val("");
+    var node = "<div class='esc-msg-right'>\
+                  <div class='esc-msg'>\
+                    <div class='esc-msg-avatar'>\
+                      <img src='ws/picture.php?type=thumbnail&picture_id=" + myPicture + "' />\
+                    </div>\
+                    <div class='esc-msg-content'>" + content + "</div>\
+                  </div>\
+                </div>";
+    $(".esc-msg-ct").append(node);
+
+  }
+
 </script>
