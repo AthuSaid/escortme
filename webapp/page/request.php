@@ -9,6 +9,7 @@ $db = DatabaseConnection::get();
 
 $userService = new UserService($logger, $db);
 $requestService = new RequestService($logger, $db);
+$offerService = new OfferService($logger, $db);
 
 $reqId = $_REQUEST['id'];
 
@@ -38,7 +39,7 @@ $profile['verifiedText'] = $profile['verified'] ? "Verifiziert" : "";
     </div>
 
     <div class="esc-request-details">
-      <label class="esc-request-day"><?php echo $req['targetTime']['date']->format("d.m.Y"); ?></label>
+      <label class="esc-request-day"><?php echo $req['targetTime']['date']; ?></label>
       <label class="esc-request-time"><?php echo $req['targetTime']['time']; ?></label>
     </div>
 
@@ -48,9 +49,11 @@ $profile['verifiedText'] = $profile['verified'] ? "Verifiziert" : "";
 
   </div>
 
-  <div class="esc-button esc-green">
+  <?php if(!$offerService->exists($req['id'], $user['id'])){ ?>
+  <div class="esc-button esc-button-offer esc-green" onclick="Offer.make('<?php echo $req['id']; ?>');">
     Angebot senden
   </div>
+  <?php } ?>
 
 </div>
 
@@ -127,5 +130,16 @@ $profile['verifiedText'] = $profile['verified'] ? "Verifiziert" : "";
 	Topbar.show();
   Topbar.setText("<?php echo $profile['firstName']; ?>");
 
+  Offer = {
+    make: function(reqId){
+      var data = {
+        req_id: reqId
+      };
+      Ajax.post("ws/offer-create.php", data, function(response){
+        $(".esc-button-offer").hide();
+        Snackbar.show("Angebot gesendet");
+      });
+    }
+  };
 
 </script>

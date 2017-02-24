@@ -41,7 +41,7 @@ $req = $requestService->getActiveRequest($user['id']);
       </div>
 
       <div class="esc-request-details">
-        <label class="esc-request-day"><?php echo $req['targetTime']['date']->format("d.m.Y"); ?></label>
+        <label class="esc-request-day"><?php echo $req['targetTime']['date']; ?></label>
         <label class="esc-request-time"><?php echo $req['targetTime']['time']; ?></label>
       </div>
 

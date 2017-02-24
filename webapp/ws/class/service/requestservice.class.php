@@ -104,6 +104,7 @@ class RequestService {
     public function splitTargetTime($fullDate){
         $parts = explode(" ", $fullDate);
         $date = DateTime::createFromFormat('Y-m-d H:i:s', $parts[0]." 00:00:00");
+        $date = DateTimeFormater::formatDate($date);
         $time = explode(":", $parts[1]);
         $time = $time[0].":".$time[1];
         return array('date' => $date, 'time' => $time);
