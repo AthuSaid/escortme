@@ -75,7 +75,8 @@ class ChatService {
             "content",
             "created"
           ], [
-            "chat_id" => $chat['id']
+            "chat_id" => $chat['id'],
+            "ORDER" => ["created" => "DESC"]
           ]);
 
         if(!$lastMsg)
