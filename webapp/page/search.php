@@ -18,14 +18,28 @@ if($request != null){
 
 
 //Fill the formular with the latest data
-$datum = "";
-$time = "";
-$agefrom = "";
-$ageto = "";
+$today = date('Y-m-d');
+$time = "20:00";
+$agefrom = "20";
+$ageto = "40";
 $description = "";
-$lr = $rs->getLatestRequest($user['id']);
+$maxprice = 0.0;
+$levelA = " selected";
+$levelP = "";
+$levelV = "";
+
+$lr = $rs->getLatestRequest($user['id']); //print_r($lr);
 if($lr != null){
-  //TODO: IMPLEMENT
+  $targetTime = explode(" ", $lr['targetTime']);
+  $timeParts = explode(":", $targetTime[1]);
+  $time = $timeParts[0].":".$timeParts[1];
+  $agefrom = $lr['ageFrom'];
+  $ageto = $lr['ageTo'];
+  $description = $lr['description'];
+  $maxprice = $lr['maxPrice'];
+  $levelA = $lr['level'] == "A" ? " selected" : "";
+  $levelP = $lr['level'] == "P" ? " selected" : "";
+  $levelV = $lr['level'] == "V" ? " selected" : "";
 }
 
 
@@ -37,10 +51,10 @@ if($lr != null){
     <label>Datum + Uhrzeit:</label>
     <div class="esc-date-time-ct">
       <div>
-        <input type="date" class="w3-input esc-input-date" />
+        <input type="date" class="w3-input esc-input-date" value="<?php echo $today; ?>" />
       </div>
       <div>
-        <input type="time" class="w3-input esc-input-time" />
+        <input type="time" class="w3-input esc-input-time" value="<?php echo $time; ?>" />
       </div>
     </div>
   </div>
@@ -48,28 +62,28 @@ if($lr != null){
   <div>
     <label>Altersbereich:</label>
     <div class="esc-age-range-ct">
-      <input type="number" min="18" value="20" class="w3-input esc-input-agefrom" />
+      <input type="number" min="18" value="<?php echo $agefrom; ?>" class="w3-input esc-input-agefrom" />
       <label> bis </label> 
-      <input type="number" max="80" value="40" class="w3-input esc-input-ageto" />
+      <input type="number" max="80" value="<?php echo $ageto; ?>" class="w3-input esc-input-ageto" />
     </div>
   </div>
 
   <div>
     <select class="w3-select esc-input-level">
-      <option value="A">Alle</option>
-      <option value="P">Nur mit Profilbild</option>
-      <option value="V">Nur verifizierte User</option>
+      <option value="A" <?php echo $levelA; ?>>Alle</option>
+      <option value="P" <?php echo $levelP; ?>>Nur mit Profilbild</option>
+      <option value="V" <?php echo $levelV; ?>>Nur verifizierte User</option>
     </select>
   </div>
 
   <div class="esc-max-preis">
     <label>Max. Preis: </label>
-    <input type="number" class="w3-input esc-input-maxprice" />
+    <input type="number" class="w3-input esc-input-maxprice" value="<?php echo $maxprice; ?>" />
   </div>
 
   <div class="esc-text-ct">
     <label>Was ich suche:</label>
-    <textarea class="w3-input  esc-input-description"></textarea>
+    <textarea class="w3-input  esc-input-description"><?php echo $description; ?></textarea>
   </div>
 
   <div>

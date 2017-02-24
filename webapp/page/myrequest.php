@@ -32,7 +32,7 @@ $req = $requestService->getActiveRequest($user['id']);
           <div>
             <label class="esc-profile-name"><?php echo $user['firstName']; ?></label>
             <label class="esc-profile-age"><?php echo $user['age']; ?> Jahre</label>
-            <label class="esc-profile-gender"><?php echo $user['gender']; ?></label>
+            <label class="esc-profile-gender"><?php echo $user['genderText']; ?></label>
           </div>
           <div>
             <label class="esc-profile-verified"><?php echo $user['verifiedText']; ?></label>

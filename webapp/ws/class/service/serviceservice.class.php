@@ -29,13 +29,15 @@ class ServiceService{
     }
 
     public function compare($one, $two){
+        //$this->logger->info("ServiceService::compare", [$one, $two]);
         return $one["user_id"] == $two["user_id"] &&
             $one["curriculum"] == $two["curriculum"] &&
-            $one["minPrice"] == $two["minPrice"] &&
+            floatval($one["minPrice"]) == floatval($two["minPrice"]) &&
             $one["level"] == $two["level"] &&
             $one["genderM"] == $two["genderM"] &&
             $one["genderF"] == $two["genderF"] &&
             $one["genderT"] == $two["genderT"];
+            
     }
 
     public function validate($service){

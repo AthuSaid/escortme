@@ -4,10 +4,35 @@ require '../ws/class/loader.php';
 classloader("../");
 
 $user = SessionManager::user();
+$logger = LogFactory::logger('page.listening');
+$db = DatabaseConnection::get();
 
 $checked = "";
 if($user['listening']){
   $checked = "checked";
+}
+
+$serviceService = new ServiceService($logger, $db);
+$ls = $serviceService->getLatestService($user['id']);
+
+$curriculum = "";
+$minprice = null;
+$levelA = " checked";
+$levelP = "";
+$levelV = "";
+$genderM = $user['gender'] == "F" ? " checked" : "";
+$genderF = $user['gender'] == "M" ? " checked" : "";
+$genderT = $user['gender'] == "T" ? " checked" : "";
+
+if($ls != null){
+  $curriculum = $ls['curriculum'];
+  $minprice = $ls['minPrice'];
+  $levelA = $ls['level'] == "A" ? " checked" : "";
+  $levelP = $ls['level'] == "P" ? " checked" : "";
+  $levelV = $ls['level'] == "V" ? " checked" : "";
+  $genderM = $ls['genderM'] ? " checked" : "";
+  $genderF = $ls['genderF'] ? " checked" : "";
+  $genderT = $ls['genderT'] ? " checked" : "";
 }
 
 ?>
@@ -32,12 +57,12 @@ if($user['listening']){
 
   <div>
     <label>Beschreibe was du bietest:</label>
-    <textarea rows="3" class="w3-input esc-input-curriculum"></textarea>
+    <textarea rows="3" class="w3-input esc-input-curriculum"><?php echo $curriculum; ?></textarea>
   </div>
 
   <div class="esc-min-preis">
     <label>Min. Preis:</label>
-    <input type="number" class="w3-input esc-input-minprice" />
+    <input type="number" class="w3-input esc-input-minprice" value="<?php echo $minprice; ?>" />
   </div>
 
   <div class="esc-interesst-ct">
@@ -45,29 +70,29 @@ if($user['listening']){
     <div>
       <div>
         <div>
-          <input type="checkbox" class="esc-input-genderm" />
+          <input type="checkbox" class="esc-input-genderm" <?php echo $genderM; ?> />
           <label>Männer</label>
         </div>
         <div>
-          <input type="checkbox" class="esc-input-genderf" />
+          <input type="checkbox" class="esc-input-genderf" <?php echo $genderF; ?> />
           <label>Frauen</label>
         </div>
         <div>
-          <input type="checkbox" class="esc-input-gendert" />
+          <input type="checkbox" class="esc-input-gendert" <?php echo $genderT; ?> />
           <label>Transexuellen</label>
         </div>
       </div>
       <div>
         <div>
-          <input type="radio" name="esc-input-level" value="A" class="esc-input-level-a" checked />
+          <input type="radio" name="esc-input-level" value="A" class="esc-input-level-a" <?php echo $levelA; ?> />
           <label>Alle</label>
         </div>
         <div>
-          <input type="radio" name="esc-input-level" value="P" class="esc-input-level-p" />
+          <input type="radio" name="esc-input-level" value="P" class="esc-input-level-p" <?php echo $levelP; ?> />
           <label>Nur mit Profilbild</label>
         </div>
         <div>
-          <input type="radio" name="esc-input-level" value="V" class="esc-input-level-v" />
+          <input type="radio" name="esc-input-level" value="V" class="esc-input-level-v" <?php echo $levelV; ?> />
           <label>Nur verifizerite User</label>
         </div>
       </div>
@@ -342,7 +367,6 @@ if($user['listening']){
   Requests = {
     load: function(){
       Ajax.get("ws/listening-requests.php", undefined, function(response){
-        console.log(response);
         response.forEach(Requests.add);
       });
     },

@@ -22,6 +22,7 @@ class ListeningService{
         $ss = new ServiceService($this->logger, $this->db);
         $latest = $ss->getLatestService($this->user["id"]);
         $current = $ss->fromHttp($httpRequest, $this->user["id"]);
+
         if($latest == null || !$ss->compare($latest, $current)){
             $ss->create($current);
         }
