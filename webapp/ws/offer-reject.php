@@ -5,7 +5,7 @@ require 'class/loader.php';
 classloader("../");
 
 $user = SessionManager::user();
-$logger = LogFactory::logger('page.search');
+$logger = LogFactory::logger('ws.offer.reject');
 $db = DatabaseConnection::get();
 
 $os = new OfferService($logger, $db);

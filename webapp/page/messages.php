@@ -1,72 +1,58 @@
+<?php
+
+require '../ws/class/loader.php';
+classloader("../");
+
+$user = SessionManager::user();
+$logger = LogFactory::logger('page.messages');
+$db = DatabaseConnection::get();
+
+$chatService = new ChatService($logger, $db);
+
+$chats = $chatService->getChats($user['id']);
+
+?>
+
 <div class="esc-list-ct">
-  <div class="esc-list-item" data-msg-id="1" onclick="MessageList.openChat(1);">
-    <div>
-      <div class="esc-list-item-content">
-        <div class="esc-list-item-avatar">
-          <img src="data/avatar-1.png" />
-        </div>
-        <div>
-          <div class="esc-list-item-title">Birgit, 36</div>
-          <div class="esc-list-item-text">
-            Hallo du geiler Hengst, hast du lust dass ich dich reite und schön in mir abspritzt?
+
+  <?php
+  foreach ($chats as $chat) {
+    $lastMsg = "Noch keine Nachrichten";
+    if($chat['lastMsg'])
+      $lastMsg = $chat['lastMsg']['sender'].": ".$chat['lastMsg']['content'];
+  ?>
+    <div class="esc-list-item" data-cht-id="<?php echo $chat['id']; ?>" onclick="ChatList.open('<?php echo $chat['id']; ?>');">
+      <div>
+        <div class="esc-list-item-content">
+          <div class="esc-list-item-avatar">
+            <img src="ws/picture.php?type=thumbnail&picture_id=<?php echo $chat['profile']['picture']; ?>" />
+          </div>
+          <div>
+            <div class="esc-list-item-title"><?php echo $chat['profile']['firstName']; ?>, <?php echo $chat['profile']['age']; ?></div>
+            <div class="esc-list-item-text">
+              <?php echo $lastMsg ?>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="esc-list-item-delete">
-        <img src="img/delete-grey.png" onclick="MessageList.remove(1);" />
+        <div class="esc-list-item-delete">
+          <img src="img/delete-grey.png" onclick="ChatList.remove('<?php echo $chat['id']; ?>');" />
+        </div>
       </div>
     </div>
-  </div>
+  <?php } ?>
 
-  <div class="esc-list-item" data-msg-id="2" onclick="MessageList.openChat(2);">
-      <div>
-        <div class="esc-list-item-content">
-          <div class="esc-list-item-avatar">
-            <img src="data/avatar-1.png" />
-          </div>
-          <div>
-            <div class="esc-list-item-title">No Name, 18</div>
-            <div class="esc-list-item-text">
-              Hallo du geiler Hengst, hast du lust dass ich dich reite und schön in mir abspritzt?
-            </div>
-          </div>
-        </div>
-        <div class="esc-list-item-delete">
-          <img src="img/delete-grey.png" onclick="MessageList.remove(2);" />
-        </div>
-      </div>
-  </div>
-
-  <div class="esc-list-item" data-msg-id="3" onclick="MessageList.openChat(3);">
-      <div>
-        <div class="esc-list-item-content">
-          <div class="esc-list-item-avatar">
-            <img src="data/avatar-1.png" />
-          </div>
-          <div>
-            <div class="esc-list-item-title">Marina, 25</div>
-            <div class="esc-list-item-text">
-              Hallo du geiler Hengst, hast du lust dass ich dich reite und schön in mir abspritzt?
-            </div>
-          </div>
-        </div>
-        <div class="esc-list-item-delete">
-          <img src="img/delete-grey.png" onclick="MessageList.remove(3);" />
-        </div>
-      </div>
-  </div>
 </div>
 
 
-<div class="w3-modal" onclick="MessageList.promptNo();">
+<div class="w3-modal" onclick="ChatList.promptNo();">
   <div class="w3-modal-content w3-animate-top">
     <div class="w3-modal-content-header">
       Sind Sie sicher, dass Sie den Chatverlauf mit <span class="esc-propmt-name">Name</span>
       unwiederuflich löschen möchten?
     </div>
     <div>
-      <div class="esc-button" onclick="MessageList.promptNo();">Abbrechen</div>
-      <div class="esc-button esc-red" onclick="MessageList.promptYes();">Ja</div>
+      <div class="esc-button" onclick="ChatList.promptNo();">Abbrechen</div>
+      <div class="esc-button esc-red" onclick="ChatList.promptYes();">Ja</div>
     </div>
   </div>
 </div>
@@ -155,27 +141,35 @@
   Topbar.show();
   Topbar.setText("Nachrichten");
 
-  MessageList = {
+  ChatList = {
     selected: null,
-    add: function(msg){
+    add: function(chat){
 
     },
-    remove: function(msgId){
-      this.selected = msgId;
+    remove: function(chatId){
+      this.selected = chatId;
+      var name = $(".esc-list-item[data-cht-id=" + chatId + "] .esc-list-item-title").text();
+      $(".esc-propmt-name").text(name);
       $(".w3-modal").css("display", "block");
     },
     promptYes: function(){
-      $(".esc-list-item[data-msg-id=" + this.selected + "]").remove();
+      $(".esc-list-item[data-cht-id=" + this.selected + "]").remove();
       $(".w3-modal").css("display", "none");
       this.selected = null;
+      
+      var chtId = this.selected;
+      var data = {
+        chat_id: chtId
+      };
+      Ajax.background("ws/chat-delete.php", data);
     },
     promptNo: function(){
       $(".w3-modal").css("display", "none");
       this.selected = null;
     },
-    openChat: function(msgId){
+    open: function(chatId){
       if(this.selected == null)
-        window.location.hash = "#chat?msgid=" + msgId;
+        window.location.hash = "#chat?id=" + chatId;
     }
   };
 
