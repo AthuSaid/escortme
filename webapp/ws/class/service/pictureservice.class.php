@@ -52,7 +52,7 @@ class PictureService{
 
         //Check for error while uploading
         if($httpFile[self::FILE_VAR]['error'] > 0){
-            throw new Exception($httpFile[self::FILE_VAR]['error']);
+            throw new Exception("Fehler beim Upload");
         }
 
         //Get Data

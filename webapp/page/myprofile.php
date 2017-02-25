@@ -69,7 +69,10 @@ $genderT = $user['gender'] == "T" ? "selected" : "";
 
   </div>
 
-  <div class="esc-picture-add-button esc-green">+</div>
+  <label class="esc-input-picture-ct">
+    <input type="file" class="esc-input-picture" />
+    <div class="esc-picture-add-button esc-green">+</div>
+  </label>
 </div>
 
 
@@ -139,6 +142,15 @@ $genderT = $user['gender'] == "T" ? "selected" : "";
     border: 2px solid #3498DB;
   }
 
+  .esc-input-picture-ct{
+    right: 0.5cm;
+    bottom: 0.5cm;
+    position: fixed;
+    display: inline-block;
+  }
+  .esc-input-picture-ct input{
+    display: none;
+  }
   .esc-picture-add-button{
     color: #ECF0F1;
     font-family: Roboto-Medium;
@@ -146,9 +158,6 @@ $genderT = $user['gender'] == "T" ? "selected" : "";
     height: 1.5cm;
     width: 1.5cm;
     border-radius: 1cm;
-    position: absolute;
-    bottom: 0.5cm;
-    right: 0.5cm;
     text-align: center;
     line-height: 1.5cm;
     box-shadow: 4px 5px 10px 0px rgba(0, 0, 0, 0.2);
@@ -259,6 +268,38 @@ $genderT = $user['gender'] == "T" ? "selected" : "";
     }
   };
 
+  Gallery = {
+    init: function(){
+      $(".esc-input-picture").on('change', function(){
+        var file_data = $('.esc-input-picture').prop('files')[0];
+
+        if(file_data == null)
+          return;
+        var form_data = new FormData();
+        form_data.append('picture', file_data);
+
+        Ajax.pictureUpload(form_data, function(response){
+          if(response.success == 1){
+            Gallery.add(response.picture);
+            Sidebar.refreshProfile();
+          }
+          else{
+            Snackbar.show(response.msg);
+          }
+        });
+
+      });
+    },
+    add: function(picId){
+      var node = "<div class='esc-picture' data-pic-id='" + picId + "'>\
+                    <img src='ws/picture.php?type=thumbnail&picture_id=" + picId + "' />\
+                  </div>";
+      $(".esc-picture-ct").append(node);
+    }
+  };
+  Gallery.init();
+
+
   function updateUser(){
     var name = $(".esc-input-name").val();
     var gender = $(".esc-input-gender").val();
@@ -269,8 +310,6 @@ $genderT = $user['gender'] == "T" ? "selected" : "";
       gender: gender,
       dob: dob
     };
-
-    console.log("Data: ", data);
 
     Ajax.post("ws/profil-update.php", data, function(){
       Snackbar.show("Änderungen gespeichert");

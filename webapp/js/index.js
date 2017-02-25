@@ -60,6 +60,12 @@ window.Sidebar = {
     $(".esc-sidebar").animate({left: "-=300"}, 200);          
     $(".esc-sidebar-hider").animate({opacity: "-=0.2"}, 200, function(){ $(".esc-sidebar-hider").hide(); });
     Sidebar.visible = false;
+  },
+  refreshProfile: function(){
+    Ajax.background("ws/sidebar-data.php", {}, function(data){
+        $(".esc-profile .esc-profile-pic img").prop("src", "ws/picture.php?type=thumbnail&picture_id=" + data.picture);
+        $(".esc-menu-name").text(data.firstName);
+      }, "json");
   }
 };
 
@@ -316,6 +322,23 @@ window.Ajax = {
     $(container).load(url, function(response){
       Ajax.hideCurtain();
     });
+  },
+  pictureUpload: function(data, success){
+    $.ajax({
+        url: "ws/picture-upload.php?",
+        dataType: 'json',
+        cache: false,
+        processData: false,
+        data: data,
+        contentType: false,
+        type: 'POST',
+        success: function(response){
+          Ajax.hideCurtain();
+          if(success !== undefined)
+            success(response);
+        }
+      });
+    Ajax.showCurtain();
   },
   showCurtain: function(){
     $(".esc-ajax-curtain").show();
