@@ -1,11 +1,5 @@
 <?php
 
-$email = "";
-if(isset($_REQUEST['email']))
-  $email = $_REQUEST['email'];
-$pw = "";
-if(isset($_REQUEST['pw']))
-  $pw = $_REQUEST['pw'];
 
 ?>
 
@@ -16,15 +10,15 @@ if(isset($_REQUEST['pw']))
 
   <div>
     <form>
-    	<input type="text" class="w3-input" class="esc-input-name" placeholder="Name" />
-    	<select class="w3-select esc-input-sex">
+    	<input type="text" class="w3-input esc-input-name" placeholder="Name" />
+    	<select class="w3-select esc-input-gender">
         <option value="" disabled selected>Geschlecht</option>
-        <option value="m">Männlich</option>
-        <option value="w">Weiblich</option>
-        <option value="t">Transexuel</option>
+        <option value="M">Männlich</option>
+        <option value="F">Weiblich</option>
+        <option value="T">Transexuel</option>
       </select>
-      <input type="date" class="w3-input" class="esc-input-dob" placeholder="Geburtstag" />
-    	<div class="esc-button" onclick="nextPage();">Weiter →</div>
+      <input type="date" class="w3-input esc-input-dob" placeholder="Geburtstag" />
+    	<div class="esc-button" onclick="register();">Weiter →</div>
       <div class="esc-register-counter w3-center">2/3</div>
     </form>
     </div>
@@ -88,8 +82,28 @@ if(isset($_REQUEST['pw']))
 <script type="text/javascript">
 	Topbar.hide();
 
-  var email = "<?php echo $email; ?>";
-  var pw = "<?php echo $pw; ?>";
+  function register(){
+    var fullName = $(".esc-input-name").val();
+    var gender = $(".esc-input-gender").val();
+    var dob = $(".esc-input-dob").val();
+
+    var data = {
+      name: fullName,
+      gender: gender,
+      dob: dob
+    };
+
+    Ajax.get("ws/register.php", data, function(response){
+      if(response.success == 1){
+        DataStore.email(response.email);
+        DataStore.password(response.pw);
+        nextPage();
+      }
+      else{
+        Snackbar.show("Fehler beim Registrieren");
+      }
+    });
+  }
 
   function nextPage(){
     window.location.hash = "#home";

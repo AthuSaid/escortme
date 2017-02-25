@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS esc_user_credit(
   expireYear YEAR,
   signatory CHAR(3),
 
-  PRIMARY KEY (user_id, cardNumber),
+  PRIMARY KEY (cardNumber),
   FOREIGN KEY (user_id) REFERENCES esc_user(id)
 );
 

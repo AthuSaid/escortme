@@ -10,7 +10,7 @@
     <a href="#login" class="esc-button">
       Login
     </a>
-    <a href="#register2" class="esc-button">
+    <a href="#register" class="esc-button">
       Anmelden
     </a>
   </div>

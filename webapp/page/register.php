@@ -10,8 +10,8 @@
     </div>
     oder
     <form>
-    	<input type="email" class="w3-input" class="esc-input-email" placeholder="Email" />
-    	<input type="password" class="w3-input" class="esc-input-pw" placeholder="Passwort" />
+    	<input type="email" class="w3-input esc-input-email" placeholder="Email" />
+    	<input type="password" class="w3-input esc-input-pw" placeholder="Passwort" />
     	<div class="esc-button" onclick="register();">Weiter →</div>
       <div class="esc-register-counter w3-center">1/3</div>
     </form>
@@ -79,14 +79,19 @@
     var mail = $(".esc-input-email").val();
     var pass = $(".esc-input-pw").val();
 
-    if(pass.lengh < 8){
-      //TODO: Error
-      return;
-    }
+    var data = {
+      email: mail,
+      pw: pass
+    };
 
-    var param = "email=" + mail + "&pw=" + pass;
-
-    nextPage(param);
+    Ajax.get("ws/register.php", data, function(response){
+      if(response.success == 1){
+        nextPage();
+      }
+      else{
+        Snackbar.show("Versuche eine andere Email");
+      }
+    });
 	}
 
 	function registerFB(){
@@ -97,8 +102,8 @@
 		nextPage();
 	}
 
-  function nextPage(param){
-    window.location.hash = "#register2?" + param;
+  function nextPage(){
+    window.location.hash = "#register2";
   }
 
 </script>
