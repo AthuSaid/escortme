@@ -43,7 +43,7 @@ $genderT = $user['gender'] == "T" ? "selected" : "";
 
     <?php if(!$user['verified']){ ?>
       <div class="esc-verify-ct">
-        <div class="esc-button esc-green" onclick="">Profil verifizieren</div>
+        <div class="esc-button esc-green" onclick="verify();">Profil verifizieren</div>
         <label>
           Wenn Sie Ihr Profil verifizieren erhöhen Sie Ihre Chancen,
           dass andere mit Ihnen Kontakt aufnehmen möchten!
@@ -63,28 +63,47 @@ $genderT = $user['gender'] == "T" ? "selected" : "";
       foreach($pics as $picture_id){
     ?>
     <div class="esc-picture" data-pic-id="<?php echo $picture_id; ?>">
-      <img src="ws/picture.php?type=thumbnail&picture_id=<?php echo $picture_id; ?>" />
+      <img src="ws/picture.php?type=thumbnail&picture_id=<?php echo $picture_id; ?>" onclick="Gallery.open('<?php echo $picture_id; ?>');" />
     </div>
     <?php } ?>
 
   </div>
 
   <label class="esc-input-picture-ct">
-    <input type="file" class="esc-input-picture" />
+    <input type="file" class="esc-input-picture" accept="image/*" />
     <div class="esc-picture-add-button esc-green">+</div>
   </label>
 </div>
 
+<div class="esc-fullscreen">
+  <div class="esc-fullscreen-topbar">
+    <div class="esc-fullscreen-topbar-delete" onclick="ContextMenu.open();"><img src="img/remove.png" /></div>
+    <div class="esc-fullscreen-topbar-close" onclick="Gallery.close();"><img src="img/delete-white.png" /></div>
+  </div>
+  <div class="esc-fullscreen-image">
+    <div class="esc-fullscreen-image-counter">0/0</div>
+    <img src="ws/picture.php?type=thumbnail&picture_id=e7e5188b-f907-11e6-b0df-d3f657d113e9" />
+    <a class="esc-fullscreen-image-prev esc-fullscreen-image-arrow" onclick="Gallery.slide(-1);">←</a>
+    <a class="esc-fullscreen-image-next esc-fullscreen-image-arrow" onclick="Gallery.slide(1);">→</a>
+  </div>
+  <div class="esc-button esc-button-profilepic" onclick="Gallery.setProfilePicture();">Als Profilbild festlegen</div>
+</div>
 
 <!-- Modal -->
-<div class="w3-modal esc-ctx-menu" onclick="ContextMenu.close();">
+<div class="w3-modal" onclick="ContextMenu.promptNo();">
   <div class="w3-modal-content w3-animate-top">
-    <div class="esc-button" onclick="ContextMenu.profile();">Als Profilbild festlegen</div>
-    <div class="esc-button esc-red" onclick="ContextMenu.delete();">Löschen</div>
+    <div class="w3-modal-content-header">
+      Sind Sie sicher, dass Sie das ausgewählte Bild löschen möchten?
+    </div>
+    <div>
+      <div class="esc-button" onclick="ContextMenu.promptNo();">Abbrechen</div>
+      <div class="esc-button esc-red" onclick="ContextMenu.promptYes();">Ja</div>
+    </div>
   </div>
 </div>
 
 <style type="text/css" style="display: none !important;">
+  
   .esc-tab-ct{
     width: 100%;
   }
@@ -163,12 +182,79 @@ $genderT = $user['gender'] == "T" ? "selected" : "";
     box-shadow: 4px 5px 10px 0px rgba(0, 0, 0, 0.2);
   }
 
-  .esc-ctx-menu{
-    padding-top: 2cm;
+
+  .esc-fullscreen{
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    top: 1.5cm;
+    background-color: #47525e;
+    display: none;
+    z-index: 20;
   }
-  .esc-ctx-menu > div{
+  .esc-fullscreen-topbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px;
+  }
+  .esc-fullscreen-topbar img{
+    height: 0.8cm;
+    width: 0.8cm;
+  }
+  .esc-fullscreen-image-counter{
+    color: #ECF0F1;
+    position: absolute;
+    font-size: 12px;
+    padding-left: 3px;
+  }
+  .esc-fullscreen-image img{
+    width: 100%;
+    max-width: 800px;
+    height: 100%;
+    max-height: 100%;
+  }
+  .esc-fullscreen-image-arrow{
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -50px;
+    color: #ECF0F1;
+    font-size: 20px;
+  }
+  .esc-fullscreen-image-prev{
+    left: 10px;
+  }
+  .esc-fullscreen-image-next{
+    right: 10px;
+  }
+  
+  .w3-modal{
+    padding-top: 2cm;
+    z-index: 30;
+  }
+  .w3-modal-content{
     padding: 5px;
     border-radius: 5px;
+  }
+  .w3-modal-content-header {
+    margin-bottom: 15px;
+    margin-left: -5px;
+    margin-right: -5px;
+    margin-top: -5px;
+    font-family: Roboto-Regular;
+    color: #ECF0F1;
+    background: #2C3E50;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 </style>
 
@@ -176,11 +262,6 @@ $genderT = $user['gender'] == "T" ? "selected" : "";
 	Topbar.show();
   Topbar.setText("Mein Profil");
   $(".esc-galerie-ct").hide();
-
-  $(".esc-picture img").bind("taphold", function(event){
-    ContextMenu.selected = event.target;
-    ContextMenu.open();
-  });
 
   Tabs = {
     galerie: function(){
@@ -254,21 +335,22 @@ $genderT = $user['gender'] == "T" ? "selected" : "";
   ContextMenu = {
     selected: null,
     open: function(){
-      $(".esc-ctx-menu").css("display",'block');
+      $(".w3-modal").css("display",'block');
     },
     close: function(){
-      $(".esc-ctx-menu").css("display",'none');
+      $(".w3-modal").css("display",'none');
     },
-    profile: function(){
+    promptNo: function(){
       this.close();
     },
-    delete: function(){
-      $(this.selected).remove();
+    promptYes: function(){
+      Snackbar.show("Noch nicht verfügbar ...");
       this.close();
     }
   };
 
   Gallery = {
+    currIndex: null,
     init: function(){
       $(".esc-input-picture").on('change', function(){
         var file_data = $('.esc-input-picture').prop('files')[0];
@@ -295,6 +377,37 @@ $genderT = $user['gender'] == "T" ? "selected" : "";
                     <img src='ws/picture.php?type=thumbnail&picture_id=" + picId + "' />\
                   </div>";
       $(".esc-picture-ct").append(node);
+    },
+    open: function(picId){
+      $(".esc-fullscreen").show();
+      $(".esc-fullscreen-image img").attr("src", "ws/picture.php?type=full&picture_id=" + picId);
+      var total = $(".esc-picture-ct .esc-picture").length;
+      var index = 1;
+      for(var i=1;i<=total;i++){
+        if($(".esc-picture-ct .esc-picture:nth-child(" + i + ")").attr("data-pic-id") == picId){
+          index = i;
+        }
+      }
+      $(".esc-fullscreen-image-counter").text(index + "/" + total);
+      this.currIndex = index;
+    },
+    close: function(){
+      $(".esc-fullscreen").hide();
+    },
+    slide: function(direction){
+      this.currIndex += direction;
+      var total = $(".esc-picture-ct .esc-picture").length;
+      if(this.currIndex == 0)
+        this.currIndex = total;
+      if(this.currIndex > total)
+        this.currIndex = 1;
+
+      var picId = $(".esc-picture-ct .esc-picture:nth-child(" + this.currIndex + ")").attr("data-pic-id");
+      $(".esc-fullscreen-image img").attr("src", "ws/picture.php?type=full&picture_id=" + picId);
+      $(".esc-fullscreen-image-counter").text(this.currIndex + "/" + total);
+    },
+    setProfilePicture: function(){
+      Snackbar.show("Noch nicht verfügbar ...");
     }
   };
   Gallery.init();
@@ -315,6 +428,10 @@ $genderT = $user['gender'] == "T" ? "selected" : "";
       Snackbar.show("Änderungen gespeichert");
     });
 
+  }
+
+  function verify(){
+    Snackbar.show("Noch nicht verfügbar ...");
   }
 
 </script>

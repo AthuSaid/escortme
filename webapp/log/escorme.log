@@ -7,3 +7,5 @@
 [2017-02-24 17:47:38] ws.listening.INFO: User is not anymore active listening [] []
 [2017-02-25 13:01:00] ws.register.INFO: REQUEST:  {"email":"apf@mail.com","pw":"asdfasdf"} []
 [2017-02-25 13:01:00] ws.register.INFO: SESSION:  {"esc-user-id":"1cdb43ba-bb37-4d1a-800d-278d02326c10","esc_reg_email":"asdfasdf"} []
+[2017-02-25 19:12:24] ws.listening.INFO: User is now active listening [] []
+[2017-02-25 19:12:31] ws.listening.INFO: User is not anymore active listening [] []
