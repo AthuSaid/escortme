@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Bild Upload</title>
+
+	<script type="text/javascript" src="../js/jquery-1.10.2.min.js"></script>
+</head>
+<body>
+
+
+<form enctype="multipart/form-data" method="post" action="picture-upload.php">
+    
+
+    <div class="row">
+      <label for="fileToUpload">Select a File to Upload</label><br />
+      <input type="file" name="picture" />
+    </div>
+    <div class="row">
+      <input type="submit" value="Upload" />
+    </div>
+  </form>
+
+  <br><br><br><br><br><br><br>
+
+  <input type="file" id="esc-input-file" />
+
+  <br><br>
+  <button>UPLOAD</button>
+
+
+  <script type="text/javascript">
+  	
+  	$("#esc-input-file").on('change', function(){
+  		var file_data = $('#esc-input-file').prop('files')[0];
+
+  		if(file_data == null)
+  			return;  
+    	var form_data = new FormData();
+    	form_data.append('picture', file_data);
+
+    	$.ajax({
+    		url: "picture-upload.php?",
+    		dataType: 'text',
+    		cache: false,
+    		processData: false,
+    		data: form_data,
+    		contentType: false,
+    		type: 'POST',
+    		success: function(response){
+    			$("body").append(response);
+    			alert("Finished");
+    		}
+    	});
+
+  	});
+
+  </script>
+
+</body>
+</html>

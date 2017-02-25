@@ -8,11 +8,11 @@ function classloader($pathToRoot){
 
   require $pathToRoot.'ws/vendor/autoload.php';
 
-  require $pathToRoot.'ws/class/databaseconnection.class.php';
-  require $pathToRoot.'ws/class/logger.class.php';
-  require $pathToRoot.'ws/class/uuid.class.php';
-  require $pathToRoot.'ws/class/sessionmanager.class.php';
-  require $pathToRoot.'ws/class/datetimeformater.class.php';
+  require $pathToRoot.'ws/class/util/databaseconnection.class.php';
+  require $pathToRoot.'ws/class/util/logger.class.php';
+  require $pathToRoot.'ws/class/util/uuid.class.php';
+  require $pathToRoot.'ws/class/util/sessionmanager.class.php';
+  require $pathToRoot.'ws/class/util/datetimeformater.class.php';
 
   require $pathToRoot.'ws/class/service/serviceservice.class.php';
   require $pathToRoot.'ws/class/service/listeningservice.class.php';
@@ -23,6 +23,8 @@ function classloader($pathToRoot){
   require $pathToRoot.'ws/class/service/offerservice.class.php';
   require $pathToRoot.'ws/class/service/chatservice.class.php';
   require $pathToRoot.'ws/class/service/registerservice.class.php';
+
+  require $pathToRoot.'ws/class/lib/imagemanipulator.class.php';
 }
 
 ?>
