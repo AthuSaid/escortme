@@ -1,5 +1,7 @@
 <?php
 
+# Sets the accepted flag in esc_offer on 1
+# Creates a new Chat and returns the chat_id to the customer 
 
 require 'class/loader.php';
 classloader("../");
