@@ -20,13 +20,16 @@ $msgs = $chatService->getMessages($chatId, $user['id']);
 
   <?php
   foreach ($msgs as $msg) {
-    $msgClass = "esc-msg-left";
-    if($msg['isSender'])
+    if($msg['isSender']){
       $msgClass = "esc-msg-right";
-    $picture = $profile['picture'];
-    if($msg['isSender'])
       $picture = $user['picture'];
-    $onClick = " onClick=\"openProfile('".$profile['id']."');\"";
+      $onClick = "";
+    }
+    else{
+      $msgClass = "esc-msg-left";
+      $picture = $profile['picture'];
+      $onClick = " onClick=\"ChatManager.openProfile('".$profile['id']."');\"";
+    }
   ?>
   <div class="<?php echo $msgClass; ?>">
     <div class="esc-msg">
@@ -48,7 +51,7 @@ $msgs = $chatService->getMessages($chatId, $user['id']);
   </div>
   <div class="esc-input-send">
     <div class="esc-input-send-btn">
-      <img src="img/send.png" onclick="sendMsg();" />
+      <img src="img/send.png" onclick="ChatManager.sendMsg();" />
     </div>
   </div>
 </div>
@@ -148,35 +151,48 @@ $msgs = $chatService->getMessages($chatId, $user['id']);
 
   var myPicture = "<?php echo $user['picture']; ?>";
 
-  function openProfile(profileId) {
-    window.location.hash = "#profile?userid=" + profileId;
-  }
+  window.ChatManager = {
+    openProfile: function(profileId) {
+      window.location.hash = "#profile?userid=" + profileId;
+    },
+    sendMsg: function(){
+      var chatId = Navigation.getUrlParams()["id"];
+      var content = $(".esc-input-msg textarea").val();
+      if(content.length == 0)
+        return;
 
-  function sendMsg(){
-    var chatId = Navigation.getUrlParams()["id"];
-    var content = $(".esc-input-msg textarea").val();
-    if(content.length == 0)
-      return;
+      //Send
+      var data = {
+        chat_id: chatId,
+        msg: content
+      };
+      Ajax.background("ws/chat-msg-create.php", data);
 
-    //Send
-    var data = {
-      chat_id: chatId,
-      msg: content
-    };
-    Ajax.background("ws/chat-msg-create.php", data);
-
-    //Insert Msg into msg-ct
-    $(".esc-input-msg textarea").val("");
-    var node = "<div class='esc-msg-right'>\
-                  <div class='esc-msg'>\
-                    <div class='esc-msg-avatar'>\
-                      <img src='ws/picture.php?type=thumbnail&picture_id=" + myPicture + "' />\
+      //Insert Msg into msg-ct
+      $(".esc-input-msg textarea").val("");
+      var node = "<div class='esc-msg-right'>\
+                    <div class='esc-msg'>\
+                      <div class='esc-msg-avatar'>\
+                        <img src='ws/picture.php?type=thumbnail&picture_id=" + myPicture + "' />\
+                      </div>\
+                      <div class='esc-msg-content'>" + content + "</div>\
                     </div>\
-                    <div class='esc-msg-content'>" + content + "</div>\
+                  </div>";
+      $(".esc-msg-ct").append(node);
+    },
+    receivedMsg: function(msg){
+      var node = "<div class='esc-msg-left'>\
+                  <div class='esc-msg'>\
+                    <div class='esc-msg-avatar' onClick='ChatManager.openProfile(\'" + msg.data.sender.user_id + "\');'>\
+                      <img src='ws/picture.php?type=thumbnail&picture_id=" + msg.data.sender.picture + "' />\
+                    </div>\
+                    <div class='esc-msg-content'>" + 
+                      msg.data.content +
+                    "</div>\
                   </div>\
                 </div>";
-    $(".esc-msg-ct").append(node);
-
-  }
+      $(".esc-msg-ct").append(node);
+    }
+  };
 
 </script>

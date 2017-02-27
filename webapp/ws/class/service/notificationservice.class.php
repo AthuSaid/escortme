@@ -78,7 +78,8 @@ class NotificationService {
 
     public function getNotifications($usrId){
         $notifications = $this->db->select("esc_bell", ["id", "created"], [
-            "user_id" => $usrId //TODO: Implement seen is null
+            "user_id" => $usrId,
+            "seen" => null
         ]);
 
         $userService = new UserService($this->logger, $this->db);
@@ -166,6 +167,24 @@ class NotificationService {
         $this->db->update("esc_bell",
             ["seen" => "NOW()"],
             ["id" => $bellId]);
+    }
+
+    public function requestBellSeen($reqId){
+        $bellId = $this->db->get("esc_bell_request",
+            "bell_id", ["req_id"=>$reqId]);
+        $this->seen($bellId);
+    }
+
+    public function offerBellSeen($offerId){
+        $bellId = $this->db->get("esc_bell_offer",
+            "bell_id", ["offer_id"=>$offerId]);
+        $this->seen($bellId);
+    }
+
+    public function msgBellSeen($msgId){
+        $bellId = $this->db->get("esc_bell_msg",
+            "bell_id", ["msg_id"=>$msgId]);
+        $this->seen($bellId);
     }
 
 

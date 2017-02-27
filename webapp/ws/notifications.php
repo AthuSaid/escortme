@@ -1,5 +1,8 @@
 <?php
 
+# The Serverside script for SSE
+# Returns in data an array of all open notifications
+
 require 'class/loader.php';
 classloader("../");
 
@@ -11,4 +14,11 @@ $notifyService = new NotificationService($logger, $db);
 
 $notifications = $notifyService->getNotifications($user['id']);
 
-echo json_encode($notifications);
+header('Content-Type: text/event-stream');
+header('Cache-Control: no-cache');
+
+echo "id: " . time() . PHP_EOL;
+echo "data: " . json_encode($notifications) . PHP_EOL;
+echo PHP_EOL;
+ob_flush();
+flush();

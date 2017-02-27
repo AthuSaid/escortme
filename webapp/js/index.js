@@ -138,15 +138,15 @@ window.Bell = {
                     '<div class="esc-bell-item">' +
                       '<div class="esc-bell-item-left">' +
                         '<div class="esc-bell-item-avatar">' +
-                          '<img src="' + msg.avatar +'" />' +
+                          '<img src="ws/picture.php?type=thumbnail&picture_id=' + msg.data.sender.picture +'" />' +
                         '</div>' +
                         '<div class="esc-bell-item-content">' +
-                          '<div class="esc-bell-item-content-title">' + msg.firstName + ', ' + msg.age + '</div>' +
-                          '<div class="esc-bell-item-content-text">' + msg.content + '</div>' +
+                          '<div class="esc-bell-item-content-title">' + msg.data.sender.firstName + ', ' + msg.data.sender.age + '</div>' +
+                          '<div class="esc-bell-item-content-text">' + msg.data.content + '</div>' +
                         '</div>' +
                       '</div>' +
                       '<div class="esc-bell-item-delete">' +
-                        '<img src="img/delete-grey.png" onclick="Bell.Messages.remove(' + msg.id + ');" />' +
+                        '<img src="img/delete-grey.png" onclick="Bell.Messages.remove(\'' + msg.id + '\');" />' +
                       '</div>' +
                     '</div>' +
                   '</div>';
@@ -347,5 +347,48 @@ window.Ajax = {
   hideCurtain: function(){
     $(".esc-ajax-curtain").hide();
     $(".esc-ajax-loader").hide();
+  }
+};
+
+window.SseManager = {
+  source: null,
+  init: function(){
+    this.source = new EventSource("ws/notifications.php");
+    this.source.onmessage = function(event){
+      SseManager.received(event);
+    }
+  },
+  received: function(event){
+    var data = $.parseJSON(event.data);
+    for (var i = 0; i < data.length; i++) {
+      this.processBell(data[i]);
+    }
+  },
+  processBell: function(bell){
+    if($(".esc-bell-item-ct[data-bell-id=" + bell.id + "]").length > 0)
+      return;
+
+    if(bell.type == "R")
+      this.processRequestBell(bell);
+    if(bell.type == "O")
+      this.processOfferBell(bell);
+    if(bell.type == "M")
+      this.processMsgBell(bell);
+  },
+  processRequestBell: function(reqBell){
+
+  },
+  processOfferBell: function(offerBell){
+
+  },
+  processMsgBell: function(msgBell){
+    if(window.location.hash == "#chat?id=" + msgBell.data.chat_id){
+      window.ChatManager.receivedMsg(msgBell);
+      var data = { bell_id: msgBell.id };
+      window.Ajax.background("ws/notification-seen.php", data);
+    }
+    else{
+      Bell.Messages.add(msgBell);
+    }
   }
 };
