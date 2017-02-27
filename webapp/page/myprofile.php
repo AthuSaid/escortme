@@ -374,7 +374,7 @@ $genderT = $user['gender'] == "T" ? "selected" : "";
     },
     add: function(picId){
       var node = "<div class='esc-picture' data-pic-id='" + picId + "'>\
-                    <img src='ws/picture.php?type=thumbnail&picture_id=" + picId + "' />\
+                    <img src='ws/picture.php?type=thumbnail&picture_id=" + picId + "' onclick=\"Gallery.open('" + picId + "');\" />\
                   </div>";
       $(".esc-picture-ct").append(node);
     },
@@ -407,7 +407,14 @@ $genderT = $user['gender'] == "T" ? "selected" : "";
       $(".esc-fullscreen-image-counter").text(this.currIndex + "/" + total);
     },
     setProfilePicture: function(){
-      Snackbar.show("Noch nicht verfügbar ...");
+      var picId = $(".esc-picture-ct .esc-picture:nth-child(" + this.currIndex + ")").attr("data-pic-id");
+      var data = {
+        picture_id: picId
+      };
+      Ajax.background("ws/profilpicture.php", data, function(response){
+        Sidebar.refreshProfile();
+      });
+      Snackbar.show("Änderung wird durchgeführt ...");
     }
   };
   Gallery.init();
