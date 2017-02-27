@@ -36,19 +36,16 @@ class NotificationService {
     	$bellId = $this->createNotification($req['user_id']);
         $this->db->insert("esc_bell_request", [
             "bell_id" => $bellId,
-            "req_id" => $req['id'];
+            "req_id" => $req['id']
         ]);
         return $bellId;
     }
 
 
     public function createForOffer($offerId){
-        $usrId = $this->db->select("esc_offer(o)", [
-            "[><]esc_request(r)" => ["o.req_id" => "r.id"]
-        ], "r.user_id(user_id)", [
-            "o.id" => $offerId
-        ]);
-        $usrId = $usrId[0]['user_id'];
+        //DEBUG
+        $reqId = $this->db->get("esc_offer", "req_id", ["id"=>$offerId]);
+        $usrId = $this->db->get("esc_request", "user_id", ["id"=>$reqId]);
         $bellId = $this->createNotification($usrId);
         $this->db->insert("esc_bell_offer", [
             "bell_id" => $bellId,
@@ -60,17 +57,17 @@ class NotificationService {
     public function createForChatMsg($msgId){
         $senderId = $this->db->get("esc_chat_msg",
             "sender_id", ["id" => $msgId]);
-        $users = $this->db->select("esc_chat_msg(m)", [
-            "esc_chat(c)" => ["m.chat_id" => "c.id"]
+        $chatId = $this->db->get("esc_chat_msg", "chat_id", ["id"=>$msgId]);
+        $users = $this->db->get("esc_chat", [
+            "user1_id(user_1)",
+            "user2_id(user_2)"
         ], [
-            "c.user1_id(user_1)",
-            "c.user2_id(user_2)"
-        ], [
-            "m.id" => $msgId
+            "id" => $chatId
         ]);
-        $usrId = $users[0]['user_1'];
+        $usrId = $users['user_1'];
         if($usrId == $senderId)
-            $usrId = $users[0]['user_2'];
+            $usrId = $users['user_2'];
+
         $bellId = $this->createNotification($usrId);
         $this->db->insert("esc_bell_msg", [
             "bell_id" => $bellId,
@@ -143,22 +140,11 @@ class NotificationService {
             ]);
             if($msgId){
                 $bell['type'] = "M";
-                $data = $this->db->select("esc_chat_msg(m)", [
-                    "esc_chat(c)" => ["m.chat_id" => "c.id"]
-                ], [
-                    "c.user1_id(user_1)",
-                    "c.user2_id(user_2)",
-                    "c.id(chat_id)",
-                    "m.content(content)"
-                ], [
-                    "m.id" => $msgId
-                ]);
-                $usrId = $data[0]['user_1'];
-                if($usrId == $senderId)
-                    $usrId = $data[0]['user_2'];
+                $data = $this->db->get("esc_chat_msg",
+                    ["content", "chat_id", "sender_id"],
+                    ["id" => $msgId]);
 
-
-                $profile = $userService->getProfile($usrId);
+                $profile = $userService->getProfile($data['sender_id']);
                 $bell['data'] = [
                     "chat_id" => $data['chat_id'],
                     "content" => $data['content'],
@@ -174,6 +160,12 @@ class NotificationService {
         }
 
         return $notifications;
+    }
+
+    public function seen($bellId){
+        $this->db->update("esc_bell",
+            ["seen" => "NOW()"],
+            ["id" => $bellId]);
     }
 
 

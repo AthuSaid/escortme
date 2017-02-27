@@ -268,7 +268,7 @@ $pics = $pictureService->getGallery($profil_id);
       var data = {
         user_id: usrId
       };
-      Ajax.post("ws/offer-accept.php", data, function(response){
+      Ajax.get("ws/offer-accept.php", data, function(response){
         window.location.hash = "#chat?id=" + response.id;
       });
     }
