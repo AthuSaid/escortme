@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS esc_user_verification (
   user_id CHAR(36),
   created TIMESTAMP DEFAULT NOW(),
   picture_id CHAR(36),
+  accepted TIMESTAMP NULL,
 
   PRIMARY KEY (user_id),
   FOREIGN KEY (picture_id) REFERENCES esc_picture(id)
@@ -124,7 +125,7 @@ CREATE TABLE IF NOT EXISTS esc_chat (
   user1_id CHAR(36),
   user2_id CHAR(36) CHECK(user1_id != user2_id),
   created TIMESTAMP DEFAULT NOW(),
-  deleted TIMESTAMP,
+  deleted TIMESTAMP NULL DEFAULT NULL,
 
   FOREIGN KEY (user1_id) REFERENCES esc_user(id),
   FOREIGN KEY (user2_id) REFERENCES esc_user(id)
@@ -145,7 +146,7 @@ CREATE TABLE IF NOT EXISTS esc_bell (
   id CHAR(36) PRIMARY KEY,
   user_id CHAR(36),
   created TIMESTAMP DEFAULT NOW(),
-  seen TIMESTAMP,
+  seen TIMESTAMP NULL DEFAULT NULL,
 
   FOREIGN KEY (user_id) REFERENCES esc_user(id)
 );

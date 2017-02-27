@@ -23,6 +23,7 @@ function classloader($pathToRoot){
   require $pathToRoot.'ws/class/service/offerservice.class.php';
   require $pathToRoot.'ws/class/service/chatservice.class.php';
   require $pathToRoot.'ws/class/service/registerservice.class.php';
+  require $pathToRoot.'ws/class/service/notificationservice.class.php';
 
   require $pathToRoot.'ws/class/lib/imagemanipulator.class.php';
 }

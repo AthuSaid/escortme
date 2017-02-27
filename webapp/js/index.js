@@ -132,21 +132,22 @@ window.Bell = {
     }
   },
   Messages: {
+    lastDelete: 0,
     count: 0,
     add: function(msg){
-      var item = '<div class="esc-bell-item-ct" data-bell-id="' + msg.id + '">' +
+      var item = '<div class="esc-bell-item-ct" data-bell-id="' + msg.id + '" data-chat-id="' + msg.data.chat_id + '" onclick="Bell.Messages.open(\'' + msg.data.chat_id + '\');">' +
                     '<div class="esc-bell-item">' +
                       '<div class="esc-bell-item-left">' +
                         '<div class="esc-bell-item-avatar">' +
-                          '<img src="' + msg.avatar +'" />' +
+                          '<img src="ws/picture.php?type=thumbnail&picture_id=' + msg.data.sender.picture +'" />' +
                         '</div>' +
                         '<div class="esc-bell-item-content">' +
-                          '<div class="esc-bell-item-content-title">' + msg.firstName + ', ' + msg.age + '</div>' +
-                          '<div class="esc-bell-item-content-text">' + msg.content + '</div>' +
+                          '<div class="esc-bell-item-content-title">' + msg.data.sender.firstName + ', ' + msg.data.sender.age + '</div>' +
+                          '<div class="esc-bell-item-content-text">' + msg.data.content + '</div>' +
                         '</div>' +
                       '</div>' +
                       '<div class="esc-bell-item-delete">' +
-                        '<img src="img/delete-grey.png" onclick="Bell.Messages.remove(' + msg.id + ');" />' +
+                        '<img src="img/delete-grey.png" onclick="Bell.Messages.remove(\'' + msg.id + '\');" />' +
                       '</div>' +
                     '</div>' +
                   '</div>';
@@ -157,8 +158,10 @@ window.Bell = {
       $(".esc-bell-empty").hide();
     },
     remove: function(itemId){
+      this.lastDelete = (new Date()).getTime();
       this.count--;
       Bell.Badge.minus();
+      SseManager.bellSeen(itemId);
       $(".esc-bell-item-ct[data-bell-id=" + itemId + "]").remove();
       if(this.count == 0){
         $(".esc-bell-msg-ct").hide();
@@ -166,12 +169,70 @@ window.Bell = {
           $(".esc-bell-empty").show();
         }
       }
+    },
+    open: function(chatId){
+      if((new Date()).getTime() - this.lastDelete == 0)
+        return;
+      var itemId = $(".esc-bell-item-ct[data-chat-id=" + chatId + "]").attr("data-bell-id");
+      SseManager.bellSeen(itemId);
+      this.remove(itemId);
+      window.location.hash = "#chat?id=" + chatId;
+      Bell.close();
+    }
+  },
+  Offers: {
+    lastDelete: 0,
+    count: 0,
+    add: function(offer){
+      var item = '<div class="esc-bell-item-ct" data-bell-id="' + offer.id + '" data-offer-id="' + offer.data.offer_id + '" data-profile-id="' + offer.data.sender.user_id + '" onclick="Bell.Offers.open(\'' + offer.data.offer_id + '\');">' +
+                    '<div class="esc-bell-item">' +
+                      '<div class="esc-bell-item-left">' +
+                        '<div class="esc-bell-item-avatar">' +
+                          '<img src="ws/picture.php?type=thumbnail&picture_id=' + offer.data.sender.picture +'" />' +
+                        '</div>' +
+                        '<div class="esc-bell-item-offer-content">' +
+                          '<div class="esc-bell-item-content-title">' + offer.data.sender.firstName + ', ' + offer.data.sender.age + '</div>' +
+                        '</div>' +
+                      '</div>' +
+                      '<div class="esc-bell-item-delete">' +
+                        '<img src="img/delete-grey.png" onclick="Bell.Offers.remove(\'' + offer.id + '\');" />' +
+                      '</div>' +
+                    '</div>' +
+                  '</div>';
+      this.count++;
+      Bell.Badge.plus();
+      $(".esc-bell-req-ct").append(item);
+      $(".esc-bell-req-ct").show();
+      $(".esc-bell-empty").hide();
+    },
+    remove: function(itemId){
+      this.lastDelete = (new Date()).getTime();
+      this.count--;
+      Bell.Badge.minus();
+      SseManager.bellSeen(itemId);
+      $(".esc-bell-item-ct[data-bell-id=" + itemId + "]").remove();
+      if(this.count == 0){
+        $(".esc-bell-req-ct").hide();
+        if(Bell.Requests.count == 0){
+          $(".esc-bell-empty").show();
+        }
+      }
+    },
+    open: function(offerId){
+      if((new Date()).getTime() - this.lastDelete == 0)
+        return;
+      var itemId = $(".esc-bell-item-ct[data-offer-id=" + offerId + "]").attr("data-bell-id");
+      var usrId = $(".esc-bell-item-ct[data-offer-id=" + offerId + "]").attr("data-profile-id");
+      SseManager.bellSeen(itemId);
+      this.remove(itemId);
+      window.location.hash = "#profile?userid=" + usrId;
+      Bell.close();
     }
   },
   Requests: {
     count: 0,
     add: function(msg){
-      var item = '<div class="esc-bell-item-ct" data-bell-id="' + msg.id + '">' +
+      var item = '<div class="esc-bell-item-ct" data-bell-id="' + msg.id + '" onclick="Bell.Requests.open(\'' + msg.data.req_id + '\');">' +
                     '<div class="esc-bell-item">' +
                       '<div class="esc-bell-item-left">' +
                         '<div class="esc-bell-item-avatar">' +
@@ -195,6 +256,7 @@ window.Bell = {
     remove: function(itemId){
       this.count--;
       Bell.Badge.minus();
+      SseManager.bellSeen(itemId);
       $(".esc-bell-item[data-bell-id=" + itemId + "]").remove();
       if(this.count == 0){
         $(".esc-bell-req-ct").hide();
@@ -347,5 +409,57 @@ window.Ajax = {
   hideCurtain: function(){
     $(".esc-ajax-curtain").hide();
     $(".esc-ajax-loader").hide();
+  }
+};
+
+window.SseManager = {
+  source: null,
+  init: function(){
+    this.source = new EventSource("ws/notifications.php");
+    this.source.onmessage = function(event){
+      SseManager.received(event);
+    }
+  },
+  received: function(event){
+    var data = $.parseJSON(event.data);
+    for (var i = 0; i < data.length; i++) {
+      this.processBell(data[i]);
+    }
+  },
+  processBell: function(bell){
+    if($(".esc-bell-item-ct[data-bell-id=" + bell.id + "]").length > 0)
+      return;
+
+    if(bell.type == "R")
+      this.processRequestBell(bell);
+    if(bell.type == "O")
+      this.processOfferBell(bell);
+    if(bell.type == "M")
+      this.processMsgBell(bell);
+  },
+  processRequestBell: function(reqBell){
+
+  },
+  processOfferBell: function(offerBell){
+    if(window.location.hash == "#offers"){
+      window.Offers.receivedOffer(offerBell);
+      SseManager.bellSeen(offerBell.id);
+    }
+    else{
+      Bell.Offers.add(offerBell);
+    }
+  },
+  processMsgBell: function(msgBell){
+    if(window.location.hash == "#chat?id=" + msgBell.data.chat_id){
+      window.ChatManager.receivedMsg(msgBell);
+      SseManager.bellSeen(msgBell.id);
+    }
+    else{
+      Bell.Messages.add(msgBell);
+    }
+  },
+  bellSeen: function(bellId){
+    var data = { bell_id: bellId };
+    window.Ajax.background("ws/notification-seen.php", data);
   }
 };

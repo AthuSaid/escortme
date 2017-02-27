@@ -88,6 +88,13 @@ class ChatService {
         return $lastMsg;
     }
 
+    /**
+     * Reads all Messages of a chat.
+     * Also sets the seen flag for the notification_bell
+     * @param  [type] $chatId [description]
+     * @param  [type] $usrId  [description]
+     * @return [type]         [description]
+     */
     public function getMessages($chatId, $usrId){
         $msgs = $this->db->select("esc_chat_msg", [
             "id",
@@ -99,10 +106,17 @@ class ChatService {
             "ORDER" => [ "created" => "ASC"]
           ]);
 
+        $notifyService = new NotificationService($this->logger, $this->db);
+
         $result = array();
         foreach ($msgs as $msg) {
             $msg['isSender'] = $msg['sender_id'] == $usrId ? 1 : 0;
             $result[] = $msg;
+
+            //Notification
+            if(!$msg['isSender']){
+                $notifyService->msgBellSeen($msg['id']);
+            }
         }
 
         return $result;

@@ -43,22 +43,32 @@ class OfferService {
 
     /**
      * Returns a List of the Profiles of the user
-     * which made an offer to the given request
+     * which made an offer to the given request.
+     * Also sets the seen flag for the bell_notification
      * @param  [uuid] $reqId [Request]
      * @return [array]        [List of Profiles]
      */
     public function getOffers($reqId){
-        $result = $this->db->select("esc_offer", "user_id", [
+        $result = $this->db->select("esc_offer", [
+          "user_id",
+          "id"
+          ], [
             "req_id" => $reqId,
             "accepted" => 0,
             "rejected" => 0
           ]);
 
+        $notifyService = new NotificationService($this->logger, $this->db);
         $userService = new UserService($this->logger, $this->db);
+
         $offers = array();
-        foreach ($result as $usrId) {
+        foreach ($result as $offer) {
+            $usrId = $offer['user_id'];
             $profile = $userService->getProfile($usrId);
             $offers[] = $profile;
+
+            //Notification
+            $notifyService->offerBellSeen($offer['id']);
         }
 
         return $offers;
