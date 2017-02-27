@@ -32,7 +32,9 @@ class MatchingService {
         $userService = new UserService($this->logger, $this->db);
         $priceOk = array();
         foreach ($requests as $req) {
-            if($service['minPrice'] <= $req['maxPrice']){
+            if($service['minPrice'] <= $req['maxPrice'] ||
+                $service['minPrice'] == 0 ||
+                $req['maxPrice'] == 0){
                 $req['user'] = $userService->getProfile($req['user_id']);
                 $req['restTime'] = $reqService->calcRestTime($req['expires']);
                 $req['targetTime'] = $reqService->splitTargetTime($req['targetTime']);

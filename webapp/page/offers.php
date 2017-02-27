@@ -205,9 +205,24 @@ if($req == null){
   };
   TimerTask.init();
 
-  Offers = {
+  window.Offers = {
     selected: null,
-    add: function(offer){
+    receivedOffer: function(offer){
+      console.log("Offers::receivedOffer", offer)
+      var node = "<div class='esc-list-item' data-usr-id='" + offer.data.sender.user_id + "' onClick='Offers.openProfile(\"" + offer.data.sender.user_id + "\");'>\
+                    <div>\
+                      <div class='esc-list-item-content'>\
+                        <div class='esc-list-item-avatar'>\
+                          <img src='ws/picture.php?type=thumbnail&picture_id=" + offer.data.sender.picture + "' />\
+                        </div>\
+                        <div class='esc-list-item-title'>" + offer.data.sender.firstName + ", " + offer.data.sender.age + "</div>\
+                      </div>\
+                      <div class='esc-list-item-delete'>\
+                        <img src='img/delete-grey.png' onclick='Offers.remove(\"" + offer.data.sender.user_id + "\");' />\
+                      </div>\
+                    </div>\
+                  </div>";
+      $(".esc-list-ct").append(node);
 
     },
     remove: function(usrId){
