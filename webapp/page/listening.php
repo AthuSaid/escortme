@@ -337,6 +337,7 @@ if($ls != null){
         this.disable();
     },
     enable: function(){
+      $(".esc-list-item").remove();
       $(".esc-requests-ct").show();
       $(".esc-filter-ct").hide();
 
@@ -362,6 +363,18 @@ if($ls != null){
 
       Ajax.background("ws/listening.php", {listening: 0});
     }    
+  };
+
+  window.ListeningReceiver = {
+    receivedReq: function(req){
+      var mock = {
+        id: req.data.req_id,
+        user: req.data.sender,
+        targetTime: req.data.targetTime
+      };
+      if($(".esc-list-item[data-req-id=" + mock.id + "]").length == 0)
+        Requests.add(mock);
+    }
   };
 
   Requests = {

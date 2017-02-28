@@ -32,8 +32,8 @@ class NotificationService {
      * @param  [array] $req [Needs to contain the id and user_id]
      * @return [uuid]      [Id of new created Notification]
      */
-    public function createForRequest($req){
-    	$bellId = $this->createNotification($req['user_id']);
+    public function createForRequest($req, $usrId){
+    	$bellId = $this->createNotification($usrId);
         $this->db->insert("esc_bell_request", [
             "bell_id" => $bellId,
             "req_id" => $req['id']

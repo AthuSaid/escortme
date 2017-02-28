@@ -201,8 +201,8 @@ window.Bell = {
                   '</div>';
       this.count++;
       Bell.Badge.plus();
-      $(".esc-bell-req-ct").append(item);
-      $(".esc-bell-req-ct").show();
+      $(".esc-bell-offer-ct").append(item);
+      $(".esc-bell-offer-ct").show();
       $(".esc-bell-empty").hide();
     },
     remove: function(itemId){
@@ -212,7 +212,7 @@ window.Bell = {
       SseManager.bellSeen(itemId);
       $(".esc-bell-item-ct[data-bell-id=" + itemId + "]").remove();
       if(this.count == 0){
-        $(".esc-bell-req-ct").hide();
+        $(".esc-bell-offer-ct").hide();
         if(Bell.Requests.count == 0){
           $(".esc-bell-empty").show();
         }
@@ -230,20 +230,22 @@ window.Bell = {
     }
   },
   Requests: {
+    lastDelete: 0,
     count: 0,
-    add: function(msg){
-      var item = '<div class="esc-bell-item-ct" data-bell-id="' + msg.id + '" onclick="Bell.Requests.open(\'' + msg.data.req_id + '\');">' +
+    add: function(req){
+      var item = '<div class="esc-bell-item-ct" data-bell-id="' + req.id + '" data-req-id="' + req.data.req_id + '" onclick="Bell.Requests.open(\'' + req.data.req_id + '\');">' +
                     '<div class="esc-bell-item">' +
                       '<div class="esc-bell-item-left">' +
                         '<div class="esc-bell-item-avatar">' +
-                          '<img src="' + msg.avatar +'" />' +
+                          '<img src="ws/picture.php?type=thumbnail&picture_id=' + req.data.sender.picture +'" />' +
                         '</div>' +
-                        '<div class="esc-bell-item-req-content">' +
-                          '<div class="esc-bell-item-content-title">' + msg.firstName + ', ' + msg.age + '</div>' +
+                        '<div class="esc-bell-item-content">' +
+                          '<div class="esc-bell-item-content-title">' + req.data.sender.firstName + ', ' + req.data.sender.age + '</div>' +
+                          '<div class="esc-bell-item-content-text">' + req.data.targetTime.date + ', ' + req.data.targetTime.time + '</div>' +
                         '</div>' +
                       '</div>' +
                       '<div class="esc-bell-item-delete">' +
-                        '<img src="img/delete-grey.png" onclick="Bell.Requests.remove(' + msg.id + ');" />' +
+                        '<img src="img/delete-grey.png" onclick="Bell.Messages.remove(\'' + req.id + '\');" />' +
                       '</div>' +
                     '</div>' +
                   '</div>';
@@ -254,16 +256,26 @@ window.Bell = {
       $(".esc-bell-empty").hide();
     },
     remove: function(itemId){
+      this.lastDelete = (new Date()).getTime();
       this.count--;
       Bell.Badge.minus();
       SseManager.bellSeen(itemId);
-      $(".esc-bell-item[data-bell-id=" + itemId + "]").remove();
+      $(".esc-bell-item-ct[data-bell-id=" + itemId + "]").remove();
       if(this.count == 0){
         $(".esc-bell-req-ct").hide();
-        if(Bell.Messages.count == 0){
+        if(Bell.Requests.count == 0){
           $(".esc-bell-empty").show();
         }
       }
+    },
+    open: function(reqId){
+      if((new Date()).getTime() - this.lastDelete == 0)
+        return;
+      var itemId = $(".esc-bell-item-ct[data-req-id=" + reqId + "]").attr("data-bell-id");
+      SseManager.bellSeen(itemId);
+      this.remove(itemId);
+      window.location.hash = "#request?id=" + reqId;
+      Bell.close();
     }
   }
 };
@@ -438,7 +450,13 @@ window.SseManager = {
       this.processMsgBell(bell);
   },
   processRequestBell: function(reqBell){
-
+    if(window.location.hash == "#listening"){
+      window.ListeningReceiver.receivedReq(reqBell);
+      SseManager.bellSeen(reqBell.id);
+    }
+    else{
+      Bell.Requests.add(reqBell);
+    }
   },
   processOfferBell: function(offerBell){
     if(window.location.hash == "#offers"){
