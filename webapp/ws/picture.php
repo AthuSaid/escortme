@@ -5,7 +5,6 @@
 #IMPLEMENT: 
 #	Permissions
 #	Default Picture if no id is set (maybe logo)
-#	Check if file exists, else Default
 
 
 $id = "default";
@@ -17,12 +16,13 @@ if(isset($_REQUEST['type']))
 	$type = $_REQUEST['type'];
 
 
-//TODO: RESET:
-$type = "full";
-
-
 $name = $id."-".$type.".jpg";
 $path = '../data/'.$name;
+
+
+//File exists
+if(!file_exists($path))
+	$path = '../data/default-'.$type.".jpg";
 
 $fp = fopen($path, 'rb');
 

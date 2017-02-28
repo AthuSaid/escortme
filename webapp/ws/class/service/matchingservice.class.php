@@ -19,8 +19,69 @@ class MatchingService {
      * @param  [object] $request [the new created request]
      * @return [type]          [description]
      */
-	public function matchServices($request){
-		//TODO: IMPLEMENT
+	public function matchServices($req){
+		$services = $this->db->query("SELECT * FROM esc_service s INNER JOIN esc_user u ON s.user_id=u.id WHERE s.created=
+            (SELECT MAX(ss.created) FROM esc_service ss WHERE ss.user_id=s.user_id) AND u.listening=1 AND s.user_id!='".$req['user_id']."'")->fetchAll();
+        
+        $userService = new UserService($this->logger, $this->db);
+        $owner = $userService->getProfile($req['user_id']);
+
+        //Sort by price and load Profile and extend request by targetTime
+        $priceOk = array();
+        foreach ($services as $svc) {
+            if($svc['minPrice'] <= $req['maxPrice'] ||
+                $svc['minPrice'] == 0 ||
+                $req['maxPrice'] == 0){
+                $svc['user'] = $userService->getProfile($svc['user_id']);
+                $priceOk[] = $svc;
+            }
+        }
+
+        //Check age, svcGender, svcLevel
+        $targetOk = array();
+        foreach ($priceOk as $svc) {
+            
+            //Age
+            if($svc['user']['age'] >= $req['ageFrom'] &&
+                $svc['user']['age'] <= $req['ageTo']){
+
+                //SvcGender
+                if($req['genderM'] && $svc['user']['gender'] == "M" ||
+                    $req['genderF'] && $svc['user']['gender'] == "F" ||
+                    $req['genderT'] && $svc['user']['gender'] == "T"){
+
+                    //SvcLevel
+                    if($req['level'] == "A" ||
+                        $req['level'] == "P" && $svc['user']['picture'] ||
+                        $req['level'] == "V" && $svc['user']['verified']){
+
+                        $targetOk[] = $svc;
+                    }
+                }
+            }
+        }
+
+        //Check selfGender, selfLevel
+        $result = array();
+        foreach ($targetOk as $svc) {
+            
+            //SelfGender
+            if($svc['genderM'] && $owner['gender'] == "M" ||
+                $svc['genderF'] && $owner['gender'] == "F" ||
+                $svc['genderT'] && $owner['gender'] == "T"){
+
+                //SelfLevel
+                if($svc['level'] == "A" ||
+                    $svc['level'] == "P" && $owner['picture'] ||
+                    $svc['level'] == "V" && $owner['verified']){
+
+                    $result[] = $svc;
+                }
+            }
+        }
+
+        return $result;
+
 	}
 
 	public function matchRequests($service){

@@ -41,6 +41,20 @@ class PictureService{
         }
     }
 
+    public function delete($picId, $usrId){
+        $isProfilePic = $this->db->get("esc_profil_picture", "*",
+            ["picture_id" => $picId, "user_id" => $usrId]);
+        if($isProfilePic){
+            $this->db->delete("esc_profil_picture",
+                ["picture_id" => $picId, "user_id" => $usrId]);
+        }
+
+        $this->db->delete("esc_picture", ["id" => $picId]);
+
+        unlink("../data/".$picId."-thumbnail.jpg");
+        unlink("../data/".$picId."-full.jpg");
+    }
+
     /**
      * Stores the uploaded picture in the data store
      * and resizes and crops it. Then saves to the db.

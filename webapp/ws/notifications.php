@@ -6,13 +6,16 @@
 require 'class/loader.php';
 classloader("../");
 
-$user = SessionManager::user();
-$logger = LogFactory::logger("ws.notifications");
-$db = DatabaseConnection::get();
+$notifications = array();
+if(SessionManager::isLoggedIn()){
+    $user = SessionManager::user();
+    $logger = LogFactory::logger("ws.notifications");
+    $db = DatabaseConnection::get();
 
-$notifyService = new NotificationService($logger, $db);
+    $notifyService = new NotificationService($logger, $db);
 
-$notifications = $notifyService->getNotifications($user['id']);
+    $notifications = $notifyService->getNotifications($user['id']);
+}
 
 header('Content-Type: text/event-stream');
 header('Cache-Control: no-cache');

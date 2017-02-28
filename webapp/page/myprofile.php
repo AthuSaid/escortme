@@ -311,7 +311,7 @@ $genderT = $user['gender'] == "T" ? "selected" : "";
       }
       $(".esc-next-bon label").text(text);
     },
-    format(){
+    format: function(){
       var days = parseInt(this.rest / 86400);
       var remaining = this.rest % 86400;
       var hours = parseInt(remaining / 3600);

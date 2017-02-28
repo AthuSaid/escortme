@@ -199,7 +199,7 @@ $req = $requestService->getActiveRequest($user['id']);
       var time = this.format();
       $(".esc-request-duration").text("Läuft noch: " + time.h + ":" + time.m + ":" + time.s);
     },
-    format(){
+    format: function(){
       var hours = parseInt(this.rest / 3600);
       var remaining = this.rest % 3600;
       var minutes = parseInt(remaining / 60);

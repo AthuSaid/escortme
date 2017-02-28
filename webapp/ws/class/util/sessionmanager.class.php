@@ -46,6 +46,10 @@ class SessionManager{
     $_SESSION['esc-user-id'] = $usrId;
   }
 
+  public static function isLoggedIn(){
+    return isset($_SESSION['esc-user-id']);
+  }
+
   public static function logout(){
     unset($_SESSION['esc-user-id']);
   }
