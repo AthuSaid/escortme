@@ -70,14 +70,28 @@ $pics = $pictureService->getGallery($profil_id);
     foreach($pics as $picture_id){
   ?>
   <div class="esc-picture" data-pic-id="<?php echo $picture_id; ?>">
-    <img src="ws/picture.php?type=thumbnail&picture_id=<?php echo $picture_id; ?>" />
+    <img src="ws/picture.php?type=thumbnail&picture_id=<?php echo $picture_id; ?>" onclick="Gallery.open('<?php echo $picture_id; ?>');" />
   </div>
   <?php } ?>
 
 </div>
 
 
+<div class="esc-fullscreen">
+  <div class="esc-fullscreen-topbar">
+    <div> </div>
+    <div class="esc-fullscreen-topbar-close" onclick="Gallery.close();"><img src="img/delete-white.png" /></div>
+  </div>
+  <div class="esc-fullscreen-image">
+    <div class="esc-fullscreen-image-counter">0/0</div>
+    <img src="ws/picture.php?type=thumbnail&picture_id=e7e5188b-f907-11e6-b0df-d3f657d113e9" />
+    <a class="esc-fullscreen-image-prev esc-fullscreen-image-arrow" onclick="Gallery.slide(-1);">←</a>
+    <a class="esc-fullscreen-image-next esc-fullscreen-image-arrow" onclick="Gallery.slide(1);">→</a>
+  </div>
+</div>
 
+
+<!-- Modal -->
 <div class="w3-modal" onclick="Offer.promptNo();">
   <div class="w3-modal-content w3-animate-top">
     <div class="w3-modal-content-header">
@@ -190,6 +204,56 @@ $pics = $pictureService->getGallery($profil_id);
     box-shadow: 4px 5px 10px 0px rgba(0, 0, 0, 0.2);
   }
 
+  .esc-fullscreen{
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    top: 1.5cm;
+    background-color: #47525e;
+    display: none;
+    z-index: 20;
+  }
+  .esc-fullscreen-topbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px;
+  }
+  .esc-fullscreen-topbar img{
+    height: 0.8cm;
+    width: 0.8cm;
+  }
+  .esc-fullscreen-image-counter{
+    color: #ECF0F1;
+    position: absolute;
+    font-size: 12px;
+    padding-left: 3px;
+  }
+  .esc-fullscreen-image img{
+    width: 100%;
+    max-width: 800px;
+    height: 100%;
+    max-height: 100%;
+  }
+  .esc-fullscreen-image-arrow{
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    padding: 16px;
+    margin-top: -50px;
+    color: #ECF0F1;
+    font-size: 20px;
+  }
+  .esc-fullscreen-image-prev{
+    left: 10px;
+  }
+  .esc-fullscreen-image-next{
+    right: 10px;
+  }
+
   .esc-ctx-menu{
     padding-top: 2cm;
   }
@@ -271,6 +335,38 @@ $pics = $pictureService->getGallery($profil_id);
       Ajax.get("ws/offer-accept.php", data, function(response){
         window.location.hash = "#chat?id=" + response.id;
       });
+    }
+  };
+
+  Gallery = {
+    currIndex: null,
+    open: function(picId){
+      $(".esc-fullscreen").show();
+      $(".esc-fullscreen-image img").attr("src", "ws/picture.php?type=full&picture_id=" + picId);
+      var total = $(".esc-picture-ct .esc-picture").length;
+      var index = 1;
+      for(var i=1;i<=total;i++){
+        if($(".esc-picture-ct .esc-picture:nth-child(" + i + ")").attr("data-pic-id") == picId){
+          index = i;
+        }
+      }
+      $(".esc-fullscreen-image-counter").text(index + "/" + total);
+      this.currIndex = index;
+    },
+    close: function(){
+      $(".esc-fullscreen").hide();
+    },
+    slide: function(direction){
+      this.currIndex += direction;
+      var total = $(".esc-picture-ct .esc-picture").length;
+      if(this.currIndex == 0)
+        this.currIndex = total;
+      if(this.currIndex > total)
+        this.currIndex = 1;
+
+      var picId = $(".esc-picture-ct .esc-picture:nth-child(" + this.currIndex + ")").attr("data-pic-id");
+      $(".esc-fullscreen-image img").attr("src", "ws/picture.php?type=full&picture_id=" + picId);
+      $(".esc-fullscreen-image-counter").text(this.currIndex + "/" + total);
     }
   };
 
