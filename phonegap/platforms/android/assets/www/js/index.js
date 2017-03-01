@@ -42,7 +42,7 @@ var app = {
         SseManager.init();
         Sidebar.refreshProfile();
 
-        window.location.hash = "#";
+        window.location.hash = "#startview";
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
