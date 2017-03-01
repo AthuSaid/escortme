@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2016 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <!-- Good default declaration:
+    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+        * Enable inline JS: add 'unsafe-inline' to default-src
+        * Enable eval(): add 'unsafe-eval' to default-src
+    * Create your own at http://cspisawesome.com
+    -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
+
+    <link rel="stylesheet" type="text/css" href="css/w3.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/snackbar.css">
+
+    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+
+    <title>EscortMe App</title>
+</head>
+
+<body>
+    
+    <!-- TOPBAR -->
+    <div class="w3-top esc-topbar esc-container" data-offset-top="0">
+      <div class="esc-topbar-left-ct">
+        <img src="img/menu.png" class="esc-menu-button" onclick="Sidebar.open();" />
+        <label class="esc-title"> </label>
+      </div>
+      <div class="esc-topbar-right-ct">
+        <img src="img/notification.png" class="esc-bell" onclick="Bell.toggle();" />
+        <span class="esc-bell-badge"></span>
+      </div>
+
+      <!-- OLD: 
+      <div class="esc-menu-button">
+        <a href="javascript:void(0)" onclick="Sidebar.open();">
+          <i class="fa fa-bars"></i>
+        </a>
+      </div>
+      <div><label class="esc-title"> </label></div>
+      <div class="w3-right-align w3-right esc-bell">
+        <a href="javascript:void(0)" onclick="Bell.toggle();">
+          <i class="fa fa-bell-o"></i>
+          <span class="esc-bell-badge">3</span>
+        </a>
+      </div>
+      -->
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <nav class="esc-sidebar">
+      <div class="esc-sidebar-top">
+        <div class="esc-menu-profile-ct">
+          <div  class="esc-menu-back-button-ct">
+            <a href="javascript:void(0)" onclick="Sidebar.close();"><img src="img/back.png"></a>
+          </div>
+
+          <a href="#myprofile">
+            <div class="esc-profile">
+              <div class="esc-profile-pic"><img src="ws/picture.php" class="w3-circle" /></div>
+              <div class="" style="margin-left: 5px;">
+                <div class="w3-row esc-menu-name">[User]</div>
+                <div class="w3-row esc-menu-profil-label">Profil</div>
+              </div>
+            </div>
+          </a>
+        </div>
+        
+        <a href="#messages" class="esc-sidebar-menu-item">
+            <div class="esc-sidebar-menu-item-content">
+              <div>
+                <img src="img/message.png">
+              </div>
+              <div class="esc-sidebar-menu-item-content-text">
+                <label>Nachrichten</label>
+              </div>
+            </div>
+            <div class="esc-sidebar-menu-item-badge">
+              3
+            </div>
+        </a>
+        <a href="#search" class="esc-sidebar-menu-item">
+            <div class="esc-sidebar-menu-item-content">
+              <div>
+                <img src="img/search.png">
+              </div>
+              <div class="esc-sidebar-menu-item-content-text">
+                <label>Anfragen</label>
+              </div>
+            </div>
+            <div class="esc-sidebar-menu-item-badge">
+              3
+            </div>
+        </a>
+        <a href="#bookings" class="esc-sidebar-menu-item">
+            <div class="esc-sidebar-menu-item-content">
+              <div>
+                <img src="img/money.png">
+              </div>
+              <div class="esc-sidebar-menu-item-content-text">
+                <label>Buchungen</label>
+              </div>
+            </div>
+        </a>
+        <a href="#listening" class="esc-sidebar-menu-item">
+            <div class="esc-sidebar-menu-item-content">
+              <div>
+                <img src="img/star.png">
+              </div>
+              <div class="esc-sidebar-menu-item-content-text">
+                <label>Lauschen</label>
+              </div>
+            </div>
+            <div class="esc-sidebar-menu-item-badge">
+              3
+            </div>
+        </a>
+      </div>
+
+      <div class="esc-sidebar-bottom esc-container">
+        <a href="javascript:void(0);"><img src="img/settings.png"></a>
+        <a href="javascript:void(0);"><img src="img/help.png"></a>
+        <a href="#logout"><img src="img/logout.png"></a>
+      </div>
+    </nav>
+    <div class="esc-sidebar-hider" onclick="Sidebar.close();"></div>
+
+    <!-- Bell -->
+    <div class="esc-bell-ct">
+      <div class="esc-bell-empty w3-center">
+        <label>Keine Benachrichtigungen</label>
+      </div>
+      <div class="esc-bell-msg-ct" style="display: none;">
+        <div class="esc-jumbot w3-center"><label>Nachrichten</label></div>
+      </div>
+
+      <div class="esc-bell-offer-ct" style="display: none;">
+        <div class="esc-jumbot w3-center"><label>Angebote</label></div>
+      </div>
+
+      <div class="esc-bell-req-ct" style="display: none;">
+        <div class="esc-jumbot w3-center"><label>Anfragen</label></div>
+      </div>
+    </div>
+
+    <div class="esc-snackbar"></div>
+
+    <div class="esc-ajax-loader"></div>
+    <div class="esc-ajax-curtain"></div>
+    
+
+    <div class="esc-page">
+
+    </div>
+
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript">
+      
+      //PhoneGap
+      app.initialize();
+
+    </script>
+    
+</body>
+
+</html>
