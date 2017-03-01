@@ -1,0 +1,76 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-battery-status": {
+            "PACKAGE_NAME": "at.andreasfend.escortme"
+        },
+        "cordova-plugin-camera": {
+            "PACKAGE_NAME": "at.andreasfend.escortme"
+        },
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "at.andreasfend.escortme"
+        },
+        "cordova-plugin-contacts": {
+            "PACKAGE_NAME": "at.andreasfend.escortme"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "at.andreasfend.escortme"
+        },
+        "cordova-plugin-device-motion": {
+            "PACKAGE_NAME": "at.andreasfend.escortme"
+        },
+        "cordova-plugin-device-orientation": {
+            "PACKAGE_NAME": "at.andreasfend.escortme"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "at.andreasfend.escortme"
+        },
+        "cordova-plugin-file-transfer": {
+            "PACKAGE_NAME": "at.andreasfend.escortme"
+        },
+        "cordova-plugin-geolocation": {
+            "PACKAGE_NAME": "at.andreasfend.escortme"
+        },
+        "cordova-plugin-globalization": {
+            "PACKAGE_NAME": "at.andreasfend.escortme"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "at.andreasfend.escortme"
+        },
+        "cordova-plugin-media-capture": {
+            "PACKAGE_NAME": "at.andreasfend.escortme"
+        }
+    },
+    "dependent_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "at.andreasfend.escortme"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "at.andreasfend.escortme"
+        },
+        "cordova-plugin-media": {
+            "PACKAGE_NAME": "at.andreasfend.escortme"
+        },
+        "cordova-plugin-network-information": {
+            "PACKAGE_NAME": "at.andreasfend.escortme"
+        },
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "at.andreasfend.escortme"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "at.andreasfend.escortme"
+        },
+        "cordova-plugin-vibration": {
+            "PACKAGE_NAME": "at.andreasfend.escortme"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "at.andreasfend.escortme"
+        }
+    }
+}
