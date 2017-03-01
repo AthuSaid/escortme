@@ -25,7 +25,7 @@ $chats = $chatService->getChats($user['id']);
       <div>
         <div class="esc-list-item-content">
           <div class="esc-list-item-avatar">
-            <img src="ws/picture.php?type=thumbnail&picture_id=<?php echo $chat['profile']['picture']; ?>" />
+            <img src="https://andreasfend.at/escortme/webapp/ws/picture.php?type=thumbnail&picture_id=<?php echo $chat['profile']['picture']; ?>" />
           </div>
           <div>
             <div class="esc-list-item-title"><?php echo $chat['profile']['firstName']; ?>, <?php echo $chat['profile']['age']; ?></div>

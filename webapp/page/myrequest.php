@@ -26,7 +26,7 @@ $req = $requestService->getActiveRequest($user['id']);
     <div>
       <div class="esc-profile-header">
         <div class="esc-profile-header-avatar">
-          <img src="ws/picture.php?type=thumbnail&picture_id=<?php echo $user['picture'] ?>" />
+          <img src="https://andreasfend.at/escortme/webapp/ws/picture.php?type=thumbnail&picture_id=<?php echo $user['picture'] ?>" />
         </div>
         <div class="esc-profile-header-info">
           <div>

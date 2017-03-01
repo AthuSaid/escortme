@@ -34,7 +34,7 @@ $pics = $pictureService->getGallery($profil_id);
   <div>
     <div class="esc-profile-header">
       <div class="esc-profile-header-avatar">
-        <img src="ws/picture.php?type=thumbnail&picture_id=<?php echo $profile['picture'] ?>" />
+        <img src="https://andreasfend.at/escortme/webapp/ws/picture.php?type=thumbnail&picture_id=<?php echo $profile['picture'] ?>" />
       </div>
       <div class="esc-profile-header-info">
         <div>
@@ -70,7 +70,7 @@ $pics = $pictureService->getGallery($profil_id);
     foreach($pics as $picture_id){
   ?>
   <div class="esc-picture" data-pic-id="<?php echo $picture_id; ?>">
-    <img src="ws/picture.php?type=thumbnail&picture_id=<?php echo $picture_id; ?>" onclick="Gallery.open('<?php echo $picture_id; ?>');" />
+    <img src="https://andreasfend.at/escortme/webapp/ws/picture.php?type=thumbnail&picture_id=<?php echo $picture_id; ?>" onclick="Gallery.open('<?php echo $picture_id; ?>');" />
   </div>
   <?php } ?>
 
@@ -84,7 +84,7 @@ $pics = $pictureService->getGallery($profil_id);
   </div>
   <div class="esc-fullscreen-image">
     <div class="esc-fullscreen-image-counter">0/0</div>
-    <img src="ws/picture.php?type=thumbnail&picture_id=e7e5188b-f907-11e6-b0df-d3f657d113e9" />
+    <img src="https://andreasfend.at/escortme/webapp/ws/picture.php?type=thumbnail&picture_id=e7e5188b-f907-11e6-b0df-d3f657d113e9" />
     <a class="esc-fullscreen-image-prev esc-fullscreen-image-arrow" onclick="Gallery.slide(-1);">←</a>
     <a class="esc-fullscreen-image-next esc-fullscreen-image-arrow" onclick="Gallery.slide(1);">→</a>
   </div>
@@ -342,7 +342,7 @@ $pics = $pictureService->getGallery($profil_id);
     currIndex: null,
     open: function(picId){
       $(".esc-fullscreen").show();
-      $(".esc-fullscreen-image img").attr("src", "ws/picture.php?type=full&picture_id=" + picId);
+      $(".esc-fullscreen-image img").attr("src", "https://andreasfend.at/escortme/webapp/ws/picture.php?type=full&picture_id=" + picId);
       var total = $(".esc-picture-ct .esc-picture").length;
       var index = 1;
       for(var i=1;i<=total;i++){
@@ -365,7 +365,7 @@ $pics = $pictureService->getGallery($profil_id);
         this.currIndex = 1;
 
       var picId = $(".esc-picture-ct .esc-picture:nth-child(" + this.currIndex + ")").attr("data-pic-id");
-      $(".esc-fullscreen-image img").attr("src", "ws/picture.php?type=full&picture_id=" + picId);
+      $(".esc-fullscreen-image img").attr("src", "https://andreasfend.at/escortme/webapp/ws/picture.php?type=full&picture_id=" + picId);
       $(".esc-fullscreen-image-counter").text(this.currIndex + "/" + total);
     }
   };

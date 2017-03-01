@@ -10,7 +10,7 @@ $db = DatabaseConnection::get();
 ?>
 
 <script type="text/javascript">
-    $(".esc-profile-pic img").prop("src", "ws/picture.php?type=thumbnail&picture_id=<?php echo $user['picture']; ?>");
+    $(".esc-profile-pic img").prop("src", "https://andreasfend.at/escortme/webapp/ws/picture.php?type=thumbnail&picture_id=<?php echo $user['picture']; ?>");
     $(".esc-menu-name").text("<?php echo $user['firstName']; ?>");
 
     Topbar.show();

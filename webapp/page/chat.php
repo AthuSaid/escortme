@@ -34,7 +34,7 @@ $msgs = $chatService->getMessages($chatId, $user['id']);
   <div class="<?php echo $msgClass; ?>">
     <div class="esc-msg">
       <div class="esc-msg-avatar" <?php echo $onClick; ?>>
-        <img src="ws/picture.php?type=thumbnail&picture_id=<?php echo $picture; ?>" />
+        <img src="https://andreasfend.at/escortme/webapp/ws/picture.php?type=thumbnail&picture_id=<?php echo $picture; ?>" />
       </div>
       <div class="esc-msg-content">
         <?php echo $msg['content']; ?>
@@ -173,7 +173,7 @@ $msgs = $chatService->getMessages($chatId, $user['id']);
       var node = "<div class='esc-msg-right'>\
                     <div class='esc-msg'>\
                       <div class='esc-msg-avatar'>\
-                        <img src='ws/picture.php?type=thumbnail&picture_id=" + myPicture + "' />\
+                        <img src='https://andreasfend.at/escortme/webapp/ws/picture.php?type=thumbnail&picture_id=" + myPicture + "' />\
                       </div>\
                       <div class='esc-msg-content'>" + content + "</div>\
                     </div>\
@@ -184,7 +184,7 @@ $msgs = $chatService->getMessages($chatId, $user['id']);
       var node = "<div class='esc-msg-left'>\
                   <div class='esc-msg'>\
                     <div class='esc-msg-avatar' onClick='ChatManager.openProfile(\'" + msg.data.sender.user_id + "\');'>\
-                      <img src='ws/picture.php?type=thumbnail&picture_id=" + msg.data.sender.picture + "' />\
+                      <img src='https://andreasfend.at/escortme/webapp/ws/picture.php?type=thumbnail&picture_id=" + msg.data.sender.picture + "' />\
                     </div>\
                     <div class='esc-msg-content'>" + 
                       msg.data.content +

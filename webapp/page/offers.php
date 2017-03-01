@@ -36,7 +36,7 @@ if($req == null){
         <div>
           <div class="esc-list-item-content">
             <div class="esc-list-item-avatar">
-              <img src="ws/picture.php?type=thumbnail&picture_id=<?php echo $ofr['picture']; ?>" />
+              <img src="https://andreasfend.at/escortme/webapp/ws/picture.php?type=thumbnail&picture_id=<?php echo $ofr['picture']; ?>" />
             </div>
             <div class="esc-list-item-title"><?php echo $ofr['firstName']; ?>, <?php echo $ofr['age']; ?></div>
           </div>
@@ -213,7 +213,7 @@ if($req == null){
                     <div>\
                       <div class='esc-list-item-content'>\
                         <div class='esc-list-item-avatar'>\
-                          <img src='ws/picture.php?type=thumbnail&picture_id=" + offer.data.sender.picture + "' />\
+                          <img src='https://andreasfend.at/escortme/webapp/ws/picture.php?type=thumbnail&picture_id=" + offer.data.sender.picture + "' />\
                         </div>\
                         <div class='esc-list-item-title'>" + offer.data.sender.firstName + ", " + offer.data.sender.age + "</div>\
                       </div>\

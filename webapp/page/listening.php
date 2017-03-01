@@ -388,7 +388,7 @@ if($ls != null){
                     <div>\
                       <div class='esc-list-item-content'>\
                         <div class='esc-list-item-avatar'>\
-                          <img src='ws/picture.php?type=thumbnail&picture_id=" + req.user.picture + "' />\
+                          <img src='https://andreasfend.at/escortme/webapp/ws/picture.php?type=thumbnail&picture_id=" + req.user.picture + "' />\
                         </div>\
                         <div>\
                           <div class='esc-list-item-title'>" + req.user.firstName +", " + req.user.age + "</div>\
